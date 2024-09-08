@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float turnSpeed;
     private float _runModifier;
     
     private Animator _animator;
@@ -29,13 +27,6 @@ public class Movement : MonoBehaviour
         _animator.SetFloat(Constants.Vertical, verticalInput);
         _animator.SetFloat(Constants.Horizontal, horizontalInput);
 
-        if (verticalInput > 0 || verticalInput < 0 || horizontalInput > 0 || horizontalInput < 0)
-        {
-            var currentPosition = transform.position;
-            var targetPosition = target.position;
-            Vector3 relativePos = new Vector3(targetPosition.x, currentPosition.y, targetPosition.z) - currentPosition;
-            Quaternion toRotation = Quaternion.LookRotation(relativePos);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
-        }
+        
     }
 }

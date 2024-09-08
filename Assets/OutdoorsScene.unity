@@ -219,6 +219,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 760044251}
+    - targetCorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 760044254}
+    - targetCorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 760044255}
   m_SourcePrefab: {fileID: 100100000, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
 --- !u!4 &6352374 stripped
 Transform:
@@ -689,8 +697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3c120980d0a6d42bcb813a442fcda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1993093435}
-  turnSpeed: 5
 --- !u!114 &760044251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,6 +1233,34 @@ MonoBehaviour:
     spineStiffness: 0.5
     pullBodyVertical: 0.5
     pullBodyHorizontal: 0
+--- !u!114 &760044254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760044248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109a7637dbeb97b4b9d5a1071a131623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angleToTurnAt: 90
+  cameraTransform: {fileID: 1823688467}
+  target: {fileID: 1993093435}
+  turnSpeed: 10
+--- !u!114 &760044255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760044248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1c9644612f4b5e84072ad2788c0fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &789631242 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4290983690457586231, guid: 7856c197eb4c77840878eba92e1c48b7,
@@ -1339,7 +1373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 50
-  maxVerticalAngle: 60
+  maxVerticalAngle: 70
 --- !u!1 &1781446402
 GameObject:
   m_ObjectHideFlags: 0
