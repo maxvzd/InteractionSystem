@@ -887,7 +887,7 @@ namespace RootMotion.FinalIK {
 
 		// Is this InteractionSystem valid and initiated
 		private bool IsValid(bool log) {
-			if (fullBody == null) {
+			if (fullBody is null) {
 				if (log) Warning.Log("FBBIK is null. Will not update the InteractionSystem", transform);
 				return false;
 			}
@@ -905,7 +905,7 @@ namespace RootMotion.FinalIK {
 				return false;
 			}
 			
-			if (triggersInRange[index] == null) {
+			if (triggersInRange[index] is null) {
 				Warning.Log("The InteractionTrigger in the list 'inContact' has been destroyed", transform);
 				return false;
 			}
