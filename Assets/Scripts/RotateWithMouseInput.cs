@@ -18,8 +18,8 @@ public class RotateWithMouseInput : MonoBehaviour
 
     private void Update()
     {
-        _rotationY += Input.GetAxis("Mouse X") * Time.deltaTime * sensitivity;
-        _rotationX += Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivity;
+        _rotationY += Input.GetAxis(Constants.MouseX) * Time.deltaTime * sensitivity;
+        _rotationX += Input.GetAxis(Constants.MouseY) * Time.deltaTime * sensitivity;
         _rotationX = Mathf.Clamp(_rotationX, -maxVerticalAngle, maxVerticalAngle);
 
         transform.eulerAngles = new Vector3(-_rotationX, _rotationY);
