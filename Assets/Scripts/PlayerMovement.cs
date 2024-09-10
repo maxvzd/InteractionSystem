@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private float _runModifier;
     
@@ -26,7 +26,5 @@ public class Movement : MonoBehaviour
         
         _animator.SetFloat(Constants.Vertical, verticalInput);
         _animator.SetFloat(Constants.Horizontal, horizontalInput);
-
-        
     }
 }

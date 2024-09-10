@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Turn : MonoBehaviour
+public class PlayerTurn : MonoBehaviour
 {
     [SerializeField] private float angleToTurnAt;
     [SerializeField] private Transform cameraTransform;
@@ -37,6 +37,8 @@ public class Turn : MonoBehaviour
             Vector3 relativePos = new Vector3(targetPosition.x, currentPosition.y, targetPosition.z) - currentPosition;
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
+
+            
             _isTurning = false;
         }
         else if (!_isTurning)

@@ -35,8 +35,17 @@ public class PlayerHoldItemSystem : MonoBehaviour
         }
     }
 
-    public void SetCurrentlyHeldItem(Transform currentlyHeldItem)
+    public void PickupItem(Transform currentlyHeldItem)
     {
+        Transform pickedUpItem = currentlyHeldItem;
+        InteractionObject interactionObject = pickedUpItem.gameObject.GetComponent<InteractionObject>();
+
+        if (ReferenceEquals(interactionObject, null)) return;
+
+        _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, true);
+        //_playerHoldItemSystem.SetCurrentlyHeldItem(pickedUpItem);
+        
+        
         _currentlyHeldItem = currentlyHeldItem;
         _offsetPose = _currentlyHeldItem.GetComponent<OffsetPose>();
         _isHoldingItem = true;

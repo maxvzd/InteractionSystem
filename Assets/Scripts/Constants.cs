@@ -8,6 +8,10 @@ public static class Constants
     public static readonly string Fire1 = "Fire1";
     public static readonly string MouseX = "Mouse X";
     public static readonly string MouseY = "Mouse Y";
+
+    public const string LAYER_TERRAIN = "Terrain";
+    public const string LAYER_DOOR = "Door";
+    public const string LAYER_ITEM = "Item";
     
     public static readonly int Vertical = Animator.StringToHash("Vertical");
     public static readonly int Horizontal = Animator.StringToHash("Horizontal");

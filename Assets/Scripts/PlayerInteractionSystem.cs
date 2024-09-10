@@ -7,8 +7,9 @@ public class PlayerInteractionSystem : MonoBehaviour
     [SerializeField] private Transform lookAtBase;
 
     private Transform _lookAtTarget;
-    private InteractionSystem _interactionSystem;
+    //private InteractionSystem _interactionSystem;
     private PlayerHoldItemSystem _playerHoldItemSystem;
+    private PlayerOpenDoorSystem _playerOpenDoorSystem;
     
     private void Start()
     {
@@ -26,31 +27,43 @@ public class PlayerInteractionSystem : MonoBehaviour
         if (ReferenceEquals(_lookAtTarget, null)) throw new Exception("Couldn't find lookAtTarget");
 
         _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
-        _interactionSystem = GetComponent<InteractionSystem>();
+        _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
     }
 
     private void Update()
     {
         if (Input.GetButtonDown(Constants.UseKey))
         {
+            if (_playerOpenDoorSystem.IsHoldingHandle)
+            {
+                _playerOpenDoorSystem.RemoveHandFromHandle();
+                return;
+            }
+            
             var basePosition = lookAtBase.position;
             var targetPosition = _lookAtTarget.position;
 
             Vector3 direction = targetPosition - basePosition;
             float distance = Vector3.Distance(targetPosition, basePosition);
-            Ray sphereRay = new Ray(basePosition, direction);
 
             if (!_playerHoldItemSystem.IsHoldingItem)
             {
-                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, LayerMask.GetMask("Item")))
+                Ray sphereRay = new Ray(basePosition, direction);
+                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_ITEM, Constants.LAYER_DOOR)))
                 {
-                    Transform pickedUpItem = hit.transform;
-                    InteractionObject interactionObject = pickedUpItem.gameObject.GetComponent<InteractionObject>();
-
-                    if (ReferenceEquals(interactionObject, null)) return;
-
-                    _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, true);
-                    _playerHoldItemSystem.SetCurrentlyHeldItem(pickedUpItem);
+                    string layer = LayerMask.LayerToName(hit.transform.gameObject.layer);
+                    
+                    switch (layer)
+                    {
+                        case Constants.LAYER_ITEM:
+                            _playerHoldItemSystem.PickupItem(hit.transform);
+                            break;
+                        case Constants.LAYER_DOOR:
+                            _playerOpenDoorSystem.OpenDoor(hit.transform);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             else
@@ -60,12 +73,10 @@ public class PlayerInteractionSystem : MonoBehaviour
                 {
                     if (hit.normal == Vector3.up)
                     {
-                        //StartPlaceItemCoRoutine(hit.point, 0.5f);
                         _playerHoldItemSystem.PlaceItem(hit.point, 0.5f);
                         return;
                     }
                 }
-
                 _playerHoldItemSystem.DropItem();
             }
         }
