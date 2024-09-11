@@ -71,12 +71,12 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         if (Vector3.Dot((door.position - transform.position).normalized, door.right) < 0)
         {
             _currentDoor.PlayerIsInteractingFromFront = true;
-            _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, true);
+            _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false);
         }
         else
         {
             _currentDoor.PlayerIsInteractingFromBack = true;
-            _interactionSystem.StartInteraction(FullBodyBipedEffector.LeftHand, interactionObject, true);
+            _interactionSystem.StartInteraction(FullBodyBipedEffector.LeftHand, interactionObject, false);
         }
     }
 

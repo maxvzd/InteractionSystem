@@ -10,6 +10,7 @@ public class PlayerInteractionSystem : MonoBehaviour
     //private InteractionSystem _interactionSystem;
     private PlayerHoldItemSystem _playerHoldItemSystem;
     private PlayerOpenDoorSystem _playerOpenDoorSystem;
+    //private LayerMask _interactableLayerMask;
     
     private void Start()
     {
@@ -28,6 +29,8 @@ public class PlayerInteractionSystem : MonoBehaviour
 
         _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
         _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
+
+        //_interactableLayerMask = LayerMask.GetMask(Constants.LAYER_ITEM, Constants.LAYER_DOOR);
     }
 
     private void Update()
@@ -49,10 +52,11 @@ public class PlayerInteractionSystem : MonoBehaviour
             if (!_playerHoldItemSystem.IsHoldingItem)
             {
                 Ray sphereRay = new Ray(basePosition, direction);
-                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_ITEM, Constants.LAYER_DOOR)))
+                Debug.DrawRay(basePosition, direction, Color.red, 1f);
+                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_ITEM) | LayerMask.GetMask(Constants.LAYER_DOOR)))
                 {
                     string layer = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                    
+                    Debug.Log(layer);
                     switch (layer)
                     {
                         case Constants.LAYER_ITEM:
@@ -69,7 +73,7 @@ public class PlayerInteractionSystem : MonoBehaviour
             else
             {
                 Ray ray = new Ray(basePosition, direction);
-                if (Physics.Raycast(ray, out RaycastHit hit, distance, LayerMask.GetMask("Terrain")))
+                if (Physics.Raycast(ray, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_TERRAIN)))
                 {
                     if (hit.normal == Vector3.up)
                     {
