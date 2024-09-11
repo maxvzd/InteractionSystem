@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class OpenDoor : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class OpenDoor : MonoBehaviour
     public Vector3 BackHandlePosition => backHandle.position;
     
     private HingeJoint _hingeJoint;
-    public bool PlayerIsInteracting;
+    
+    public bool PlayerIsInteractingFromFront;
+    public bool PlayerIsInteractingFromBack;
 
     private readonly JointLimits _shutDoorLimit = new()
     {
@@ -31,13 +34,18 @@ public class OpenDoor : MonoBehaviour
 
     private void Update()
     {
-        
-        if (_hingeJoint.angle < 1f && !PlayerIsInteracting)
+        if (_hingeJoint.angle < 1f && !PlayerIsInteractingFromFront && !PlayerIsInteractingFromBack)
         {
             _hingeJoint.limits = _shutDoorLimit;
         }
         
-        if (!PlayerIsInteracting) return;
+        if (!PlayerIsInteractingFromFront && !PlayerIsInteractingFromBack) return;
+
+        float directionModifier = 1f;
+        if (PlayerIsInteractingFromBack)
+        {
+            directionModifier *= -1f;
+        }
 
 
         if (Input.GetButtonDown(Constants.Fire1))
@@ -50,7 +58,7 @@ public class OpenDoor : MonoBehaviour
             float mouseVerticalMovement = -Input.GetAxis(Constants.MouseY);
 
             JointMotor hingeMotor = _hingeJoint.motor;
-            hingeMotor.targetVelocity = -90 * mouseVerticalMovement;
+            hingeMotor.targetVelocity = -90 * mouseVerticalMovement * directionModifier;
             hingeMotor.freeSpin = false;
             hingeMotor.force = 100;
 
