@@ -135,7 +135,7 @@ namespace RootMotion.FinalIK {
             // Get the InteractionTarget
             InteractionTarget interactionTarget = null;
             target = interactionObject.GetTarget(effectorType, tag);
-            if (target != null) interactionTarget = target.GetComponent<InteractionTarget>();
+            if (target is not null) interactionTarget = target.GetComponent<InteractionTarget>();
             
             return Start(interactionObject, interactionTarget, fadeInTime, interrupt);
         }

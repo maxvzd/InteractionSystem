@@ -907,6 +907,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd7d979fd3d590448e7f724a2c3e232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frontHandle: {fileID: 275388324}
+  backHandle: {fileID: 1031507748}
+  PlayerIsInteracting: 0
 --- !u!59 &147043625
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -3546,6 +3549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f552921d8142c392f88daccd119e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceToLetGoOfDoor: 0.85
 --- !u!114 &760044267
 MonoBehaviour:
   m_ObjectHideFlags: 0

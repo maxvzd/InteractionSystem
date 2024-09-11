@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class OpenDoor : MonoBehaviour
 {
+    [SerializeField] private Transform frontHandle;
+    [SerializeField] private Transform backHandle;
+
+    public Vector3 FrontHandlePosition => frontHandle.position;
+    public Vector3 BackHandlePosition => backHandle.position;
+    
     private HingeJoint _hingeJoint;
     public bool PlayerIsInteracting;
 
@@ -25,6 +31,12 @@ public class OpenDoor : MonoBehaviour
 
     private void Update()
     {
+        
+        if (_hingeJoint.angle < 1f && !PlayerIsInteracting)
+        {
+            _hingeJoint.limits = _shutDoorLimit;
+        }
+        
         if (!PlayerIsInteracting) return;
 
 
