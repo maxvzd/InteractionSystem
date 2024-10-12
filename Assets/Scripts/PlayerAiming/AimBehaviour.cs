@@ -11,72 +11,52 @@ namespace PlayerAiming
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Transform gunFulcrum;
 
-        //private Vector3 _originalPosition;
         private IEnumerator _weaponPositionLerper;
         private float _originalFOV;
 
         private Transform _originalParent;
-        private Vector3 _originalPos;
+        private Vector3 _originalCameraPosition;
+        private Vector3 _originalGunPosition;
+        private Vector3 _targetGunPos;
 
         public event EventHandler<EventArgs> PlayerAiming;
         public event EventHandler<EventArgs> PlayerNotAiming;
 
         private void Start()
         {
-            //_originalPosition = rearSightTransform.localPosition;
-            //_originalPosition = gunFulcrum.localPosition;
             _originalFOV = mainCamera.fieldOfView;
 
-            _originalParent = mainCamera.transform.parent;
-            _originalPos = mainCamera.transform.localPosition;
+            Transform cameraTransform = mainCamera.transform;
+            _originalParent = cameraTransform.parent;
+            _originalCameraPosition = cameraTransform.localPosition;
+
+            Transform gunTransform = gunFulcrum.transform;
+            _originalGunPosition = gunTransform.localPosition;
+            
+            //Not sure why this is but should be _originalGunPosition + gunTransform.up * 0.1f
+            //Some sort of weird rotation thing?
+            var currentTransform = transform;
+            _targetGunPos = _originalGunPosition 
+                            - currentTransform.right * 0.1f 
+                            - currentTransform.up * 0.05f 
+                            - currentTransform.forward * 0.05f;
         }
 
         private void Update()
         {
-            // if (Input.GetButtonDown(Constants.Fire2Key))
-            // {
-            //     Ray middleOfScreen = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-            //
-            //     //Debug.DrawRay(middleOfScreen.origin, middleOfScreen.direction, Color.red, 3f);
-            //
-            //     Vector3 desiredRearSightPositionInWorld = middleOfScreen.GetPoint(0.5f);
-            //
-            //     Vector3 desiredFulcrumPositionInWorld = gunFulcrum.position + (desiredRearSightPositionInWorld - rearSightTransform.position);
-            //     
-            //     Debug.DrawLine(rearSightTransform.position, desiredRearSightPositionInWorld, Color.green, 3f);
-            //     Debug.DrawLine(gunFulcrum.position, desiredFulcrumPositionInWorld, Color.red, 3f);
-            //     
-            //     Debug.DrawRay(rearSightTransform.position, Vector3.up, Color.yellow, 3f);
-            //     Debug.DrawRay(gunFulcrum.position, Vector3.up, Color.yellow, 3f);
-            //     Debug.DrawRay(desiredRearSightPositionInWorld, Vector3.up, Color.magenta, 3f);
-            //     Debug.DrawRay(desiredFulcrumPositionInWorld, Vector3.up, Color.magenta, 3f);
-            //     
-            //     //Vector3 localPoint = rearSightTransform.parent.InverseTransformPoint(desiredRearSightPositionInWorld);
-            //     Vector3 localPoint = gunFulcrum.parent.InverseTransformPoint(desiredFulcrumPositionInWorld);
-            //     
-            //     StartWeaponLerpCoroutine(localPoint, 40, 0.2f);
-            //
-            //     PlayerAiming?.Invoke(this, EventArgs.Empty);
-            // }
-            //
-            // if (Input.GetButtonUp(Constants.Fire2Key))
-            // {
-            //     StartWeaponLerpCoroutine(_originalPosition, _originalFOV, 0.2f);
-            //     PlayerNotAiming?.Invoke(this, EventArgs.Empty);
-            // }
-            //
-            // Quaternion lookAtRotation = Quaternion.LookRotation(gunFulcrum.position - aimTarget.position);
-            // gunFulcrum.rotation = lookAtRotation;
-            //
-            // Quaternion lookAtRotationSight = Quaternion.LookRotation(rearSightTransform.position - aimTarget.position);
-            // rearSightTransform.rotation = lookAtRotationSight;
-
-            var cameraTransform = mainCamera.transform;
+            Transform cameraTransform = mainCamera.transform;
             if (Input.GetButtonDown(Constants.Fire2Key))
             {
+                
+                
                 cameraTransform.parent = rearSightTransform;
-                cameraTransform.localPosition = Vector3.zero;
-                StartFovLerpCoroutine(40, 0.2f);
+                StartAimLerp(
+                    cameraTransform, 
+                    Vector3.zero, 
+                    gunFulcrum,
+                    _targetGunPos,
+                    40, 
+                    0.2f);
                 
                 PlayerAiming?.Invoke(this, EventArgs.Empty);
             }
@@ -84,8 +64,12 @@ namespace PlayerAiming
             if (Input.GetButtonUp(Constants.Fire2Key))
             {
                 cameraTransform.parent = _originalParent;
-                cameraTransform.localPosition = _originalPos;
-                StartFovLerpCoroutine(_originalFOV, 0.2f);
+                StartAimLerp(cameraTransform, 
+                    _originalCameraPosition, 
+                    gunFulcrum,
+                    _originalGunPosition, 
+                    _originalFOV,
+                    0.2f);
                 
                 PlayerNotAiming?.Invoke(this, EventArgs.Empty);
             }
@@ -97,64 +81,50 @@ namespace PlayerAiming
             rearSightTransform.rotation = lookAtRotationSight;
         }
 
-        // private void StartWeaponLerpCoroutine(Transform transformToLerp, Vector3 positionToLerpTo, float fovToLerpTo, float lerpTime)
-        // {
-        //     if (!ReferenceEquals(_weaponPositionLerper, null))
-        //     {
-        //         StopCoroutine(_weaponPositionLerper);
-        //     }
-        //
-        //     _weaponPositionLerper = LerpTransformToPoint(transformToLerp, positionToLerpTo, fovToLerpTo, lerpTime);
-        //     StartCoroutine(_weaponPositionLerper);
-        // }
-
-        private void StartFovLerpCoroutine(float fovToLerpTo, float lerpTime)
+        private void StartAimLerp(
+            Transform cameraTransform, 
+            Vector3 cameraPositionToLerpTo,
+            Transform gunTransform,
+            Vector3 gunPositionToLerpTo,
+            float fovToLerpTo, 
+            float lerpTime)
         {
             if (!ReferenceEquals(_weaponPositionLerper, null))
             {
                 StopCoroutine(_weaponPositionLerper);
             }
-
-            _weaponPositionLerper = LerpCameraFov(fovToLerpTo, lerpTime);
+        
+            _weaponPositionLerper = LerpTransformToPoint(cameraTransform, cameraPositionToLerpTo, gunTransform, gunPositionToLerpTo, fovToLerpTo, lerpTime);
             StartCoroutine(_weaponPositionLerper);
         }
 
-        // private IEnumerator LerpTransformToPoint(Transform transformToLerp, Vector3 positionToLerpTo, float fovToLerpTo, float lerpTime)
-        // {
-        //     Vector3 fromPosition = rearSightTransform.localPosition;
-        //     float fromFov = mainCamera.fieldOfView;
-        //     float elapsedTime = 0f;
-        //
-        //     while (elapsedTime < lerpTime)
-        //     {
-        //         float t = elapsedTime / lerpTime;
-        //         elapsedTime += Time.deltaTime;
-        //
-        //         rearSightTransform.localPosition = Vector3.Lerp(fromPosition, positionToLerpTo, t);
-        //         mainCamera.fieldOfView = Mathf.Lerp(fromFov, fovToLerpTo, t);
-        //
-        //         yield return new WaitForEndOfFrame();
-        //     }
-        //
-        //     rearSightTransform.localPosition = positionToLerpTo;
-        //     mainCamera.fieldOfView = fovToLerpTo;
-        // }
-
-        private IEnumerator LerpCameraFov(float fovToLerpTo, float lerpTime)
+        private IEnumerator LerpTransformToPoint(
+            Transform cameraTransform, 
+            Vector3 cameraPositionToLerpTo,
+            Transform gunTransform,
+            Vector3 gunPositionToLerpTo,
+            float fovToLerpTo, 
+            float lerpTime)
         {
+            Vector3 fromCameraPosition = cameraTransform.localPosition;
+            Vector3 fromGunPosition = gunTransform.localPosition;
             float fromFov = mainCamera.fieldOfView;
             float elapsedTime = 0f;
-
+        
             while (elapsedTime < lerpTime)
             {
                 float t = elapsedTime / lerpTime;
                 elapsedTime += Time.deltaTime;
-
+        
+                cameraTransform.localPosition = Vector3.Lerp(fromCameraPosition, cameraPositionToLerpTo, t);
+                gunTransform.localPosition = Vector3.Lerp(fromGunPosition, gunPositionToLerpTo, t);
                 mainCamera.fieldOfView = Mathf.Lerp(fromFov, fovToLerpTo, t);
-
+        
                 yield return new WaitForEndOfFrame();
             }
-
+        
+            cameraTransform.localPosition = cameraPositionToLerpTo;
+            gunTransform.localPosition = gunPositionToLerpTo;
             mainCamera.fieldOfView = fovToLerpTo;
         }
     }

@@ -11,12 +11,10 @@ public class DeadZoneLook : MonoBehaviour
     [SerializeField] private float maxVerticalAngle;
     private IEnumerator _lerpAimToLookCoRoutine;
 
-    public bool UseDeadZone { get; set; } = false;
+    public bool UseDeadZone { get; set; } = true;
 
     public void LerpAimToLook()
     {
-        //aimAtBase.eulerAngles = lookAtBase.eulerAngles;
-
         if (_lerpAimToLookCoRoutine is not null)
         {
             StopCoroutine(_lerpAimToLookCoRoutine);
