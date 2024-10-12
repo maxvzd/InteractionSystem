@@ -31,12 +31,12 @@ public class PlayerOpenDoorSystem : MonoBehaviour
 
         if (Input.GetButtonDown(Constants.Fire1))
         {
-            _playerState.LockYLookDirection();
+            //_playerState.LockYLookDirection();
         }
 
         if (Input.GetButtonUp(Constants.Fire1))
         {
-            _playerState.UnlockYLookDirection();
+            //_playerState.UnlockYLookDirection();
         }
     }
 
@@ -99,7 +99,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
             _currentDoor.PlayerIsInteractingFromFront = false;
         }
         
-        _playerState.UnlockYLookDirection();
+        //_playerState.UnlockYLookDirection();
         _playerState.UnlockWalkSpeed();
 
         _currentDoor = null;

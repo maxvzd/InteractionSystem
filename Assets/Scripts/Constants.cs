@@ -4,8 +4,9 @@ public static class Constants
 {
     public static readonly string HorizontalKey = "Horizontal";
     public static readonly string VerticalKey = "Vertical";
-    public static string UseKey => "Use";
+    public static readonly string UseKey = "Use";
     public static readonly string Fire1 = "Fire1";
+    public static readonly string Fire2Key = "Fire2";
     public static readonly string MouseX = "Mouse X";
     public static readonly string MouseY = "Mouse Y";
 
@@ -18,4 +19,5 @@ public static class Constants
     public static readonly int TurnRightTrigger = Animator.StringToHash("TurnRightTrigger");
     public static readonly int TurnLeftTrigger = Animator.StringToHash("TurnLeftTrigger");
     public static readonly int IsHoldingItem = Animator.StringToHash("IsHoldingItem");
+    public static readonly int IsHoldingTwoHandedGun = Animator.StringToHash("IsHoldingTwoHandedGun");
 }
