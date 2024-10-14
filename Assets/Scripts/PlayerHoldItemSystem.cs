@@ -41,16 +41,17 @@ public class PlayerHoldItemSystem : MonoBehaviour
         InteractionObject interactionObject = pickedUpItem.gameObject.GetComponent<InteractionObject>();
 
         if (ReferenceEquals(interactionObject, null)) return;
-
+        
+         _ik.solver.rightHandEffector.target = null;
         _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, true);
-        //_playerHoldItemSystem.SetCurrentlyHeldItem(pickedUpItem);
         
         
         _currentlyHeldItem = currentlyHeldItem;
         _offsetPose = _currentlyHeldItem.GetComponent<OffsetPose>();
         _isHoldingItem = true;
         _animator.SetBool(Constants.IsHoldingItem, true);
-        StartHoldWeightCoRoutine(1);
+        
+         StartHoldWeightCoRoutine(1);
     }
     
     #region Start Coroutines

@@ -6,10 +6,11 @@ namespace PlayerAiming
 {
     public class AimBehaviour : MonoBehaviour
     {
-        [SerializeField] private Transform rearSightTransform;
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private Transform gunFulcrum;
+        
+        private Transform _rearSight;
+        private Transform _gunFulcrum;
 
         private IEnumerator _weaponPositionLerper;
         private float _originalFOV;
@@ -18,6 +19,7 @@ namespace PlayerAiming
         private Vector3 _originalCameraPosition;
         private Vector3 _originalGunPosition;
         private Vector3 _targetGunPos;
+        private bool _gunIsEquipped;
 
         public event EventHandler<EventArgs> PlayerAiming;
         public event EventHandler<EventArgs> PlayerNotAiming;
@@ -29,31 +31,45 @@ namespace PlayerAiming
             Transform cameraTransform = mainCamera.transform;
             _originalParent = cameraTransform.parent;
             _originalCameraPosition = cameraTransform.localPosition;
-
-            Transform gunTransform = gunFulcrum.transform;
-            _originalGunPosition = gunTransform.localPosition;
-            
-            //Not sure why this is but should be _originalGunPosition + gunTransform.up * 0.1f
-            //Some sort of weird rotation thing?
-            var currentTransform = transform;
-            _targetGunPos = _originalGunPosition 
-                            - currentTransform.right * 0.1f 
-                            - currentTransform.up * 0.05f 
-                            - currentTransform.forward * 0.05f;
         }
 
+        public void EquipGun(GunPositionData posData)
+        {
+            _gunIsEquipped = true;
+            _gunFulcrum = posData.GunFulcrum;
+            _rearSight = posData.RearSight;
+            
+            _originalGunPosition = posData.GunLocalPosition;
+
+            var currentTransform = transform;
+            _targetGunPos = _originalGunPosition
+                            + currentTransform.up * posData.AimPosition.y 
+                            - currentTransform.right * posData.AimPosition.x 
+                            - currentTransform.forward * posData.AimPosition.z;
+        }
+        
+        public void UnEquipGun()
+        {
+            _gunIsEquipped = false;
+            _gunFulcrum = null;
+            _rearSight = null;
+
+            _originalGunPosition = Vector3.zero;
+            _targetGunPos = Vector3.zero;
+        }
+        
         private void Update()
         {
+            if (!_gunIsEquipped) return;
+            
             Transform cameraTransform = mainCamera.transform;
             if (Input.GetButtonDown(Constants.Fire2Key))
             {
-                
-                
-                cameraTransform.parent = rearSightTransform;
+                cameraTransform.parent = _rearSight;
                 StartAimLerp(
                     cameraTransform, 
                     Vector3.zero, 
-                    gunFulcrum,
+                    _gunFulcrum,
                     _targetGunPos,
                     40, 
                     0.2f);
@@ -66,7 +82,7 @@ namespace PlayerAiming
                 cameraTransform.parent = _originalParent;
                 StartAimLerp(cameraTransform, 
                     _originalCameraPosition, 
-                    gunFulcrum,
+                    _gunFulcrum,
                     _originalGunPosition, 
                     _originalFOV,
                     0.2f);
@@ -74,11 +90,11 @@ namespace PlayerAiming
                 PlayerNotAiming?.Invoke(this, EventArgs.Empty);
             }
 
-            Quaternion lookAtRotation = Quaternion.LookRotation(gunFulcrum.position - aimTarget.position);
-            gunFulcrum.rotation = lookAtRotation;
+            Quaternion lookAtRotation = Quaternion.LookRotation(_gunFulcrum.position - aimTarget.position);
+            _gunFulcrum.rotation = lookAtRotation;
 
-            Quaternion lookAtRotationSight = Quaternion.LookRotation(rearSightTransform.position - aimTarget.position);
-            rearSightTransform.rotation = lookAtRotationSight;
+            Quaternion lookAtRotationSight = Quaternion.LookRotation(_rearSight.position - aimTarget.position);
+            _rearSight.rotation = lookAtRotationSight;
         }
 
         private void StartAimLerp(

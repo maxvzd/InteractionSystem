@@ -9,11 +9,7 @@ public class PlayerState : MonoBehaviour
 
     private void Start()
     {
-        //_playerLookScript = GetComponent<PlayerLookScript>();
         _playerMovement = GetComponent<PlayerMovement>();
-        
-        //_playerLookBehaviour = GetComponentInChildren<DeadZoneLook>();
-        //playerLookBehaviour.UseDeadZone = true;
         _playerAimBehaviour = GetComponent<AimBehaviour>();
 
         _playerAimBehaviour.PlayerAiming += (sender, args) =>
