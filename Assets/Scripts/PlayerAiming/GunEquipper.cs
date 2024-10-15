@@ -14,6 +14,7 @@ namespace PlayerAiming
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
+        private GunPhysicsData _currentlyEquippedPhysicsData;
         public bool IsGunEquipped => _isGunEquipped;
 
         private void Awake()
@@ -26,7 +27,7 @@ namespace PlayerAiming
 
         private void Start()
         {
-            EquipGun(gunToEquip);
+            //EquipGun(gunToEquip);
         }
 
         private void Update()
@@ -53,13 +54,20 @@ namespace PlayerAiming
             _animator.SetBool(Constants.IsHoldingTwoHandedGun, false);
             _deadZoneLook.UseDeadZone = false;
             gunToEquip.transform.SetParent(null);
+            
+            _currentlyEquippedPhysicsData.Rigidbody.isKinematic = false;
+            foreach (Collider c in _currentlyEquippedPhysicsData.Colliders)
+            {
+                c.isTrigger = false;
+            }
         }
 
         private void EquipGun(GameObject gun)
         {
             GunPositionData posData = gun.GetComponent<GunPositionData>();
+            _currentlyEquippedPhysicsData = gun.GetComponent<GunPhysicsData>();
 
-            if (posData is not null)
+            if (posData is not null && _currentlyEquippedPhysicsData is not null)
             {
                 _isGunEquipped = true;
             
@@ -70,7 +78,14 @@ namespace PlayerAiming
                 gunToEquip.transform.SetParent(transform);
                 gunToEquip.transform.localPosition = posData.GunLocalPosition;
                 gunToEquip.transform.localEulerAngles = posData.GunLocalRotation;
+
+                _currentlyEquippedPhysicsData.Rigidbody.isKinematic = true;
+                foreach (Collider c in _currentlyEquippedPhysicsData.Colliders)
+                {
+                    c.isTrigger = true;
+                }
             }
+
         }
     }
 }

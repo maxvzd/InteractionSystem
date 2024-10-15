@@ -8,6 +8,7 @@ namespace PlayerAiming
         [SerializeField] private Transform rightHandIkTarget;
         [SerializeField] private Transform gunFulcrum;
         [SerializeField] private Transform rearSight;
+        [SerializeField] private Transform actualGun;
         [SerializeField] private Vector3 aimPosition;
 
         [SerializeField] private Vector3 gunLocalPosition;
@@ -15,6 +16,7 @@ namespace PlayerAiming
 
         public Transform GunFulcrum => gunFulcrum;
         public Transform RearSight => rearSight;
+        public Transform ActualGun => actualGun;
         public Vector3 AimPosition => aimPosition;
         public Vector3 GunLocalPosition => gunLocalPosition;
         public Vector3 GunLocalRotation => gunLocalRotation;
