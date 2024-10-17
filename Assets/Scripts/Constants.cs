@@ -10,6 +10,7 @@ public static class Constants
     public static readonly string SwapWeaponKey = "SwapWeapon";
     public static readonly string MouseX = "Mouse X";
     public static readonly string MouseY = "Mouse Y";
+    public static readonly string JumpKey= "Jump";
 
     public const string LAYER_TERRAIN = "Terrain";
     public const string LAYER_DOOR = "Door";

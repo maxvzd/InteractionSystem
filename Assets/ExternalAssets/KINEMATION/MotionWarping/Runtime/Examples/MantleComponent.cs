@@ -3,10 +3,7 @@
 using Kinemation.MotionWarping.Runtime.Core;
 using Kinemation.MotionWarping.Runtime.Utility;
 using UnityEngine;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 namespace Kinemation.MotionWarping.Runtime.Examples
 {

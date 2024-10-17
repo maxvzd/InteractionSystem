@@ -145,8 +145,25 @@ namespace KINEMATION.MotionWarping.Editor.Core
             var curveBindings = AnimationUtility.GetCurveBindings(_asset.animation);
             foreach (var binding in curveBindings)
             {
-                if (binding.path.ToLower().Contains("root"))
+                if (_asset.animation.isHumanMotion)
                 {
+                    if (binding.propertyName.ToLower().Contains("roott.x"))
+                    {
+                        tBindings[0] = binding;
+                    }
+                    else if (binding.propertyName.ToLower().Contains("roott.y"))
+                    {
+                        tBindings[1] = binding;
+                    }
+                    else if (binding.propertyName.ToLower().Contains("roott.z"))
+                    {
+                        tBindings[2] = binding;
+                    }
+                }
+                else
+                {
+                    if(!binding.path.ToLower().EndsWith("root")) continue;
+                    
                     if (binding.propertyName.ToLower().Contains("localposition.x"))
                     {
                         tBindings[0] = binding;
