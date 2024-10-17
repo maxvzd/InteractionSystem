@@ -53,21 +53,22 @@ namespace PlayerAiming
 
         public void UnEquipGun()
         {
-            _fullBodyIk.solver.rightHandEffector.target = rightHandIkTarget;
+            rightHandIkTarget.SetParent(null);
+            leftHandIkTarget.SetParent(null);
+            
+            _fullBodyIk.solver.rightHandEffector.target = null;
             _fullBodyIk.solver.rightHandEffector.positionWeight = 0;
             _fullBodyIk.solver.rightHandEffector.rotationWeight = 0;
         
             _fullBodyIk.solver.rightArmChain.bendConstraint.bendGoal = rightHandIkHint;
             _fullBodyIk.solver.rightArmChain.bendConstraint.weight = 0;
         
-            _fullBodyIk.solver.leftHandEffector.target = leftHandIkTarget;
+            _fullBodyIk.solver.leftHandEffector.target = null;
             _fullBodyIk.solver.leftHandEffector.positionWeight = 0;
             _fullBodyIk.solver.leftHandEffector.rotationWeight = 0;
         
             _fullBodyIk.solver.leftArmChain.bendConstraint.bendGoal = leftHandIkHint;
             _fullBodyIk.solver.leftArmChain.bendConstraint.weight = 0;
-            rightHandIkTarget.SetParent(null);
-            leftHandIkTarget.SetParent(null);
         }
     }
 }

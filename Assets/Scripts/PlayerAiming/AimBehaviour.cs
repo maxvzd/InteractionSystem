@@ -41,7 +41,7 @@ namespace PlayerAiming
             
             _originalGunPosition = posData.GunLocalPosition;
 
-            var currentTransform = transform;
+            Transform currentTransform = transform;
             _targetGunPos = _originalGunPosition
                             + currentTransform.up * posData.AimPosition.y 
                             - currentTransform.right * posData.AimPosition.x 
@@ -92,7 +92,7 @@ namespace PlayerAiming
 
             Quaternion lookAtRotation = Quaternion.LookRotation(_gunFulcrum.position - aimTarget.position);
             _gunFulcrum.rotation = lookAtRotation;
-
+            
             Quaternion lookAtRotationSight = Quaternion.LookRotation(_rearSight.position - aimTarget.position);
             _rearSight.rotation = lookAtRotationSight;
         }

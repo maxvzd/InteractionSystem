@@ -376,8 +376,6 @@ namespace RootMotion.FinalIK {
 			bool pause = false;
 			TriggerUntriggeredEvents(false, out pickUp, out pause);
 
-			if (interactionSystem.OnInteractionStop != null) interactionSystem.OnInteractionStop(effectorType, interactionObject);
-
 			// Reset the interaction target
 			if (interactionTarget != null) interactionTarget.ResetRotation();
 
@@ -393,6 +391,7 @@ namespace RootMotion.FinalIK {
 			//if (poser != null && !pickedUp) poser.weight = 0f;
 			pickedUp = false;
 			started = false;
+			if (interactionSystem.OnInteractionStop != null) interactionSystem.OnInteractionStop(effectorType, interactionObject);
 
 			return true;
 		}

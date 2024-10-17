@@ -1,5 +1,4 @@
 using System;
-using RootMotion.FinalIK;
 using UnityEngine;
 
 public class PlayerInteractionSystem : MonoBehaviour
@@ -7,10 +6,8 @@ public class PlayerInteractionSystem : MonoBehaviour
     [SerializeField] private Transform lookAtBase;
 
     private Transform _lookAtTarget;
-    //private InteractionSystem _interactionSystem;
     private PlayerHoldItemSystem _playerHoldItemSystem;
     private PlayerOpenDoorSystem _playerOpenDoorSystem;
-    //private LayerMask _interactableLayerMask;
     
     private void Start()
     {
@@ -29,8 +26,6 @@ public class PlayerInteractionSystem : MonoBehaviour
 
         _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
         _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
-
-        //_interactableLayerMask = LayerMask.GetMask(Constants.LAYER_ITEM, Constants.LAYER_DOOR);
     }
 
     private void Update()
@@ -52,13 +47,14 @@ public class PlayerInteractionSystem : MonoBehaviour
             if (!_playerHoldItemSystem.IsHoldingItem)
             {
                 Ray sphereRay = new Ray(basePosition, direction);
-                Debug.DrawRay(basePosition, direction, Color.red, 1f);
-                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_ITEM) | LayerMask.GetMask(Constants.LAYER_DOOR)))
+                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, ~LayerMask.GetMask(Constants.LAYER_PLAYER)))
                 {
+                    Debug.DrawRay(basePosition, direction, Color.green, 1f);
+
                     string layer = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                    Debug.Log(layer);
                     switch (layer)
                     {
+                        case Constants.LAYER_GUN:
                         case Constants.LAYER_ITEM:
                             _playerHoldItemSystem.PickupItem(hit.transform);
                             break;
@@ -68,6 +64,10 @@ public class PlayerInteractionSystem : MonoBehaviour
                         default:
                             break;
                     }
+                }
+                else
+                {
+                    Debug.DrawRay(basePosition, direction, Color.red, 1f);
                 }
             }
             else
