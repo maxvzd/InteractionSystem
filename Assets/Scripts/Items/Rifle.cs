@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Items
 {
-    public class Gun : Item
+    public class Rifle : Item
     {
         private GunEquipper _currentPlayerEquipper;
         
@@ -11,7 +11,7 @@ namespace Items
         {
             GameObject gunGameObject = transform.gameObject;
             _currentPlayerEquipper = player.GetComponent<GunEquipper>();
-            _currentPlayerEquipper.EquipGun(gunGameObject);
+            _currentPlayerEquipper.EquipRifle(gunGameObject);
         }
 
         public override void UnEquipItem()
