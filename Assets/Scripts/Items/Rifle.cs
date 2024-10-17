@@ -1,4 +1,5 @@
-﻿using PlayerAiming;
+﻿using GunStuff;
+using PlayerAiming;
 using UnityEngine;
 
 namespace Items

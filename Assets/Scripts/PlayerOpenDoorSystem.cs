@@ -31,18 +31,18 @@ public class PlayerOpenDoorSystem : MonoBehaviour
 
         if (Input.GetButtonDown(Constants.Fire1))
         {
-            //_playerState.LockYLookDirection();
+            _playerState.LockYLookDirection();
         }
 
         if (Input.GetButtonUp(Constants.Fire1))
         {
-            //_playerState.UnlockYLookDirection();
+            _playerState.UnlockYLookDirection();
         }
     }
 
     private bool CheckDistanceBetweenHandleAndDoor()
     {
-        var scrubbedYDoorHandlePosition = _currentDoor.PlayerIsInteractingFromFront ? 
+        var scrubbedYDoorHandlePosition = _currentDoor.playerIsInteractingFromFront ? 
             _currentDoor.FrontHandlePosition : 
             _currentDoor.BackHandlePosition;
         scrubbedYDoorHandlePosition.y = 0f;
@@ -70,24 +70,24 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         
         if (Vector3.Dot((door.position - transform.position).normalized, door.right) < 0)
         {
-            _currentDoor.PlayerIsInteractingFromFront = true;
+            _currentDoor.playerIsInteractingFromFront = true;
             _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false);
         }
         else
         {
-            _currentDoor.PlayerIsInteractingFromBack = true;
+            _currentDoor.playerIsInteractingFromBack = true;
             _interactionSystem.StartInteraction(FullBodyBipedEffector.LeftHand, interactionObject, false);
         }
     }
 
     public void RemoveHandFromHandle()
     {
-        if (_currentDoor.PlayerIsInteractingFromFront)
+        if (_currentDoor.playerIsInteractingFromFront)
         {
             _interactionSystem.StopInteraction(FullBodyBipedEffector.RightHand);
         }
 
-        if (_currentDoor.PlayerIsInteractingFromBack)
+        if (_currentDoor.playerIsInteractingFromBack)
         {
             _interactionSystem.StopInteraction(FullBodyBipedEffector.LeftHand);
         }
@@ -95,11 +95,11 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         _isHoldingHandle = false;
         if (!ReferenceEquals(_currentDoor, null))
         {
-            _currentDoor.PlayerIsInteractingFromBack = false;
-            _currentDoor.PlayerIsInteractingFromFront = false;
+            _currentDoor.playerIsInteractingFromBack = false;
+            _currentDoor.playerIsInteractingFromFront = false;
         }
         
-        //_playerState.UnlockYLookDirection();
+        _playerState.UnlockYLookDirection();
         _playerState.UnlockWalkSpeed();
 
         _currentDoor = null;

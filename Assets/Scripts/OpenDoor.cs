@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 
 public class OpenDoor : MonoBehaviour
 {
@@ -11,8 +10,8 @@ public class OpenDoor : MonoBehaviour
     
     private HingeJoint _hingeJoint;
     
-    public bool PlayerIsInteractingFromFront;
-    public bool PlayerIsInteractingFromBack;
+    public bool playerIsInteractingFromFront;
+    public bool playerIsInteractingFromBack;
 
     private readonly JointLimits _shutDoorLimit = new()
     {
@@ -34,15 +33,15 @@ public class OpenDoor : MonoBehaviour
 
     private void Update()
     {
-        if (_hingeJoint.angle < 1f && !PlayerIsInteractingFromFront && !PlayerIsInteractingFromBack)
+        if (_hingeJoint.angle < 1f && !playerIsInteractingFromFront && !playerIsInteractingFromBack)
         {
             _hingeJoint.limits = _shutDoorLimit;
         }
         
-        if (!PlayerIsInteractingFromFront && !PlayerIsInteractingFromBack) return;
+        if (!playerIsInteractingFromFront && !playerIsInteractingFromBack) return;
 
         float directionModifier = 1f;
-        if (PlayerIsInteractingFromBack)
+        if (playerIsInteractingFromBack)
         {
             directionModifier *= -1f;
         }

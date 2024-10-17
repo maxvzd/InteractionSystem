@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PlayerAiming
+namespace GunStuff
 {
     public class GunPositionData : MonoBehaviour
     {

@@ -1,3 +1,4 @@
+using GunStuff;
 using RootMotion.FinalIK;
 using UnityEngine;
 

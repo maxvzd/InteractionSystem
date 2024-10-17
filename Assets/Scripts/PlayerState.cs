@@ -26,15 +26,15 @@ public class PlayerState : MonoBehaviour
         };
     }
 
-    // public void LockYLookDirection()
-    // {
-    //     _playerLookScript.LockYDirection();
-    // }
-    //
-    // public void UnlockYLookDirection()
-    // {
-    //     _playerLookScript.UnlockYDirection();
-    // }
+    public void LockYLookDirection()
+    {
+        playerLookBehaviour.LockYDirection();
+    }
+    
+    public void UnlockYLookDirection()
+    {
+        playerLookBehaviour.UnlockYDirection();
+    }
 
     public void UnlockWalkSpeed()
     {

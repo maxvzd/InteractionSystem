@@ -1,7 +1,8 @@
 ﻿using System.Collections;
+using PlayerAiming;
 using UnityEngine;
 
-namespace PlayerAiming
+namespace GunStuff
 {
     public class GunEquipper : MonoBehaviour
     {
