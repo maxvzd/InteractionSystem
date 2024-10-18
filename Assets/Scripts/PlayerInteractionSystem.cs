@@ -34,7 +34,7 @@ public class PlayerInteractionSystem : MonoBehaviour
         {
             if (_playerOpenDoorSystem.IsHoldingHandle)
             {
-                _playerOpenDoorSystem.RemoveHandFromHandle();
+                _playerOpenDoorSystem.ReleaseHandle();
                 return;
             }
             

@@ -11,14 +11,11 @@ public class PlayerTurn : MonoBehaviour
 
     private bool _isTurning;
     private Animator _animator;
-    private AnimationEventListener _animEventListener;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        
-        _animEventListener = GetComponent<AnimationEventListener>();
-        _animEventListener.OnFinishedTurning += (sender, args) =>
+        GetComponent<AnimationEventListener>().FinishedTurning += (sender, args) =>
         {
             _isTurning = false;
         };

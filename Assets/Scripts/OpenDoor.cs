@@ -7,11 +7,17 @@ public class OpenDoor : MonoBehaviour
 
     public Vector3 FrontHandlePosition => frontHandle.position;
     public Vector3 BackHandlePosition => backHandle.position;
-    
+
     private HingeJoint _hingeJoint;
+
+    private bool _playerIsInteractingFromFront;
+    private bool _playerIsInteractingFromBack;
+    private float _targetVelocity;
     
-    public bool playerIsInteractingFromFront;
-    public bool playerIsInteractingFromBack;
+    public bool PlayerIsInteractingFromFront => _playerIsInteractingFromFront;
+    public bool PlayerIsInteractingFromBack => _playerIsInteractingFromBack;
+
+    public float Angle => _hingeJoint != null ? _hingeJoint.angle : 0;
 
     private readonly JointLimits _shutDoorLimit = new()
     {
@@ -31,46 +37,61 @@ public class OpenDoor : MonoBehaviour
         _hingeJoint.limits = _shutDoorLimit;
     }
 
-    private void Update()
+    public void InteractWithDoor(bool isFromFront)
     {
-        if (_hingeJoint.angle < 1f && !playerIsInteractingFromFront && !playerIsInteractingFromBack)
-        {
-            _hingeJoint.limits = _shutDoorLimit;
-        }
-        
-        if (!playerIsInteractingFromFront && !playerIsInteractingFromBack) return;
+        _playerIsInteractingFromFront = isFromFront;
+        _playerIsInteractingFromBack = !isFromFront;
+    }
+    
+    public void EndInteraction()
+    {
+        _playerIsInteractingFromFront = false;
+        _playerIsInteractingFromBack = false;
+    }
 
+    public void ChangeHingeLimitsToOpen()
+    {
+        _hingeJoint.limits = _openDoorLimit;
+    }
+
+    public void SetDoorVelocity(float mouseVerticalMovement)
+    {
         float directionModifier = 1f;
-        if (playerIsInteractingFromBack)
+        if (_playerIsInteractingFromBack)
         {
             directionModifier *= -1f;
         }
+        _targetVelocity  = -90 * mouseVerticalMovement * directionModifier;
+    }
 
+    public void SetDoorVelocityToZero()
+    {
+        _targetVelocity = 0f;
+    }
 
-        if (Input.GetButtonDown(Constants.Fire1))
+    public void LatchDoorIfFullyClosed()
+    {
+        if (_hingeJoint.angle < 1f)
         {
-            _hingeJoint.limits = _openDoorLimit;
+            _hingeJoint.limits = _shutDoorLimit;
+        }
+    }
+
+    private void Update()
+    {
+        if (_hingeJoint.angle < 1f && !_playerIsInteractingFromFront && !_playerIsInteractingFromBack)
+        {
+            _hingeJoint.limits = _shutDoorLimit;
         }
 
-        if (Input.GetButton(Constants.Fire1))
-        {
-            float mouseVerticalMovement = -Input.GetAxis(Constants.MouseY);
+        if (!_playerIsInteractingFromFront && !_playerIsInteractingFromBack) return;
 
-            JointMotor hingeMotor = _hingeJoint.motor;
-            hingeMotor.targetVelocity = -90 * mouseVerticalMovement * directionModifier;
-            hingeMotor.freeSpin = false;
-            hingeMotor.force = 100;
-
-            _hingeJoint.motor = hingeMotor;
-            _hingeJoint.useMotor = true;
-        }
-
-        if (Input.GetButtonUp(Constants.Fire1))
-        {
-            if (_hingeJoint.angle < 1f)
-            {
-                _hingeJoint.limits = _shutDoorLimit;
-            }
-        }
+        JointMotor hingeMotor = _hingeJoint.motor;
+        _hingeJoint.useMotor = true;
+        hingeMotor.targetVelocity = 0f;
+        hingeMotor.freeSpin = false;
+        hingeMotor.force = 100;
+        hingeMotor.targetVelocity = _targetVelocity;
+        _hingeJoint.motor = hingeMotor;
     }
 }

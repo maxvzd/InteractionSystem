@@ -26,5 +26,10 @@ public static class Constants
     public static readonly int IsHoldingTwoHandedGun = Animator.StringToHash("IsHoldingTwoHandedGun");
     public static readonly int IsHoldingPistol = Animator.StringToHash("IsHoldingPistol");
     public static readonly int IsAiming = Animator.StringToHash("IsAiming");
+    public static readonly int StepForwardTrigger = Animator.StringToHash("StepForwardTrigger");
+    public static readonly int StepBackwardTrigger = Animator.StringToHash("StepBackwardTrigger");
+    public static readonly int StepRightTrigger = Animator.StringToHash("StepRightTrigger");
+    public static readonly int StepLeftTrigger = Animator.StringToHash("StepLeftTrigger");
+    public static readonly int IsInteractingWithDoor = Animator.StringToHash("IsInteractingWithDoor");
     
 }

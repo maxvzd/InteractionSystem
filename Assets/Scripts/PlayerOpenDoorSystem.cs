@@ -1,107 +1,154 @@
-﻿using RootMotion.FinalIK;
+﻿using System;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 public class PlayerOpenDoorSystem : MonoBehaviour
 {
-    private InteractionSystem _interactionSystem;
-
-    private bool _isHoldingHandle;
-    private PlayerState _playerState;
     public bool IsHoldingHandle => _isHoldingHandle;
 
-    private OpenDoor _currentDoor;
 
+    private InteractionSystem _interactionSystem;
+    private PlayerState _playerState;
+    private OpenDoor _currentDoor;
+    private bool _isHoldingHandle;
+    private Animator _animator;
+    private bool _isStepping;
+    
     [SerializeField] private float distanceToLetGoOfDoor;
 
     private void Start()
     {
         _interactionSystem = GetComponent<InteractionSystem>();
         _playerState = GetComponent<PlayerState>();
+        _animator = GetComponent<Animator>();
+        GetComponent<AnimationEventListener>().FinishedStepping += (sender, args) =>
+        {
+            _isStepping = false;
+        };
     }
 
     public void Update()
     {
         if (!_isHoldingHandle) return;
 
-        if (CheckDistanceBetweenHandleAndDoor())
+         float distanceBetweenDoorAndPlayer = CheckDistanceBetweenHandleAndDoor();
+        // if (distanceBetweenDoorAndPlayer > distanceToLetGoOfDoor)
+        // {
+        //     ReleaseHandle();
+        //     return;
+        // }
+        
+
+        float verticalAxis = Input.GetAxis(Constants.VerticalKey);
+        float horizontalAxis = Input.GetAxis(Constants.HorizontalKey);
+
+        if (!_isStepping)// && distanceBetweenDoorAndPlayer < distanceToLetGoOfDoor)
         {
-            RemoveHandFromHandle();
-            return;
+            switch (verticalAxis)
+            {
+                case > 0.1f:
+                    _isStepping = true;
+                    _animator.SetTrigger(Constants.StepForwardTrigger);
+                    break;
+                case < -0.1f:
+                    _isStepping = true;
+                    _animator.SetTrigger(Constants.StepBackwardTrigger);
+                    break;
+            }
+
+            switch (horizontalAxis)
+            {
+                case > 0.1f:
+                    _isStepping = true;
+                    _animator.SetTrigger(Constants.StepRightTrigger);
+                    break;
+                case < -0.1f:
+                    _isStepping = true;
+                    _animator.SetTrigger(Constants.StepLeftTrigger);
+                    break;
+            } 
         }
+        
 
         if (Input.GetButtonDown(Constants.Fire1))
         {
             _playerState.LockYLookDirection();
+            _currentDoor.ChangeHingeLimitsToOpen();
+        }
+
+        if (Input.GetButton(Constants.Fire1))
+        {
+            float mouseVerticalMovement = -Input.GetAxis(Constants.MouseY);
+            _currentDoor.SetDoorVelocity(mouseVerticalMovement);
+        }
+        else
+        {
+            _currentDoor.SetDoorVelocityToZero();
         }
 
         if (Input.GetButtonUp(Constants.Fire1))
         {
+            _currentDoor.LatchDoorIfFullyClosed();
             _playerState.UnlockYLookDirection();
         }
     }
 
-    private bool CheckDistanceBetweenHandleAndDoor()
+    private float CheckDistanceBetweenHandleAndDoor()
     {
-        var scrubbedYDoorHandlePosition = _currentDoor.playerIsInteractingFromFront ? 
-            _currentDoor.FrontHandlePosition : 
-            _currentDoor.BackHandlePosition;
-        scrubbedYDoorHandlePosition.y = 0f;
+        Vector3 doorHandlePosition = _currentDoor.PlayerIsInteractingFromFront ? _currentDoor.FrontHandlePosition : _currentDoor.BackHandlePosition;
 
         Vector3 scrubbedYCurrentTransform = transform.position;
-        scrubbedYCurrentTransform.y = 0f;
+        scrubbedYCurrentTransform.y = doorHandlePosition.y;
 
-        float distanceBetweenDoorAndBody = Vector3.Distance(scrubbedYCurrentTransform, scrubbedYDoorHandlePosition);
-        return distanceBetweenDoorAndBody > distanceToLetGoOfDoor;
+        Debug.DrawLine(doorHandlePosition, scrubbedYCurrentTransform, Color.red);
+
+        return Vector3.Distance(scrubbedYCurrentTransform, doorHandlePosition);
+        //return distanceBetweenDoorAndBody > distanceToLetGoOfDoor;
     }
 
     public void OpenDoor(Transform door)
     {
         InteractionObject interactionObject = door.gameObject.GetComponent<InteractionObject>();
         if (ReferenceEquals(interactionObject, null)) return;
-        
+
         _currentDoor = door.GetComponent<OpenDoor>();
-        if (ReferenceEquals(_currentDoor, null))
-        {
-            return;
-        }
+        if (ReferenceEquals(_currentDoor, null)) return;
 
         _isHoldingHandle = true;
-        _playerState.LockWalkSpeedTo(0.5f);
-        
+        _animator.SetBool(Constants.IsInteractingWithDoor, true);
+
         if (Vector3.Dot((door.position - transform.position).normalized, door.right) < 0)
         {
-            _currentDoor.playerIsInteractingFromFront = true;
+            _currentDoor.InteractWithDoor(true);
             _interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false);
         }
         else
         {
-            _currentDoor.playerIsInteractingFromBack = true;
+            _currentDoor.InteractWithDoor(false);
             _interactionSystem.StartInteraction(FullBodyBipedEffector.LeftHand, interactionObject, false);
         }
     }
 
-    public void RemoveHandFromHandle()
+    public void ReleaseHandle()
     {
-        if (_currentDoor.playerIsInteractingFromFront)
+        if (_currentDoor.PlayerIsInteractingFromFront)
         {
             _interactionSystem.StopInteraction(FullBodyBipedEffector.RightHand);
         }
 
-        if (_currentDoor.playerIsInteractingFromBack)
+        if (_currentDoor.PlayerIsInteractingFromFront)
         {
             _interactionSystem.StopInteraction(FullBodyBipedEffector.LeftHand);
         }
 
-        _isHoldingHandle = false;
-        if (!ReferenceEquals(_currentDoor, null))
+        if (_currentDoor is not null)
         {
-            _currentDoor.playerIsInteractingFromBack = false;
-            _currentDoor.playerIsInteractingFromFront = false;
+            _currentDoor.EndInteraction();
         }
-        
-        _playerState.UnlockYLookDirection();
-        _playerState.UnlockWalkSpeed();
 
+        _isHoldingHandle = false;
+        _playerState.UnlockYLookDirection();
         _currentDoor = null;
+        _animator.SetBool(Constants.IsInteractingWithDoor, false);
     }
 }
