@@ -12,9 +12,12 @@ namespace Kinemation.MotionWarping.Runtime.Examples
         [SerializeField] private MotionWarpingAsset mantleHigh;
         [SerializeField] private MotionWarpingAsset mantleLow;
         [SerializeField] private MantleSettings settings;
+        [SerializeField] private LayerMask playerMask;
         
         private Vector3 _targetPosition;
         private Quaternion _targetRotation;
+        
+        
         
         public WarpInteractionResult Interact(GameObject instigator)
         {
@@ -61,7 +64,7 @@ namespace Kinemation.MotionWarping.Runtime.Examples
 
             bHit = Physics.SphereCast(start, settings.sphereEdgeCheckRadius, -currentTransform.up, out hit,
                 distance, settings.layerMask);
-            
+
             start = hit.point;
             
             if (!bHit)
@@ -74,7 +77,7 @@ namespace Kinemation.MotionWarping.Runtime.Examples
             start += surfaceNormal * (0.02f + settings.characterCapsuleRadius);
             end = start + surfaceNormal * settings.characterCapsuleHeight;
             
-            bHit = Physics.CheckCapsule(start, end, settings.characterCapsuleRadius);
+            bHit = Physics.CheckCapsule(start, end, settings.characterCapsuleRadius, playerMask);
             
             if (bHit)
             {

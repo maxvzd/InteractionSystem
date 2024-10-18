@@ -2175,8 +2175,8 @@ MonoBehaviour:
   playRateBasis: 1
   phasesAmount: 1
   warpPhases:
-  - tOffset: {x: -0.00000009465255, y: -0.389, z: 0.15000005}
-    rOffset: {x: -0, y: 0.00000070646024, z: 0}
+  - tOffset: {x: 0.00000021494637, y: -0.38899994, z: 0.14999971}
+    rOffset: {x: -0, y: 0.0000056590325, z: 0}
     startTime: 0.2109
     endTime: 0.8776
     minRate: 1
