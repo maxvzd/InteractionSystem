@@ -4280,12 +4280,26 @@ MonoBehaviour:
     y: 1
     z: 1
   playRateBasis: 1
-  phasesAmount: 1
+  phasesAmount: 3
   warpPhases:
-  - tOffset: {x: 0, y: 0, z: 0}
-    rOffset: {x: 0, y: 0, z: 0}
-    startTime: 0.4615
-    endTime: 0.6978
+  - tOffset: {x: -0.019706044, y: -1.3070002, z: -0.22563183}
+    rOffset: {x: -0, y: 0, z: 0}
+    startTime: 0
+    endTime: 0.7014
     minRate: 0
     maxRate: 1
-    totalRootMotion: {x: 0.06319952, y: 0.72398454, z: 0.31660572}
+    totalRootMotion: {x: 0.11156443, y: 1.1105206, z: 0.5918534}
+  - tOffset: {x: -0.0416066, y: -0.6899998, z: 0.32950565}
+    rOffset: {x: -0, y: 0, z: 0}
+    startTime: 0.7055
+    endTime: 1.4399
+    minRate: 0
+    maxRate: 1
+    totalRootMotion: {x: 0.16365704, y: 0.71502244, z: 0.6701969}
+  - tOffset: {x: 0.055574536, y: -0.29299998, z: -0.5176108}
+    rOffset: {x: -0, y: 0, z: 0}
+    startTime: 1.444
+    endTime: 1.8518
+    minRate: 0
+    maxRate: 1
+    totalRootMotion: {x: 0.15448081, y: 1.5600338, z: 0.7720883}

@@ -15,7 +15,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  maxHeight: 4
+  maxHeight: 3
   lowHeight: 1
   minHeight: 0.5
   maxDistance: 3

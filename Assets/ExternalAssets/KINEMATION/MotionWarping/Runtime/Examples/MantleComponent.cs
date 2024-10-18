@@ -25,20 +25,21 @@ namespace Kinemation.MotionWarping.Runtime.Examples
                 success = false
             };
 
-            if (settings == null)
+            if (settings is null)
             {
                 return result;
             }
 
             var motionWarping = instigator.GetComponent<Core.MotionWarping>();
-
-            Vector3 start = transform.position;
+            
+            Transform currentTransform = transform;
+            Vector3 start = currentTransform.position;
             Vector3 end = start;
 
             start.y += settings.minHeight + settings.characterCapsuleRadius;
             end.y += settings.maxHeight;
-
-            Vector3 direction = transform.forward;
+            
+            Vector3 direction = currentTransform.forward;
             float distance = settings.maxDistance;
 
             bool bHit = Physics.CapsuleCast(start, end, settings.characterCapsuleRadius, direction,
@@ -58,7 +59,7 @@ namespace Kinemation.MotionWarping.Runtime.Examples
             
             start.y = end.y;
 
-            bHit = Physics.SphereCast(start, settings.sphereEdgeCheckRadius, -transform.up, out hit,
+            bHit = Physics.SphereCast(start, settings.sphereEdgeCheckRadius, -currentTransform.up, out hit,
                 distance, settings.layerMask);
             
             start = hit.point;

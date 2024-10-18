@@ -4,12 +4,14 @@ using Kinemation.MotionWarping.Runtime.Core;
 using Kinemation.MotionWarping.Runtime.Utility;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Kinemation.MotionWarping.Runtime.Examples
 {
     public class VaultComponent : MonoBehaviour, IWarpPointProvider
     {
-        [SerializeField] private MotionWarpingAsset motionWarpingAsset;
+        [SerializeField] private MotionWarpingAsset highAsset;
+        [SerializeField] private MotionWarpingAsset lowAsset;
         [SerializeField] private VaultSettings settings;
         
         private Vector3 _closeEdge;
@@ -19,16 +21,14 @@ namespace Kinemation.MotionWarping.Runtime.Examples
 
         private bool FindCloseEdge()
         {
-            if (settings == null)
-            {
-                return false;
-            }
-            
-            Vector3 start = transform.position;
-            Vector3 end = start + transform.up * settings.maxAllowedStartHeight;
+            if (settings is null) return false;
+
+            Transform currentTransform = transform;
+            Vector3 start = currentTransform.position;
+            Vector3 end = start + currentTransform.up * settings.maxAllowedStartHeight;
             start.y += settings.characterCapsuleRadius + settings.minAllowedStartHeight;
             
-            Vector3 direction = transform.forward;
+            Vector3 direction = currentTransform.forward;
 
             bool bHit = Physics.CapsuleCast(start, end, settings.characterCapsuleRadius, direction,
                 out var hit, settings.maxAllowedStartLength, settings.layerMask);
@@ -42,7 +42,7 @@ namespace Kinemation.MotionWarping.Runtime.Examples
 
             start = hit.point;
             start.y = end.y;
-            direction = -transform.up;
+            direction = -currentTransform.up;
 
             bHit = Physics.SphereCast(start, settings.sphereEdgeCheckRadius, direction, out hit,
                 settings.maxAllowedStartHeight, settings.layerMask);
@@ -107,18 +107,15 @@ namespace Kinemation.MotionWarping.Runtime.Examples
 
         public WarpInteractionResult Interact(GameObject instigator)
         {
-            WarpInteractionResult result = new WarpInteractionResult()
+            WarpInteractionResult result = new WarpInteractionResult
             {
                 points = null,
                 asset = null,
                 success = false
             };
 
-            if (motionWarpingAsset == null)
-            {
-                return result;
-            }
-
+            if (highAsset is null || lowAsset is null) return result;
+            
             var motionWarping = instigator.GetComponent<Core.MotionWarping>();
             
             bool success = FindCloseEdge() && FindEndEdge() && FindEndPoint();
@@ -128,27 +125,29 @@ namespace Kinemation.MotionWarping.Runtime.Examples
                 return result;
             }
 
-            result.asset = motionWarpingAsset;
+            
 
-            result.points = new WarpPoint[]
+            result.points = new[]
             {
-                new WarpPoint()
+                new WarpPoint
                 {
                     position = _closeEdge,
                     rotation = _targetRotation
                 },
-                new WarpPoint()
+                new WarpPoint
                 {
                     position = _farEdge,
                     rotation = _targetRotation
                 },
-                new WarpPoint()
+                new WarpPoint
                 {
                     position = _endPoint,
                     rotation = _targetRotation
                 }
             };
-
+            
+            float height = _closeEdge.y - transform.position.y;
+            result.asset = height > settings.highStartHeight ? highAsset : lowAsset ;
             result.success = true;
             
 #if UNITY_EDITOR

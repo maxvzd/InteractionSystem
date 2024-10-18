@@ -1970,7 +1970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854419404bdc4b2a9990c6557b00e445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionWarpingAsset: {fileID: 11400000, guid: bc4fd75bf7814134f868ee70bffefc57, type: 2}
+  highAsset: {fileID: 11400000, guid: 391a1cd4a2f8a414bbfdc0a45e88f161, type: 2}
+  lowAsset: {fileID: 11400000, guid: bc4fd75bf7814134f868ee70bffefc57, type: 2}
   settings: {fileID: 11400000, guid: 33af9bff42c5d4842ab213c37b0dc1ac, type: 2}
 --- !u!114 &5364788276731472595
 MonoBehaviour:

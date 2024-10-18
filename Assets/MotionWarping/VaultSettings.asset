@@ -16,11 +16,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   characterCapsuleRadius: 0.25
-  maxObstacleLength: 1
+  maxObstacleLength: 0.7
   minObstacleLength: 0.1
   sphereEdgeCheckRadius: 0.1
-  maxAllowedStartLength: 2
-  maxAllowedStartHeight: 1.8
+  maxAllowedStartLength: 1
+  maxAllowedStartHeight: 3
+  highStartHeight: 1.5
   minAllowedStartHeight: 0.3
   closeEdgeDeviation: 0.3
   farEdgeOffset: 1

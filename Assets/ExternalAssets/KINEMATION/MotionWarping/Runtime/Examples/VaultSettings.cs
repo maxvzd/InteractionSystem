@@ -16,7 +16,9 @@ namespace Kinemation.MotionWarping.Runtime.Examples
 
         [Header("Close Edge Check")]
         [Min(0f)] public float maxAllowedStartLength;
+        
         [Min(0f)] public float maxAllowedStartHeight;
+        [Min(0f)] public float highStartHeight;
         [Min(0f)] public float minAllowedStartHeight;
         
         [Header("Far Edge Check")]

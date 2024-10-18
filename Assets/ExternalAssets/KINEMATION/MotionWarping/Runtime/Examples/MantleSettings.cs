@@ -23,3 +23,4 @@ namespace Kinemation.MotionWarping.Runtime.Examples
         [Min(0f)] public float forwardOffset;
     }
 }
+
