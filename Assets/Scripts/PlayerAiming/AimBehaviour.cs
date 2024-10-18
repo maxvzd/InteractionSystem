@@ -45,8 +45,8 @@ namespace PlayerAiming
             Transform currentTransform = transform;
             _targetGunPos = _originalGunPosition
                             + currentTransform.up * posData.AimPosition.y
-                            - currentTransform.right * posData.AimPosition.x
-                            - currentTransform.forward * posData.AimPosition.z;
+                            + currentTransform.right * posData.AimPosition.x
+                            + currentTransform.forward * posData.AimPosition.z;
         }
 
         public void UnEquipGun()

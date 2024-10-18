@@ -9,18 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6eaf18cf8aa0654d98c494153a7b6e8, type: 3}
-  m_Name: MantleSettings
+  m_Script: {fileID: 11500000, guid: 16c489fe43e24410b556466ad9c96890, type: 3}
+  m_Name: VaultSettings
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  maxHeight: 4
-  lowHeight: 1
-  minHeight: 0.5
-  maxDistance: 3
   characterCapsuleRadius: 0.25
-  characterCapsuleHeight: 1.9
-  sphereEdgeCheckRadius: 0.15
-  maxSurfaceInclineAngle: 25
-  forwardOffset: 0.1
+  maxObstacleLength: 1
+  minObstacleLength: 0.1
+  sphereEdgeCheckRadius: 0.1
+  maxAllowedStartLength: 2
+  maxAllowedStartHeight: 1.8
+  minAllowedStartHeight: 0.3
+  closeEdgeDeviation: 0.3
+  farEdgeOffset: 1
+  maxAllowedEndHeight: 5
+  minAllowedEndHeight: 0.3

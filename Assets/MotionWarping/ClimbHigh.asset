@@ -5631,10 +5631,10 @@ MonoBehaviour:
   playRateBasis: 1
   phasesAmount: 1
   warpPhases:
-  - tOffset: {x: 0, y: -0.83, z: 0}
-    rOffset: {x: 0, y: 0, z: 0}
+  - tOffset: {x: 0, y: -0.8299999, z: 0}
+    rOffset: {x: -0, y: 0.00000070646024, z: 0}
     startTime: 0
     endTime: 0.9582
-    minRate: 0
+    minRate: 1
     maxRate: 1
     totalRootMotion: {x: 0.09994422, y: 1.1859283, z: 0.3859872}

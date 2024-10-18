@@ -8,9 +8,10 @@ public class PlayerClimbing : MonoBehaviour
 {
     private MotionWarping _motionWarping;
     private MantleComponent _mantle;
+    private VaultComponent _vault;
 
     private GrounderFBBIK _grounder;
-    
+
     private LookAtIK _lookAtIk;
     private float _previousBodyWeight;
 
@@ -19,7 +20,6 @@ public class PlayerClimbing : MonoBehaviour
     public void OnWarpStart()
     {
         _collider.enabled = false;
-        _grounder.enabled = false;
         _grounder.weight = 0;
         _previousBodyWeight = _lookAtIk.solver.bodyWeight;
         _lookAtIk.solver.bodyWeight = 0;
@@ -37,6 +37,7 @@ public class PlayerClimbing : MonoBehaviour
     {
         _motionWarping = GetComponent<MotionWarping>();
         _mantle = GetComponent<MantleComponent>();
+        _vault = GetComponent<VaultComponent>();
         _collider = GetComponent<Collider>();
 
         _grounder = GetComponent<GrounderFBBIK>();
@@ -49,10 +50,8 @@ public class PlayerClimbing : MonoBehaviour
 
         if (Input.GetButtonDown(Constants.JumpKey))
         {
-            if (_motionWarping.Interact(_mantle))
-            {
-                return;
-            }
+            if (_motionWarping.Interact(_vault)) return;
+            if (_motionWarping.Interact(_mantle)) return;
         }
     }
 }

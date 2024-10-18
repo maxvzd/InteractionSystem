@@ -7,8 +7,7 @@ public class MoveToPlayer : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Vector3 scrubbedY = playerTransform.position;
-        scrubbedY.y = transform.position.y;
-        transform.position = scrubbedY;
+        //1.8 for player height
+        transform.position = playerTransform.position + Vector3.up * 1.8f;
     }
 }
