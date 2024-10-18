@@ -1010,11 +1010,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5364788276731472595}
+      addedObject: {fileID: 8019956875870084647}
     - targetCorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8019956875870084647}
+      addedObject: {fileID: 5364788276731472595}
     - targetCorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,
         type: 3}
       insertIndex: -1
@@ -1958,6 +1958,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bce0284a1ad416484d299f5b66e153d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8019956875870084647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5645015958737254630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854419404bdc4b2a9990c6557b00e445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motionWarpingAsset: {fileID: 11400000, guid: bc4fd75bf7814134f868ee70bffefc57, type: 2}
+  settings: {fileID: 11400000, guid: 33af9bff42c5d4842ab213c37b0dc1ac, type: 2}
 --- !u!114 &5364788276731472595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1973,20 +1987,6 @@ MonoBehaviour:
   mantleHigh: {fileID: 11400000, guid: 873c6153c4b9d224e8264cf8f311669c, type: 2}
   mantleLow: {fileID: 11400000, guid: 0f3f3ca6aab011e47a965414d401c99d, type: 2}
   settings: {fileID: 11400000, guid: e939344e768a475448adf49d1164c11e, type: 2}
---- !u!114 &8019956875870084647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5645015958737254630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 854419404bdc4b2a9990c6557b00e445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motionWarpingAsset: {fileID: 11400000, guid: bc4fd75bf7814134f868ee70bffefc57, type: 2}
-  settings: {fileID: 11400000, guid: 33af9bff42c5d4842ab213c37b0dc1ac, type: 2}
 --- !u!1 &5645015958737254688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,

@@ -19,7 +19,7 @@ namespace PlayerAiming
         private Transform _originalParent;
         private Vector3 _originalCameraPosition;
         private Vector3 _originalGunPosition;
-        private Vector3 _targetGunPos;
+        private Vector3 _aimOffset;
         private bool _gunIsEquipped;
 
         public event EventHandler<EventArgs> PlayerAiming;
@@ -42,11 +42,12 @@ namespace PlayerAiming
 
             _originalGunPosition = posData.GunLocalPosition;
 
-            Transform currentTransform = transform;
-            _targetGunPos = _originalGunPosition
-                            + currentTransform.up * posData.AimPosition.y
-                            + currentTransform.right * posData.AimPosition.x
-                            + currentTransform.forward * posData.AimPosition.z;
+            //Transform currentTransform = transform;
+            // _targetGunPos = _originalGunPosition
+            //                 + currentTransform.up * posData.AimPosition.y
+            //                 + currentTransform.right * posData.AimPosition.x
+            //                 + currentTransform.forward * posData.AimPosition.z;
+            _aimOffset = posData.AimPosition;
         }
 
         public void UnEquipGun()
@@ -56,7 +57,7 @@ namespace PlayerAiming
             _rearSight = null;
 
             _originalGunPosition = Vector3.zero;
-            _targetGunPos = Vector3.zero;
+            _aimOffset = Vector3.zero;
         }
 
         private void Update()
@@ -66,12 +67,14 @@ namespace PlayerAiming
             Transform cameraTransform = mainCamera.transform;
             if (Input.GetButtonDown(Constants.Fire2Key))
             {
+                Vector3 targetGunPos = _originalGunPosition + _aimOffset;
+                
                 cameraTransform.parent = _rearSight;
                 StartAimLerp(
                     cameraTransform,
                     Vector3.zero,
                     _gunFulcrum,
-                    _targetGunPos,
+                    targetGunPos,
                     40,
                     0.2f);
 

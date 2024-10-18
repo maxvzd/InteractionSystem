@@ -433,7 +433,7 @@ MonoBehaviour:
   rightHandIkTarget: {fileID: 5831626340139155412}
   rearSight: {fileID: 577059568686323113}
   actualGun: {fileID: 805206233185246299}
-  aimPosition: {x: 0.1, y: 0.05, z: 0}
+  aimPosition: {x: 0, y: 0.05, z: 0.1}
   gunLocalPosition: {x: 0, y: 1.359069, z: -0.03803539}
   gunLocalRotation: {x: 0, y: 180, z: 0}
 --- !u!114 &8359802831818114115
