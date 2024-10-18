@@ -13,11 +13,10 @@ public class OpenDoor : MonoBehaviour
     private bool _playerIsInteractingFromFront;
     private bool _playerIsInteractingFromBack;
     private float _targetVelocity;
-    
+    private bool _isDoorShut = true;
+
     public bool PlayerIsInteractingFromFront => _playerIsInteractingFromFront;
     public bool PlayerIsInteractingFromBack => _playerIsInteractingFromBack;
-
-    public float Angle => _hingeJoint != null ? _hingeJoint.angle : 0;
 
     private readonly JointLimits _shutDoorLimit = new()
     {
@@ -31,18 +30,12 @@ public class OpenDoor : MonoBehaviour
         max = 0f,
     };
 
-    private void Start()
-    {
-        _hingeJoint = GetComponent<HingeJoint>();
-        _hingeJoint.limits = _shutDoorLimit;
-    }
-
     public void InteractWithDoor(bool isFromFront)
     {
         _playerIsInteractingFromFront = isFromFront;
         _playerIsInteractingFromBack = !isFromFront;
     }
-    
+
     public void EndInteraction()
     {
         _playerIsInteractingFromFront = false;
@@ -51,37 +44,48 @@ public class OpenDoor : MonoBehaviour
 
     public void ChangeHingeLimitsToOpen()
     {
+        if (!_isDoorShut) return;
+
         _hingeJoint.limits = _openDoorLimit;
+        _isDoorShut = false;
     }
 
-    public void SetDoorVelocity(float mouseVerticalMovement)
+    public void ChangeHingeLimitsToClosed()
+    {
+        if (_isDoorShut) return;
+        if (_hingeJoint.angle >= 1f) return;
+        
+        _isDoorShut = true;
+        _hingeJoint.limits = _shutDoorLimit;
+    }
+
+    public void SetDoorVelocity(float velocity)
     {
         float directionModifier = 1f;
         if (_playerIsInteractingFromBack)
         {
             directionModifier *= -1f;
         }
-        _targetVelocity  = -90 * mouseVerticalMovement * directionModifier;
+
+        _targetVelocity = 90 * velocity * directionModifier;
     }
 
     public void SetDoorVelocityToZero()
     {
         _targetVelocity = 0f;
     }
-
-    public void LatchDoorIfFullyClosed()
+    
+    private void Start()
     {
-        if (_hingeJoint.angle < 1f)
-        {
-            _hingeJoint.limits = _shutDoorLimit;
-        }
+        _hingeJoint = GetComponent<HingeJoint>();
+        _hingeJoint.limits = _shutDoorLimit;
     }
 
     private void Update()
     {
-        if (_hingeJoint.angle < 1f && !_playerIsInteractingFromFront && !_playerIsInteractingFromBack)
+        if (!_playerIsInteractingFromFront && !_playerIsInteractingFromBack)
         {
-            _hingeJoint.limits = _shutDoorLimit;
+            ChangeHingeLimitsToClosed();
         }
 
         if (!_playerIsInteractingFromFront && !_playerIsInteractingFromBack) return;

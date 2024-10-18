@@ -41,8 +41,8 @@ public class PlayerState : MonoBehaviour
         _playerMovement.UnlockWalkSpeed();
     }
 
-    public void LockWalkSpeedTo(float walkSpeed)
+    public void ClampMovementSpeed(float walkSpeed)
     {
-        _playerMovement.LockMovementSpeedTo(walkSpeed);
+        _playerMovement.ClampMovementSpeedTo(walkSpeed);
     }
 }

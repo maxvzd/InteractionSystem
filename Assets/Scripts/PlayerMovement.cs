@@ -7,11 +7,16 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private bool _shouldLockWalkSpeed;
     private float _lockedWalkSpeedModifier;
+    private float _maxMovementSpeed;
+
+    private const float MAX_MOVEMENT_SPEED = 2f;
+    private const float MIN_MOVEMENT_SPEED = 0.5f;
 
     // Start is called before the first frame update
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _maxMovementSpeed = MAX_MOVEMENT_SPEED;
     }
 
     // Update is called once per frame
@@ -21,12 +26,10 @@ public class PlayerMovement : MonoBehaviour
         float horizontalInput = Input.GetAxis(Constants.HorizontalKey);
 
         _runModifier += Input.GetAxis("Mouse ScrollWheel");
-        _runModifier = Mathf.Clamp(_runModifier, 0.5f, 2f);
-        
-        float modifierToUse =_shouldLockWalkSpeed ? _lockedWalkSpeedModifier : _runModifier;
+        _runModifier = Mathf.Clamp(_runModifier, MIN_MOVEMENT_SPEED, _maxMovementSpeed);
 
-        verticalInput *= modifierToUse;
-        horizontalInput *= modifierToUse;
+        verticalInput *= _runModifier;
+        horizontalInput *= _runModifier;
 
         _animator.SetFloat(Constants.Vertical, verticalInput);
         _animator.SetFloat(Constants.Horizontal, horizontalInput);
@@ -34,13 +37,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void UnlockWalkSpeed()
     {
-        _shouldLockWalkSpeed = false;
-        _lockedWalkSpeedModifier = 0;
+        _maxMovementSpeed = MAX_MOVEMENT_SPEED;
     }
 
-    public void LockMovementSpeedTo(float walkSpeed)
+    public void ClampMovementSpeedTo(float walkSpeed)
     {
-        _shouldLockWalkSpeed = true;
-        _lockedWalkSpeedModifier = walkSpeed;
+        float maxMovementSpeed = Mathf.Clamp(walkSpeed, MIN_MOVEMENT_SPEED, MAX_MOVEMENT_SPEED);
+        _maxMovementSpeed = maxMovementSpeed;
     }
 }
