@@ -1,4 +1,5 @@
 using System;
+using Constants;
 using UnityEngine;
 
 public class PlayerTurn : MonoBehaviour
@@ -23,8 +24,8 @@ public class PlayerTurn : MonoBehaviour
     
     private void Update()
     {
-        float verticalInput = Input.GetAxis(Constants.VerticalKey);
-        float horizontalInput = Input.GetAxis(Constants.HorizontalKey);
+        float verticalInput = Input.GetAxis(InputConstants.VerticalKey);
+        float horizontalInput = Input.GetAxis(InputConstants.HorizontalKey);
         
         if (verticalInput > 0 || verticalInput < 0 || horizontalInput > 0 || horizontalInput < 0)
         {
@@ -49,13 +50,13 @@ public class PlayerTurn : MonoBehaviour
             if (angleBetweenCameraAndBody > 0 + angleToTurnAt &&  angleBetweenCameraAndBody < 180)
             {
                 _isTurning = true;
-                _animator.SetTrigger(Constants.TurnRightTrigger);
+                _animator.SetTrigger(AnimatorConstants.TurnRightTrigger);
             }
 
             if (angleBetweenCameraAndBody > 180 && angleBetweenCameraAndBody < 360 - angleToTurnAt)
             {
                 _isTurning = true;
-                _animator.SetTrigger(Constants.TurnLeftTrigger);
+                _animator.SetTrigger(AnimatorConstants.TurnLeftTrigger);
             }
         }
     }

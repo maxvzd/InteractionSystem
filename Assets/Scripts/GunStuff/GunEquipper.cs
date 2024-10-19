@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Constants;
 using PlayerAiming;
 using UnityEngine;
 
@@ -32,9 +33,9 @@ namespace GunStuff
         {
             _isGunEquipped = false;
 
-            _animator.SetBool(Constants.IsHoldingTwoHandedGun, false);
-            _animator.SetBool(Constants.IsHoldingPistol, false);
-            _animator.SetBool(Constants.IsAiming, false);
+            _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
+            _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
+            _animator.SetBool(AnimatorConstants.IsAiming, false);
 
             _aimBehaviour.UnEquipGun();
             _gunHandPlacement.UnEquipGun();
@@ -48,7 +49,7 @@ namespace GunStuff
 
         public void EquipPistol(GameObject gun)
         {
-            EquipGun(gun, Constants.IsHoldingPistol);
+            EquipGun(gun, AnimatorConstants.IsHoldingPistol);
         }
 
         private void EquipGun(GameObject gun, int animName)
@@ -77,7 +78,7 @@ namespace GunStuff
 
         public void EquipRifle(GameObject gun)
         {
-            EquipGun(gun, Constants.IsHoldingTwoHandedGun);
+            EquipGun(gun, AnimatorConstants.IsHoldingTwoHandedGun);
         }
 
         private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)

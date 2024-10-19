@@ -29,25 +29,25 @@ public class PlayerOpenDoorSystem : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown(Constants.Fire1))
+        if (Input.GetButtonDown(Constants.InputConstants.Fire1))
         {
             _playerState.LockYLookDirection();
             _currentDoor.ChangeHingeLimitsToOpen();
         }
 
-        if (Input.GetButtonDown(Constants.VerticalKey))
+        if (Input.GetButtonDown(Constants.InputConstants.VerticalKey))
         {
             _currentDoor.ChangeHingeLimitsToOpen();
         }
         
-        if (Input.GetButton(Constants.Fire1))
+        if (Input.GetButton(Constants.InputConstants.Fire1))
         {
-            float mouseVerticalMovement = Input.GetAxis(Constants.MouseY);
+            float mouseVerticalMovement = Input.GetAxis(Constants.InputConstants.MouseY);
             _currentDoor.SetDoorVelocity(mouseVerticalMovement);
         }
-        else if (Input.GetButton(Constants.VerticalKey))
+        else if (Input.GetButton(Constants.InputConstants.VerticalKey))
         {
-            float verticalAxis = Input.GetAxis(Constants.VerticalKey);
+            float verticalAxis = Input.GetAxis(Constants.InputConstants.VerticalKey);
             _currentDoor.SetDoorVelocity(verticalAxis * 0.5f);
         }
         else
@@ -55,7 +55,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
             _currentDoor.SetDoorVelocityToZero();
         }
 
-        if (Input.GetButtonUp(Constants.Fire1) || Input.GetButtonUp(Constants.VerticalKey))
+        if (Input.GetButtonUp(Constants.InputConstants.Fire1) || Input.GetButtonUp(Constants.InputConstants.VerticalKey))
         {
             _currentDoor.ChangeHingeLimitsToClosed();
             _playerState.UnlockYLookDirection();

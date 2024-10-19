@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float verticalInput = Input.GetAxis(Constants.VerticalKey);
-        float horizontalInput = Input.GetAxis(Constants.HorizontalKey);
+        float verticalInput = Input.GetAxis(Constants.InputConstants.VerticalKey);
+        float horizontalInput = Input.GetAxis(Constants.InputConstants.HorizontalKey);
 
         _runModifier += Input.GetAxis("Mouse ScrollWheel");
         _runModifier = Mathf.Clamp(_runModifier, MIN_MOVEMENT_SPEED, _maxMovementSpeed);
@@ -31,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
         verticalInput *= _runModifier;
         horizontalInput *= _runModifier;
 
-        _animator.SetFloat(Constants.Vertical, verticalInput);
-        _animator.SetFloat(Constants.Horizontal, horizontalInput);
+        _animator.SetFloat(AnimatorConstants.Vertical, verticalInput);
+        _animator.SetFloat(AnimatorConstants.Horizontal, horizontalInput);
     }
 
     public void UnlockWalkSpeed()

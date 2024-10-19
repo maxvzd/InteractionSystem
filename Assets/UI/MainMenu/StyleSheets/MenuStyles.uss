@@ -1,0 +1,45 @@
+.menu-button {
+    background-color: rgba(0, 0, 0, 0.59);
+    color: rgb(255, 255, 255);
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: flex-start;
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Portmanteau%20Regular%20SDF.asset?fileID=11400000&guid=adcea4dc6990f274cb102be9a88ff311&type=2#Portmanteau Regular SDF");
+    -unity-font: url("project://database/Assets/UI/Fonts/Portmanteau%20Regular.ttf?fileID=12800000&guid=40919cb3673ff094ba94c27c5e69f16e&type=3#Portmanteau Regular");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-text-align: upper-left;
+    transition-duration: 0.1s;
+    border-left-color: rgba(77, 77, 77, 0);
+    border-right-color: rgba(77, 77, 77, 0);
+    border-top-color: rgba(77, 77, 77, 0);
+    border-bottom-color: rgba(77, 77, 77, 0);
+    font-size: 33px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.menu-button:hover {
+    background-color: rgba(94, 94, 94, 0.59);
+    transition-duration: 0.1s;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left-width: 10px;
+    border-right-width: 0;
+}
+
+.menu-button:active {
+    background-color: rgba(0, 0, 0, 0.78);
+    color: rgba(255, 255, 255, 0.2);
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    border-left-color: rgb(120, 120, 120);
+    border-right-color: rgb(120, 120, 120);
+    border-top-color: rgb(120, 120, 120);
+    border-bottom-color: rgb(120, 120, 120);
+}

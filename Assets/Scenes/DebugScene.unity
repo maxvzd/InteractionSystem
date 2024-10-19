@@ -15229,6 +15229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
         type: 3}
+      propertyPath: otherLookAtTarget
+      value: 
+      objectReference: {fileID: 1461225487}
+    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
+        type: 3}
       propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[1].inSlope
       value: 0.03373734
       objectReference: {fileID: 0}
@@ -17413,6 +17418,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3953225565936064497, guid: 99076c7461fe43a40872e93f71efdc41,
+        type: 3}
+      propertyPath: otherLookAtTarget
+      value: 
+      objectReference: {fileID: 1461225487}
     - target: {fileID: 4066069219947708532, guid: 99076c7461fe43a40872e93f71efdc41,
         type: 3}
       propertyPath: m_Name

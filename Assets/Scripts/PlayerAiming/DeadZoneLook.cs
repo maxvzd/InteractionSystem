@@ -69,7 +69,7 @@ namespace PlayerAiming
         
             if (!_lockYRotation)
             {
-                rotationX = Input.GetAxis(Constants.MouseY) * sensitivity;
+                rotationX = Input.GetAxis(Constants.InputConstants.MouseY) * sensitivity;
             }
         
             float rotationY = Input.GetAxis("Mouse X") * sensitivity;

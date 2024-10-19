@@ -65,7 +65,7 @@ namespace PlayerAiming
             if (!_gunIsEquipped) return;
 
             Transform cameraTransform = mainCamera.transform;
-            if (Input.GetButtonDown(Constants.Fire2Key))
+            if (Input.GetButtonDown(Constants.InputConstants.Fire2Key))
             {
                 Vector3 targetGunPos = _originalGunPosition + _aimOffset;
                 
@@ -81,7 +81,7 @@ namespace PlayerAiming
                 PlayerAiming?.Invoke(this, EventArgs.Empty);
             }
 
-            if (Input.GetButtonUp(Constants.Fire2Key))
+            if (Input.GetButtonUp(Constants.InputConstants.Fire2Key))
             {
                 cameraTransform.parent = _originalParent;
                 StartAimLerp(cameraTransform,

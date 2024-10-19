@@ -1,4 +1,5 @@
 using System;
+using Constants;
 using UnityEngine;
 
 public class PlayerInteractionSystem : MonoBehaviour
@@ -30,7 +31,7 @@ public class PlayerInteractionSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown(Constants.UseKey))
+        if (Input.GetButtonDown(Constants.InputConstants.UseKey))
         {
             if (_playerOpenDoorSystem.IsHoldingHandle)
             {
@@ -47,18 +48,18 @@ public class PlayerInteractionSystem : MonoBehaviour
             if (!_playerHoldItemSystem.IsHoldingItem)
             {
                 Ray sphereRay = new Ray(basePosition, direction);
-                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, ~LayerMask.GetMask(Constants.LAYER_PLAYER)))
+                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, ~LayerMask.GetMask(LayerConstants.LAYER_PLAYER)))
                 {
                     Debug.DrawRay(basePosition, direction, Color.green, 1f);
 
                     string layer = LayerMask.LayerToName(hit.transform.gameObject.layer);
                     switch (layer)
                     {
-                        case Constants.LAYER_GUN:
-                        case Constants.LAYER_ITEM:
+                        case LayerConstants.LAYER_GUN:
+                        case LayerConstants.LAYER_ITEM:
                             _playerHoldItemSystem.PickupItem(hit.transform);
                             break;
-                        case Constants.LAYER_DOOR:
+                        case LayerConstants.LAYER_DOOR:
                             _playerOpenDoorSystem.OpenDoor(hit.transform);
                             break;
                         default:
@@ -73,7 +74,7 @@ public class PlayerInteractionSystem : MonoBehaviour
             else
             {
                 Ray ray = new Ray(basePosition, direction);
-                if (Physics.Raycast(ray, out RaycastHit hit, distance, LayerMask.GetMask(Constants.LAYER_TERRAIN)))
+                if (Physics.Raycast(ray, out RaycastHit hit, distance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
                 {
                     if (hit.normal == Vector3.up)
                     {

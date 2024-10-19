@@ -48,7 +48,7 @@ public class PlayerClimbing : MonoBehaviour
     {
         if (_motionWarping.IsActive()) return;
 
-        if (Input.GetButtonDown(Constants.JumpKey))
+        if (Input.GetButtonDown(Constants.InputConstants.JumpKey))
         {
             if (_motionWarping.Interact(_vault)) return;
             if (_motionWarping.Interact(_mantle)) return;

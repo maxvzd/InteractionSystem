@@ -22,9 +22,9 @@ public class PlayerLookScript : MonoBehaviour
         
         if (!_lockYRotation)
         {
-             rotationX = Input.GetAxis(Constants.MouseY) * sensitivity;
+             rotationX = Input.GetAxis(Constants.InputConstants.MouseY) * sensitivity;
         }
-        float rotationY = Input.GetAxis(Constants.MouseX) * sensitivity;
+        float rotationY = Input.GetAxis(Constants.InputConstants.MouseX) * sensitivity;
 
         Vector3 lookRotation = objectToRotate.eulerAngles + new Vector3(-rotationX, rotationY, 0);
         lookRotation.x = lookRotation.x > 180 ? lookRotation.x - 360 : lookRotation.x;

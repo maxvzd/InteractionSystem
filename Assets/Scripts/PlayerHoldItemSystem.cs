@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Constants;
 using Items;
 using RootMotion.FinalIK;
 using UnityEngine;
@@ -53,7 +54,7 @@ public class PlayerHoldItemSystem : MonoBehaviour
             _currentlyHeldItem = item;
             _offsetPose = _currentlyHeldItem.GetComponent<OffsetPose>();
             _isHoldingItem = true;
-            _animator.SetBool(Constants.IsHoldingItem, true);
+            _animator.SetBool(AnimatorConstants.IsHoldingItem, true);
 
             StartHoldWeightCoRoutine(1);
         }
@@ -158,7 +159,7 @@ public class PlayerHoldItemSystem : MonoBehaviour
     {
         _currentlyHeldItem.transform.SetParent(null);
         _currentlyHeldItem.GetComponent<Rigidbody>().isKinematic = false;
-        _animator.SetBool(Constants.IsHoldingItem, false);
+        _animator.SetBool(Constants.AnimatorConstants.IsHoldingItem, false);
 
         _currentlyHeldItem.UnEquipItem();
 
