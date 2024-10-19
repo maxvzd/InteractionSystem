@@ -12,7 +12,6 @@ namespace UI.MainMenu
         private UIDocument _uiDocument;
 
         private AudioSource _audioSource;
-        //private Button _playButton;
 
         public void Awake()
         {
