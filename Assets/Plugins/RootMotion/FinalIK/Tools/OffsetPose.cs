@@ -29,8 +29,6 @@ namespace RootMotion.FinalIK
                 Vector3 pinPosition = relativeTo - rotation * pin;
                 Vector3 pinPositionOffset = pinPosition - solver.GetEffector(effector).bone.position;
 
-                Debug.DrawRay(pinPosition, Vector3.up, Color.magenta);
-
                 Vector3 pinWeightVector = pinWeight * Mathf.Abs(weight);
 
                 //Lerping to pinned position
