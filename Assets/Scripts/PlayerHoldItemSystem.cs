@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Constants;
 using Items;
 using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerHoldItemSystem : MonoBehaviour
 {
@@ -20,21 +22,33 @@ public class PlayerHoldItemSystem : MonoBehaviour
 
     private Animator _animator;
     private FullBodyBipedIK _ik;
+    private LookAtIK _lookAtIk;
     private InteractionSystem _interactionSystem;
+
+    private Vector3 _headPosition;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _ik = GetComponent<FullBodyBipedIK>();
+
+        _lookAtIk = GetComponent<LookAtIK>();
+        
         _interactionSystem = GetComponent<InteractionSystem>();
+    }
+
+    private void Update()
+    {
+        if (_offsetPose is null) return;
+        _lookAtIk.solver.head.UpdateSolverState();
+        _headPosition = _lookAtIk.solver.head.solverPosition;
     }
 
     private void LateUpdate()
     {
-        if (_offsetPose is not null)
-        {
-            //_offsetPose.Apply(_ik.solver, _holdWeight, _ik.transform.rotation);
-        }
+        if (_offsetPose is null) return;
+        
+        _offsetPose.Apply(_ik.solver, _holdWeight, transform.rotation, _headPosition);
     }
 
     public void PickupItem(Transform currentlyHeldItem)
@@ -48,9 +62,8 @@ public class PlayerHoldItemSystem : MonoBehaviour
 
         if (_interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, item.InteractionObject, false))
         {
-            
             _interactionSystem.OnInteractionStop += OnInteractionStop;
-            
+
             _currentlyHeldItem = item;
             _offsetPose = _currentlyHeldItem.GetComponent<OffsetPose>();
             _isHoldingItem = true;
@@ -160,8 +173,14 @@ public class PlayerHoldItemSystem : MonoBehaviour
         _currentlyHeldItem.transform.SetParent(null);
         _currentlyHeldItem.GetComponent<Rigidbody>().isKinematic = false;
         _animator.SetBool(Constants.AnimatorConstants.IsHoldingItem, false);
+        Poser rightHandPoser = _ik.solver.rightHandEffector.bone.GetComponent<Poser>();
+        if (rightHandPoser is not null)
+        {
+            rightHandPoser.weight = 0f;
+        }
 
         _currentlyHeldItem.UnEquipItem();
+        _offsetPose = null;
 
         _isHoldingItem = false;
         StartHoldWeightCoRoutine(0);
@@ -172,11 +191,11 @@ public class PlayerHoldItemSystem : MonoBehaviour
         StartPlaceItemCoRoutine(position, placeTime);
     }
 
-    public IEnumerator EquipWeapon()
+    private IEnumerator EquipWeapon()
     {
         //TODO hacky weird way to do this but idk what's changing the weight afterwards
         yield return new WaitForSeconds(1f);
-        
+
         if (_currentlyHeldItem.IsEquippable)
         {
             _currentlyHeldItem.EquipItem(transform);
