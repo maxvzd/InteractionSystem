@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Properties
 {
@@ -8,7 +9,7 @@ namespace Items.Properties
         public Texture2D InteractIcon => interactIcon;
         [SerializeField] private Texture2D interactIcon;
 
-        public string ObjectName => objectName;
-        [SerializeField] private string objectName;
+        public string ItemName => itemName;
+        [FormerlySerializedAs("objectName")] [SerializeField] private string itemName;
     }
 }

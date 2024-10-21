@@ -51,8 +51,8 @@ public class PlayerInteractionSystem : MonoBehaviour
                             if (interactable.Properties is not null)
                             {
                                 _hud.ChangeCrossHair(interactable.Properties.InteractIcon);
+                                _hud.ShowItemName(interactable.Properties.ItemName);
                                 shouldResetCrosshair = false;
-                                
                             }
                         }
                     }
@@ -67,6 +67,7 @@ public class PlayerInteractionSystem : MonoBehaviour
         if (shouldResetCrosshair)
         {
             _hud.ResetCrosshair();
+            _hud.HideItemName();
         }
 
         if (Input.GetButtonDown(InputConstants.UseKey))

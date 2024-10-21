@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="MainGrid" style="flex-grow: 1; align-items: center; align-self: center; justify-content: center; flex-direction: column;">
-        <ui:VisualElement name="CrossHair" style="flex-basis: 15px; width: 15px; height: 15px; background-image: none; -unity-background-image-tint-color: rgba(255, 255, 255, 0.71); align-self: center; justify-content: center;" />
+        <ui:VisualElement name="CrossHair" style="flex-basis: 20px; background-image: none; -unity-background-image-tint-color: rgba(255, 255, 255, 0.71); align-self: center; justify-content: center; cursor: initial; width: 20px; height: 20px;" />
     </ui:VisualElement>
+    <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" style="position: absolute; top: 50%; align-self: center; align-items: center; -unity-text-align: upper-center; -unity-font-style: bold; color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-left-width: 2px; text-shadow: 1px 1px 0 rgb(0, 0, 0); margin-left: 4px; margin-bottom: 4px; padding-right: 4px; padding-left: 4px; margin-top: 10px;" />
 </ui:UXML>
