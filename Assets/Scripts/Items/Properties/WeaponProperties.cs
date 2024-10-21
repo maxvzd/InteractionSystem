@@ -2,7 +2,7 @@
 
 namespace Items.Properties
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "ItemProperties/WeaponProperties")]
     public class WeaponProperties: ItemProperties
     {
         [SerializeField] private float damage;

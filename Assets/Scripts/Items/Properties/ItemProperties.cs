@@ -2,7 +2,7 @@
 
 namespace Items.Properties
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "ItemProperties/ItemProperties")]
     public class ItemProperties : InteractableProperties
     {
         [SerializeField] private string description;
