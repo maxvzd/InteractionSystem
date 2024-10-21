@@ -1,7 +1,7 @@
 ﻿namespace Constants
 {
-    public class SceneConstants
+    public static class SceneConstants
     {
-        public static string DebugScene = "DebugScene";
+        public static string DebugScene => "DebugScene";
     }
 }

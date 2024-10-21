@@ -395,7 +395,7 @@ GameObject:
   - component: {fileID: 7024260000060576461}
   m_Layer: 8
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c97658ce56f4a3cbf5614e3f46913cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEquippable: 1
+  gunProperties: {fileID: 11400000, guid: 49ff50a8471872446a0aa161876e0e13, type: 2}
 --- !u!1 &4091852289767214898
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Constants
+﻿namespace Constants
 {
     public static class InputConstants
     {

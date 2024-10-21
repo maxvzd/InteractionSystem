@@ -1,10 +1,9 @@
 ﻿using GunStuff;
-using PlayerAiming;
 using UnityEngine;
 
 namespace Items
 {
-    public class Pistol : Item
+    public class Pistol : Gun
     {
         private GunEquipper _currentPlayerEquipper;
         

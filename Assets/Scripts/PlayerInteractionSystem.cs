@@ -1,37 +1,75 @@
 using System;
 using Constants;
+using Items;
+using UI.HUD;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 public class PlayerInteractionSystem : MonoBehaviour
 {
-    [SerializeField] private Transform lookAtBase;
-
-    private Transform _lookAtTarget;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float maxInteractDistance;
     private PlayerHoldItemSystem _playerHoldItemSystem;
     private PlayerOpenDoorSystem _playerOpenDoorSystem;
-    
+    private PlayerToHudCommunication _hud;
+    [SerializeField] private UIDocument hudDoc;
+
+    private Transform _currentlyAimedAtTransform;
+
     private void Start()
     {
-        int childCount = lookAtBase.childCount;
-        for (int i = 0; i < childCount; i++)
+        _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
+        _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
+
+        _hud = hudDoc.GetComponent<PlayerToHudCommunication>();
+        hudDoc = null;
+    }
+    
+    private void Update()
+    {
+        bool shouldResetCrosshair = true;
+        if (!_playerHoldItemSystem.IsHoldingItem)
         {
-            Transform child = lookAtBase.GetChild(i);
-            if (child.name == "LookAtTarget")
+            Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
+            Vector3 dir = mainCamera.transform.forward;
+            Ray sphereRay = new Ray(origin, dir);
+            //Debug.DrawRay(origin, dir * maxInteractDistance, Color.green);
+
+            if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, maxInteractDistance, ~LayerMask.GetMask(LayerConstants.LAYER_PLAYER)))
             {
-                _lookAtTarget = child;
-                break;
+                if (_currentlyAimedAtTransform != hit.transform)
+                {
+                    _currentlyAimedAtTransform = hit.transform;
+
+                    if (_currentlyAimedAtTransform.gameObject.CompareTag(TagConstants.Interactable))
+                    {
+                        IInteractable interactable = hit.transform.GetComponent<IInteractable>();
+
+                        if (interactable is not null)
+                        {
+                            if (interactable.Properties is not null)
+                            {
+                                _hud.ChangeCrossHair(interactable.Properties.InteractIcon);
+                                shouldResetCrosshair = false;
+                                
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    shouldResetCrosshair = false;
+                }
             }
         }
 
-        if (ReferenceEquals(_lookAtTarget, null)) throw new Exception("Couldn't find lookAtTarget");
+        if (shouldResetCrosshair)
+        {
+            _hud.ResetCrosshair();
+        }
 
-        _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
-        _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown(Constants.InputConstants.UseKey))
+        if (Input.GetButtonDown(InputConstants.UseKey))
         {
             if (_playerOpenDoorSystem.IsHoldingHandle)
             {
@@ -39,42 +77,28 @@ public class PlayerInteractionSystem : MonoBehaviour
                 return;
             }
             
-            var basePosition = lookAtBase.position;
-            var targetPosition = _lookAtTarget.position;
-
-            Vector3 direction = targetPosition - basePosition;
-            float distance = Vector3.Distance(targetPosition, basePosition);
-
             if (!_playerHoldItemSystem.IsHoldingItem)
             {
-                Ray sphereRay = new Ray(basePosition, direction);
-                if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, distance, ~LayerMask.GetMask(LayerConstants.LAYER_PLAYER)))
+                string layer = LayerMask.LayerToName(_currentlyAimedAtTransform.gameObject.layer);
+                switch (layer)
                 {
-                    Debug.DrawRay(basePosition, direction, Color.green, 1f);
-
-                    string layer = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                    switch (layer)
-                    {
-                        case LayerConstants.LAYER_GUN:
-                        case LayerConstants.LAYER_ITEM:
-                            _playerHoldItemSystem.PickupItem(hit.transform);
-                            break;
-                        case LayerConstants.LAYER_DOOR:
-                            _playerOpenDoorSystem.OpenDoor(hit.transform);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
-                    Debug.DrawRay(basePosition, direction, Color.red, 1f);
+                    case LayerConstants.LAYER_GUN:
+                    case LayerConstants.LAYER_ITEM:
+                        _playerHoldItemSystem.PickupItem(_currentlyAimedAtTransform);
+                        break;
+                    case LayerConstants.LAYER_DOOR:
+                        _playerOpenDoorSystem.OpenDoor(_currentlyAimedAtTransform);
+                        break;
+                    default:
+                        break;
                 }
             }
-            else
+            else 
             {
-                Ray ray = new Ray(basePosition, direction);
-                if (Physics.Raycast(ray, out RaycastHit hit, distance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
+                Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
+                Vector3 dir = mainCamera.transform.forward;
+                Ray ray = new Ray(origin, dir);
+                if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
                 {
                     if (hit.normal == Vector3.up)
                     {

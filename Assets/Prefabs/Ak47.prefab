@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 654960901027022028}
   m_Layer: 8
   m_Name: Ak47
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74e15331bc042f7829953b8fee40026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEquippable: 1
+  gunProperties: {fileID: 11400000, guid: 51f5ff285dce1a644af32ba52071701c, type: 2}
 --- !u!1 &4056424808492808589
 GameObject:
   m_ObjectHideFlags: 0
