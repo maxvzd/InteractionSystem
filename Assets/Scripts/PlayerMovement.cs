@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _shouldLockWalkSpeed;
     private float _lockedWalkSpeedModifier;
     private float _maxMovementSpeed;
+    private float _runModifierBeforeLock;
 
     private const float MAX_MOVEMENT_SPEED = 2f;
     private const float MIN_MOVEMENT_SPEED = 0.5f;
@@ -23,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float verticalInput = Input.GetAxis(Constants.InputConstants.VerticalKey);
-        float horizontalInput = Input.GetAxis(Constants.InputConstants.HorizontalKey);
+        float verticalInput = Input.GetAxis(InputConstants.VerticalKey);
+        float horizontalInput = Input.GetAxis(InputConstants.HorizontalKey);
 
         _runModifier += Input.GetAxis("Mouse ScrollWheel");
         _runModifier = Mathf.Clamp(_runModifier, MIN_MOVEMENT_SPEED, _maxMovementSpeed);
@@ -39,10 +40,12 @@ public class PlayerMovement : MonoBehaviour
     public void UnlockWalkSpeed()
     {
         _maxMovementSpeed = MAX_MOVEMENT_SPEED;
+        _runModifier = _runModifierBeforeLock;
     }
 
     public void ClampMovementSpeedTo(float walkSpeed)
     {
+        _runModifierBeforeLock = _runModifier;
         float maxMovementSpeed = Mathf.Clamp(walkSpeed, MIN_MOVEMENT_SPEED, MAX_MOVEMENT_SPEED);
         _maxMovementSpeed = maxMovementSpeed;
     }
