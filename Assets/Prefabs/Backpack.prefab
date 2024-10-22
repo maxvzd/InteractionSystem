@@ -674,6 +674,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.6654768
       objectReference: {fileID: 0}
@@ -721,6 +736,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.981
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8569495476946148547, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
@@ -987,6 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e053e01c0343e281ada1a09172bf3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equippedPosition: {fileID: 11400000, guid: 44e2c8e2a3add5b4ba6e1a2ac1e91c54, type: 2}
   wearableContainerProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9,
     type: 2}
 --- !u!65 &7682987875460418541

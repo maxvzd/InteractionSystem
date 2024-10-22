@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Items.ItemSlots;
 using Items.Properties;
 using UnityEngine;
 
 namespace Items
 {
-    public abstract class Gun : MonoBehaviour, IInteractable, IEquipabble, IPhysicsItem
+    public abstract class Gun : MonoBehaviour, IInteractable, IWeapon, IPhysicsItem
     {
+        [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
 
         public GunProperties GunProperties => gunProperties;
         public IProperties Properties => gunProperties;
-        public bool IsEquipped { get; protected set; }
-        
-        public abstract void EquipItem(Transform player);
-        public abstract void UnEquipItem();
+        public EquipmentSlot EquipmentSlot => EquipmentSlot.Weapon;
+        public EquippedPosition EquippedPosition => equippedPosition;
+        public abstract WeaponType WeaponType { get; }
 
         public void Start()
         {

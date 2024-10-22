@@ -2,6 +2,7 @@
 using System.Collections;
 using Constants;
 using GunStuff;
+using Items.ItemSlots;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,19 +42,13 @@ namespace PlayerAiming
             _aimAction = _playerInput.actions[InputConstants.AimAction];
         }
 
-        public void EquipGun(GunPositionData posData)
+        public void EquipGun(GunPositionData posData, IEquipabble weaponInfo)
         {
             _gunIsEquipped = true;
             _gunFulcrum = posData.GunFulcrum;
             _rearSight = posData.RearSight;
 
-            _originalGunPosition = posData.GunLocalPosition;
-
-            //Transform currentTransform = transform;
-            // _targetGunPos = _originalGunPosition
-            //                 + currentTransform.up * posData.AimPosition.y
-            //                 + currentTransform.right * posData.AimPosition.x
-            //                 + currentTransform.forward * posData.AimPosition.z;
+            _originalGunPosition = weaponInfo.EquippedPosition.EquippedLocalPosition;
             _aimOffset = posData.AimPosition;
         }
 

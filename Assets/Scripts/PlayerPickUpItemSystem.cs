@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Items;
+using Items.ItemSlots;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -31,11 +32,17 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private Vector3 _heldPosition;
     private Quaternion _heldRotation;
     private Transform _heldSocket;
+    
+    private PlayerWearableEquipment _playerEquipmentSystem;
 
     private void Start()
     {
         _ik = GetComponent<FullBodyBipedIK>();
         _lookAtIk = GetComponent<LookAtIK>();
+        
+        _playerEquipmentSystem = GetComponent<PlayerWearableEquipment>();
+
+        
         _interactionSystem = GetComponent<InteractionSystem>();
         _interactionSystem.OnInteractionStop += OnInteractionStop;
     }
@@ -178,6 +185,8 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
     public void DropItem()
     {
+        if (_currentlyHeldItem is null) return;
+        
         if (_physicsItem is not null)
         {
             _physicsItem.EnablePhysics();
@@ -188,21 +197,26 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         _heldPosition = Vector3.zero;
         _heldRotation = Quaternion.identity;
         _heldSocket = null;
-        
+
+        ResetPoser();
+
+        // if (_equipItem is not null && _equipItem.IsEquipped)
+        // {
+        //     _equipItem.UnEquipItem();
+        // }
+        _offsetPose = null;
+
+        _isHoldingItem = false;
+        StartHoldWeightCoRoutine(0);
+    }
+
+    private void ResetPoser()
+    {
         Poser rightHandPoser = _ik.solver.rightHandEffector.bone.GetComponent<Poser>();
         if (rightHandPoser is not null)
         {
             rightHandPoser.weight = 0f;
         }
-
-        if (_equipItem is not null && _equipItem.IsEquipped)
-        {
-            _equipItem.UnEquipItem();
-        }
-        _offsetPose = null;
-
-        _isHoldingItem = false;
-        StartHoldWeightCoRoutine(0);
     }
 
     public void PlaceItem(Vector3 position, float placeTime)
@@ -212,21 +226,25 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
     public void EquipItem()
     {
-        if (_equipItem is null || _hasItemEquipped) return;
-        
-        _hasItemEquipped = true;
-        _equipItem.EquipItem(transform);
+        if (_equipItem is null || _currentlyHeldItem is null) return;
+
+        if (_playerEquipmentSystem.EquipItem(_equipItem, _currentlyHeldItem))
+        {
+            _currentlyHeldItem = null;
+            _isHoldingItem = false;
+            ResetPoser();
+        }
     }
 
     public void UnEquipItem()
     {
-        if (!_hasItemEquipped || _equipItem is null) return;
-
-        _hasItemEquipped = false;
-        _equipItem.UnEquipItem();
-
-        _currentlyHeldItem.parent = _heldSocket;
-        _currentlyHeldItem.localPosition = _heldPosition;
-        _currentlyHeldItem.localRotation = _heldRotation;
+        // if (!_hasItemEquipped || _equipItem is null) return;
+        //
+        // //_hasItemEquipped = false;
+        // _equipItem.UnEquipItem();
+        //
+        // _currentlyHeldItem.parent = _heldSocket;
+        // _currentlyHeldItem.localPosition = _heldPosition;
+        // _currentlyHeldItem.localRotation = _heldRotation;
     }
 }

@@ -1,31 +1,24 @@
-﻿using Items.Properties;
+﻿using Items.ItemSlots;
+using Items.Properties;
 using UnityEngine;
 
 namespace Items
 {
-    public class WearableContainer : MonoBehaviour, IInteractable, IEquipabble, IPhysicsItem
+    public class WearableContainer : MonoBehaviour, IInteractable, IWearableContainer, IPhysicsItem
     {
+        [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private WearableContainerProperties wearableContainerProperties;
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
         
         public IProperties Properties => wearableContainerProperties;
-        public bool IsEquipped { get; private set; }
+        public EquipmentSlot EquipmentSlot => EquipmentSlot.Back;
+        public EquippedPosition EquippedPosition => equippedPosition;
 
         private void Start()
         {
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
             _colliders = GetComponentsInChildren<Collider>();
-        }
-
-        public void EquipItem(Transform player)
-        {
-            IsEquipped = true;
-        }
-
-        public void UnEquipItem()
-        {
-            IsEquipped = false;
         }
         
         public void EnablePhysics()

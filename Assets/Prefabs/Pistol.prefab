@@ -434,8 +434,6 @@ MonoBehaviour:
   rearSight: {fileID: 577059568686323113}
   actualGun: {fileID: 805206233185246299}
   aimPosition: {x: 0, y: 0.05, z: 0.1}
-  gunLocalPosition: {x: 0, y: 1.359069, z: -0.03803539}
-  gunLocalRotation: {x: 0, y: 180, z: 0}
 --- !u!114 &8359802831818114115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c97658ce56f4a3cbf5614e3f46913cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equippedPosition: {fileID: 11400000, guid: dd65f4cbc51d07944904e9ddeee57cfc, type: 2}
   gunProperties: {fileID: 11400000, guid: 49ff50a8471872446a0aa161876e0e13, type: 2}
 --- !u!1 &4091852289767214898
 GameObject:

@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using Constants;
+﻿using Constants;
+using Items;
+using Items.ItemSlots;
 using PlayerAiming;
 using UnityEngine;
 
@@ -14,8 +15,6 @@ namespace GunStuff
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
-        //private GunPhysicsData _currentlyEquippedPhysicsData;
-
         private Transform _equippedGunTransform;
 
         public bool IsGunEquipped => _isGunEquipped;
@@ -28,80 +27,75 @@ namespace GunStuff
             _deadZoneLook = lookBase.GetComponent<DeadZoneLook>();
         }
 
-        public void UnEquipGun()
-        {
-            _isGunEquipped = false;
+        // public void UnEquipGun()
+        // {
+        //     _isGunEquipped = false;
+        //
+        //     _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
+        //     _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
+        //     _animator.SetBool(AnimatorConstants.IsAiming, false);
+        //
+        //     _aimBehaviour.UnEquipGun();
+        //     _gunHandPlacement.UnEquipGun();
+        //
+        //     _deadZoneLook.UseDeadZone = false;
+        //     //_equippedGunTransform.SetParent(null);
+        //
+        //     //_currentlyEquippedPhysicsData.EnablePhysics();
+        // }
 
-            _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
-            _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
-            _animator.SetBool(AnimatorConstants.IsAiming, false);
+        public bool EquipPistol(Transform gunTransform, IWeapon gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingPistol);
+        
+        public bool EquipRifle(Transform gunTransform, IWeapon gunInfo) => EquipGun(gunTransform, gunInfo,AnimatorConstants.IsHoldingTwoHandedGun);
+        
 
-            _aimBehaviour.UnEquipGun();
-            _gunHandPlacement.UnEquipGun();
-
-            _deadZoneLook.UseDeadZone = false;
-            //_equippedGunTransform.SetParent(null);
-
-            //_currentlyEquippedPhysicsData.EnablePhysics();
-        }
-
-        public void EquipPistol(GameObject gun)
-        {
-            EquipGun(gun, AnimatorConstants.IsHoldingPistol);
-        }
-
-        private void EquipGun(GameObject gun, int animName)
+        private bool EquipGun(Transform gun, IWeapon gunInfo, int animName)
         {
             GunPositionData posData = gun.GetComponent<GunPositionData>();
-            //_currentlyEquippedPhysicsData = gun.GetComponent<GunPhysicsData>();
-
-            //if (posData is not null && _currentlyEquippedPhysicsData is not null)
             if (posData is not null)
             {
                 _isGunEquipped = true;
-                _equippedGunTransform = gun.transform;
+                _equippedGunTransform = gun;
 
                 _equippedGunTransform.SetParent(transform);
                 _animator.SetBool(animName, true);
                 _deadZoneLook.UseDeadZone = true;
-                //_currentlyEquippedPhysicsData.DisablePhysics();
 
                 _gunHandPlacement.EquipGun(posData);
-                _aimBehaviour.EquipGun(posData);
+                _aimBehaviour.EquipGun(posData, gunInfo);
 
-                _equippedGunTransform.localPosition = posData.GunLocalPosition;
-                _equippedGunTransform.localEulerAngles = posData.GunLocalRotation;
+                EquippedPosition equippedPosition = gunInfo.EquippedPosition;
+                _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
+                _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
                 //StartCoroutine(LerpGunToPosition(1f, posData));
-            }
-        }
-
-        public void EquipRifle(GameObject gun)
-        {
-            EquipGun(gun, AnimatorConstants.IsHoldingTwoHandedGun);
-        }
-
-        private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)
-        {
-            float timeElapsed = 0f;
-
-            Vector3 currentPos = _equippedGunTransform.localPosition;
-            //Vector3 currentRot = _equippedGunTransform.localEulerAngles;
-
-            while (timeElapsed < timeToLerp)
-            {
-                float t = timeElapsed / timeToLerp;
-
-                _equippedGunTransform.localPosition = Vector3.Lerp(currentPos, posData.GunLocalPosition, t);
-                //_equippedGunTransform.localEulerAngles = Vector3.Lerp(currentRot, localEuler, t);
-
-                yield return new WaitForEndOfFrame();
-                timeElapsed += Time.deltaTime;
+                return true;
             }
 
-            _equippedGunTransform.localPosition = posData.GunLocalPosition;
-            //_equippedGunTransform.localEulerAngles = localEuler;
-
-            _aimBehaviour.EquipGun(posData);
+            return false;
         }
+
+        // private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)
+        // {
+        //     float timeElapsed = 0f;
+        //
+        //     Vector3 currentPos = _equippedGunTransform.localPosition;
+        //     //Vector3 currentRot = _equippedGunTransform.localEulerAngles;
+        //
+        //     while (timeElapsed < timeToLerp)
+        //     {
+        //         float t = timeElapsed / timeToLerp;
+        //
+        //         _equippedGunTransform.localPosition = Vector3.Lerp(currentPos, posData.GunLocalPosition, t);
+        //         //_equippedGunTransform.localEulerAngles = Vector3.Lerp(currentRot, localEuler, t);
+        //
+        //         yield return new WaitForEndOfFrame();
+        //         timeElapsed += Time.deltaTime;
+        //     }
+        //
+        //     _equippedGunTransform.localPosition = posData.GunLocalPosition;
+        //     //_equippedGunTransform.localEulerAngles = localEuler;
+        //
+        //     _aimBehaviour.EquipGun(posData);
+        // }
     }
 }

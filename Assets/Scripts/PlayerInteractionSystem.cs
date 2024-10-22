@@ -24,7 +24,7 @@ public class PlayerInteractionSystem : MonoBehaviour
     private InputAction _interactAction;
 
     private float _interactHeldTime;
-    
+
     private void Start()
     {
         _pickUpItemSystem = GetComponent<PlayerPickUpItemSystem>();
@@ -109,8 +109,8 @@ public class PlayerInteractionSystem : MonoBehaviour
 
         if (_pickUpItemSystem.IsHoldingItem && interactButtonWasHeld)
         {
-            if (!_pickUpItemSystem.HasItemEquipped)
-            {
+            //if (!_pickUpItemSystem.HasItemEquipped)
+            //{
                 Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
                 Vector3 dir = mainCamera.transform.forward;
                 Ray ray = new Ray(origin, dir);
@@ -124,11 +124,11 @@ public class PlayerInteractionSystem : MonoBehaviour
                     }
                 }
                 _pickUpItemSystem.DropItem();
-            }
-            else
-            {
-                _pickUpItemSystem.UnEquipItem();
-            }
+            //}
+            //else
+            //{
+                //_pickUpItemSystem.UnEquipItem();
+            //}
             
         } 
         else if (interactButtonWasPressed)
@@ -155,7 +155,7 @@ public class PlayerInteractionSystem : MonoBehaviour
             }
             else
             {
-                _pickUpItemSystem.EquipItem();
+               _pickUpItemSystem.EquipItem();
             }
         }
     }
