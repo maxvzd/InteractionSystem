@@ -1,8 +1,10 @@
 ﻿using System;
+using Constants;
 using Kinemation.MotionWarping.Runtime.Core;
 using Kinemation.MotionWarping.Runtime.Examples;
 using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerClimbing : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class PlayerClimbing : MonoBehaviour
     private float _previousBodyWeight;
 
     private Collider _collider;
+    
+    private PlayerInput _playerInput;
+    private InputAction _jumpAction;
 
     public void OnWarpStart()
     {
@@ -42,13 +47,16 @@ public class PlayerClimbing : MonoBehaviour
 
         _grounder = GetComponent<GrounderFBBIK>();
         _lookAtIk = GetComponent<LookAtIK>();
+
+        _playerInput = GetComponent<PlayerInput>();
+        _jumpAction = _playerInput.actions[InputConstants.JumpAction];
     }
 
     private void Update()
     {
         if (_motionWarping.IsActive()) return;
-
-        if (Input.GetButtonDown(Constants.InputConstants.JumpKey))
+        
+        if (_jumpAction.WasPressedThisFrame())
         {
             if (_motionWarping.Interact(_vault)) return;
             if (_motionWarping.Interact(_mantle)) return;

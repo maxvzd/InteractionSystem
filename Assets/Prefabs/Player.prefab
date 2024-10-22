@@ -115,8 +115,9 @@ MonoBehaviour:
   lookAtBase: {fileID: 4193761904476970731}
   aimAtBase: {fileID: 5119021171955202065}
   maxGunAimAngle: 5
-  sensitivity: 1
+  sensitivity: 0.1
   maxVerticalAngle: 60
+  playerInput: {fileID: 0}
 --- !u!114 &6179544007639562764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,6 +1116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3c120980d0a6d42bcb813a442fcda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAccelerationTime: 0.2
 --- !u!114 &3661071366835447277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,7 +1836,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246964068c7b30f41a90bb4d379af06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtBase: {fileID: 4193761904476970731}
+  mainCamera: {fileID: 0}
+  maxInteractDistance: 0
+  hudDoc: {fileID: 0}
 --- !u!114 &1061455986807267722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1861,6 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToLetGoOfDoor: 0.85
+  doorMoveSensitivity: 0.5
 --- !u!114 &7776337434875471961
 MonoBehaviour:
   m_ObjectHideFlags: 0

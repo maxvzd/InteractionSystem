@@ -12,6 +12,7 @@ public class PlayerTurn : MonoBehaviour
 
     private bool _isTurning;
     private Animator _animator;
+    private PlayerMovement _playerMovement;
 
     private void Start()
     {
@@ -20,14 +21,12 @@ public class PlayerTurn : MonoBehaviour
         {
             _isTurning = false;
         };
+        _playerMovement = GetComponent<PlayerMovement>();
     }
     
     private void Update()
     {
-        float verticalInput = Input.GetAxis(InputConstants.VerticalKey);
-        float horizontalInput = Input.GetAxis(InputConstants.HorizontalKey);
-        
-        if (verticalInput > 0 || verticalInput < 0 || horizontalInput > 0 || horizontalInput < 0)
+        if (_playerMovement.IsMoving)
         {
             var currentPosition = transform.position;
             var targetPosition = target.position;
@@ -36,7 +35,6 @@ public class PlayerTurn : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
 
-            
             _isTurning = false;
         }
         else if (!_isTurning)

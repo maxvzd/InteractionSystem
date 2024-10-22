@@ -1,9 +1,8 @@
-using System;
 using Constants;
 using Items;
 using UI.HUD;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class PlayerInteractionSystem : MonoBehaviour
@@ -16,6 +15,8 @@ public class PlayerInteractionSystem : MonoBehaviour
     [SerializeField] private UIDocument hudDoc;
 
     private Transform _currentlyAimedAtTransform;
+    private PlayerInput _playerInput;
+    private InputAction _interactAction;
 
     private void Start()
     {
@@ -24,6 +25,9 @@ public class PlayerInteractionSystem : MonoBehaviour
 
         _hud = hudDoc.GetComponent<PlayerToHudCommunication>();
         hudDoc = null;
+        
+        _playerInput = GetComponent<PlayerInput>();
+        _interactAction = _playerInput.actions[InputConstants.InteractAction];
     }
     
     private void Update()
@@ -70,7 +74,7 @@ public class PlayerInteractionSystem : MonoBehaviour
             _hud.HideItemName();
         }
 
-        if (Input.GetButtonDown(InputConstants.UseKey))
+        if (_interactAction.WasPressedThisFrame())
         {
             if (_playerOpenDoorSystem.IsHoldingHandle)
             {

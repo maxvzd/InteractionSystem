@@ -1,63 +1,71 @@
-﻿using RootMotion.FinalIK;
+﻿using Constants;
+using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerOpenDoorSystem : MonoBehaviour
 {
     public bool IsHoldingHandle => _isHoldingHandle;
-    
+
     private InteractionSystem _interactionSystem;
     private PlayerState _playerState;
     private OpenDoor _currentDoor;
     private bool _isHoldingHandle;
-    
+
     [SerializeField] private float distanceToLetGoOfDoor;
+
+    private PlayerMovement _playerMovement;
+    private PlayerInput _playerInput;
+    private InputAction _lookAction;
+    [SerializeField] private float doorMoveSensitivity;
+    private InputAction _fireAction;
 
     private void Start()
     {
         _interactionSystem = GetComponent<InteractionSystem>();
         _playerState = GetComponent<PlayerState>();
+
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerInput = GetComponent<PlayerInput>();
+        _lookAction = _playerInput.actions[InputConstants.LookAction];
+        _fireAction = _playerInput.actions[InputConstants.FireAction];
     }
 
     public void Update()
     {
         if (!_isHoldingHandle) return;
 
-         float distanceBetweenDoorAndPlayer = CheckDistanceBetweenHandleAndDoor();
+        float distanceBetweenDoorAndPlayer = CheckDistanceBetweenHandleAndDoor();
         if (distanceBetweenDoorAndPlayer > distanceToLetGoOfDoor)
         {
             ReleaseHandle();
             return;
         }
 
-        if (Input.GetButtonDown(Constants.InputConstants.Fire1))
+        if (_fireAction.WasPressedThisFrame())
         {
             _playerState.LockYLookDirection();
             _currentDoor.ChangeHingeLimitsToOpen();
         }
 
-        if (Input.GetButtonDown(Constants.InputConstants.VerticalKey))
+        if (_fireAction.IsPressed())
+        {
+            
+            float mouseVerticalMovement = _lookAction.ReadValue<Vector2>().y;
+            _currentDoor.SetDoorVelocity(mouseVerticalMovement * doorMoveSensitivity);
+        }
+        else if (_playerMovement.IsMovingVertically)
         {
             _currentDoor.ChangeHingeLimitsToOpen();
-        }
-        
-        if (Input.GetButton(Constants.InputConstants.Fire1))
-        {
-            float mouseVerticalMovement = Input.GetAxis(Constants.InputConstants.MouseY);
-            _currentDoor.SetDoorVelocity(mouseVerticalMovement);
-        }
-        else if (Input.GetButton(Constants.InputConstants.VerticalKey))
-        {
-            float verticalAxis = Input.GetAxis(Constants.InputConstants.VerticalKey);
-            _currentDoor.SetDoorVelocity(verticalAxis * 0.5f);
+            _currentDoor.SetDoorVelocity(_playerMovement.CurrentSpeed.y * 0.5f);
         }
         else
         {
             _currentDoor.SetDoorVelocityToZero();
         }
 
-        if (Input.GetButtonUp(Constants.InputConstants.Fire1) || Input.GetButtonUp(Constants.InputConstants.VerticalKey))
+        if (_fireAction.WasReleasedThisFrame())
         {
-            _currentDoor.ChangeHingeLimitsToClosed();
             _playerState.UnlockYLookDirection();
         }
     }
@@ -111,7 +119,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         }
 
         if (!successful) return;
-        
+
         if (_currentDoor is not null)
         {
             _currentDoor.EndInteraction();

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using Constants;
 using GunStuff;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PlayerAiming
 {
@@ -21,6 +23,8 @@ namespace PlayerAiming
         private Vector3 _originalGunPosition;
         private Vector3 _aimOffset;
         private bool _gunIsEquipped;
+        private PlayerInput _playerInput;
+        private InputAction _aimAction;
 
         public event EventHandler<EventArgs> PlayerAiming;
         public event EventHandler<EventArgs> PlayerNotAiming;
@@ -32,6 +36,9 @@ namespace PlayerAiming
             Transform cameraTransform = mainCamera.transform;
             _originalParent = cameraTransform.parent;
             _originalCameraPosition = cameraTransform.localPosition;
+            
+            _playerInput = GetComponent<PlayerInput>();
+            _aimAction = _playerInput.actions[InputConstants.AimAction];
         }
 
         public void EquipGun(GunPositionData posData)
@@ -65,7 +72,7 @@ namespace PlayerAiming
             if (!_gunIsEquipped) return;
 
             Transform cameraTransform = mainCamera.transform;
-            if (Input.GetButtonDown(Constants.InputConstants.Fire2Key))
+            if (_aimAction.WasPressedThisFrame())
             {
                 Vector3 targetGunPos = _originalGunPosition + _aimOffset;
                 
@@ -81,7 +88,7 @@ namespace PlayerAiming
                 PlayerAiming?.Invoke(this, EventArgs.Empty);
             }
 
-            if (Input.GetButtonUp(Constants.InputConstants.Fire2Key))
+            if (_aimAction.WasReleasedThisFrame())
             {
                 cameraTransform.parent = _originalParent;
                 StartAimLerp(cameraTransform,
