@@ -6,5 +6,6 @@ namespace Items
     {
         void EquipItem(Transform player);
         void UnEquipItem();
+        bool IsEquipped { get; }
     }
 }

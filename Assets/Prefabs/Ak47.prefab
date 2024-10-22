@@ -495,13 +495,44 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  - type: 10
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2.906517
+        outSlope: 2.906517
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.036390677
+      - serializedVersion: 3
+        time: 0.5
+        value: 1
+        inSlope: 0.03373734
+        outSlope: 0.03373734
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.035899878
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.0008177319
+        outSlope: 0.0008177319
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.08032501
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   multipliers:
   - curve: 0
     multiplier: 1
     result: 7
-  - curve: 0
-    multiplier: 1
-    result: 10
   events:
   - time: 0.5
     pause: 0

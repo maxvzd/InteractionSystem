@@ -1836,9 +1836,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246964068c7b30f41a90bb4d379af06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  maxInteractDistance: 0
+  mainCamera: {fileID: 3136159229119246486}
+  maxInteractDistance: 1.5
   hudDoc: {fileID: 0}
+  howLongButtonShouldBeHeld: 0.5
 --- !u!114 &1061455986807267722
 MonoBehaviour:
   m_ObjectHideFlags: 0

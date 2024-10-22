@@ -13,11 +13,11 @@ public class PlayerOpenDoorSystem : MonoBehaviour
     private bool _isHoldingHandle;
 
     [SerializeField] private float distanceToLetGoOfDoor;
+    [SerializeField] private float doorMoveSensitivity;
 
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
     private InputAction _lookAction;
-    [SerializeField] private float doorMoveSensitivity;
     private InputAction _fireAction;
 
     private void Start()

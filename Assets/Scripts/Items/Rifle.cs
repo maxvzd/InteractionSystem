@@ -12,10 +12,12 @@ namespace Items
             GameObject gunGameObject = transform.gameObject;
             _currentPlayerEquipper = player.GetComponent<GunEquipper>();
             _currentPlayerEquipper.EquipRifle(gunGameObject);
+            IsEquipped = true;
         }
 
         public override void UnEquipItem()
         {
+            IsEquipped = false;
             _currentPlayerEquipper.UnEquipGun();
             _currentPlayerEquipper = null;
         }

@@ -3004,13 +3004,8 @@ PrefabInstance:
       objectReference: {fileID: 1678612544}
     - target: {fileID: 3710902175569230163, guid: 6cbcf552d4be24f499849bfe166e146a,
         type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 1450008300}
-    - target: {fileID: 3710902175569230163, guid: 6cbcf552d4be24f499849bfe166e146a,
-        type: 3}
-      propertyPath: maxInteractDistance
-      value: 1.5
+      propertyPath: howLongButtonShouldBeHeld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7016624978702988695, guid: 6cbcf552d4be24f499849bfe166e146a,
         type: 3}
@@ -3968,12 +3963,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410725596}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!20 &1450008300 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 3136159229119246486, guid: 6cbcf552d4be24f499849bfe166e146a,
-    type: 3}
-  m_PrefabInstance: {fileID: 949865689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1454651452
 GameObject:
   m_ObjectHideFlags: 0
@@ -4961,44 +4950,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
         type: 3}
-      propertyPath: events.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
       propertyPath: otherLookAtTarget
       value: 
       objectReference: {fileID: 1461225487}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[1].inSlope
-      value: 0.03373734
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[2].inSlope
-      value: -2.1084745
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[1].outSlope
-      value: 0.03373734
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[2].inWeight
-      value: 0.039573908
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[2].outSlope
-      value: -2.1084745
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678144780500895974, guid: 4aba3158019a2bb45951e4c931de366f,
-        type: 3}
-      propertyPath: weightCurves.Array.data[0].curve.m_Curve.Array.data[1].outWeight
-      value: 0.035899878
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

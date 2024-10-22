@@ -1,24 +1,24 @@
 ﻿using System;
 using Items.Properties;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace Items
 {
-    public abstract class Gun : MonoBehaviour, IInteractable, IEquipabble, IPhysicsItem
+    public class Item : MonoBehaviour, IInteractable, IPhysicsItem
     {
-        [SerializeField] private GunProperties gunProperties;
+        [SerializeField] private ItemProperties itemProperties;
+        private InteractionObject _interactionObject;
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
-
-        public GunProperties GunProperties => gunProperties;
-        public IProperties Properties => gunProperties;
-        public bool IsEquipped { get; protected set; }
         
-        public abstract void EquipItem(Transform player);
-        public abstract void UnEquipItem();
+        public InteractionObject InteractionObject => _interactionObject;
+        public ItemProperties ItemProperties => itemProperties;
+        public IProperties Properties => itemProperties;
 
-        public void Start()
+        private void Start()
         {
+            _interactionObject = GetComponent<InteractionObject>();
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
             _colliders = GetComponentsInChildren<Collider>();
         }

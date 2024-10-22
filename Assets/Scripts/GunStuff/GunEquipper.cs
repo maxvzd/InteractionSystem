@@ -8,14 +8,13 @@ namespace GunStuff
     public class GunEquipper : MonoBehaviour
     {
         [SerializeField] private Transform lookBase;
-        [SerializeField] private Transform upperChest;
 
         private bool _isGunEquipped;
         private AimBehaviour _aimBehaviour;
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
-        private GunPhysicsData _currentlyEquippedPhysicsData;
+        //private GunPhysicsData _currentlyEquippedPhysicsData;
 
         private Transform _equippedGunTransform;
 
@@ -40,11 +39,10 @@ namespace GunStuff
             _aimBehaviour.UnEquipGun();
             _gunHandPlacement.UnEquipGun();
 
-
             _deadZoneLook.UseDeadZone = false;
-            _equippedGunTransform.SetParent(null);
+            //_equippedGunTransform.SetParent(null);
 
-            _currentlyEquippedPhysicsData.EnablePhysics();
+            //_currentlyEquippedPhysicsData.EnablePhysics();
         }
 
         public void EquipPistol(GameObject gun)
@@ -55,9 +53,10 @@ namespace GunStuff
         private void EquipGun(GameObject gun, int animName)
         {
             GunPositionData posData = gun.GetComponent<GunPositionData>();
-            _currentlyEquippedPhysicsData = gun.GetComponent<GunPhysicsData>();
+            //_currentlyEquippedPhysicsData = gun.GetComponent<GunPhysicsData>();
 
-            if (posData is not null && _currentlyEquippedPhysicsData is not null)
+            //if (posData is not null && _currentlyEquippedPhysicsData is not null)
+            if (posData is not null)
             {
                 _isGunEquipped = true;
                 _equippedGunTransform = gun.transform;
@@ -65,7 +64,7 @@ namespace GunStuff
                 _equippedGunTransform.SetParent(transform);
                 _animator.SetBool(animName, true);
                 _deadZoneLook.UseDeadZone = true;
-                _currentlyEquippedPhysicsData.DisablePhysics();
+                //_currentlyEquippedPhysicsData.DisablePhysics();
 
                 _gunHandPlacement.EquipGun(posData);
                 _aimBehaviour.EquipGun(posData);

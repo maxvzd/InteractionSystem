@@ -7,33 +7,40 @@ using UnityEngine.UIElements;
 
 public class PlayerInteractionSystem : MonoBehaviour
 {
+    //Serialised Components
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private UIDocument hudDoc;
+    
+    // Serialised Options
     [SerializeField] private float maxInteractDistance;
-    private PlayerHoldItemSystem _playerHoldItemSystem;
+    [SerializeField] private float howLongButtonShouldBeHeld;
+    
+    private PlayerPickUpItemSystem _pickUpItemSystem;
     private PlayerOpenDoorSystem _playerOpenDoorSystem;
     private PlayerToHudCommunication _hud;
-    [SerializeField] private UIDocument hudDoc;
 
     private Transform _currentlyAimedAtTransform;
     private PlayerInput _playerInput;
     private InputAction _interactAction;
 
+    private float _interactHeldTime;
+    
     private void Start()
     {
-        _playerHoldItemSystem = GetComponent<PlayerHoldItemSystem>();
+        _pickUpItemSystem = GetComponent<PlayerPickUpItemSystem>();
         _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
 
         _hud = hudDoc.GetComponent<PlayerToHudCommunication>();
         hudDoc = null;
-        
+
         _playerInput = GetComponent<PlayerInput>();
         _interactAction = _playerInput.actions[InputConstants.InteractAction];
     }
-    
+
     private void Update()
     {
         bool shouldResetCrosshair = true;
-        if (!_playerHoldItemSystem.IsHoldingItem)
+        if (!_pickUpItemSystem.IsHoldingItem)
         {
             Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
             Vector3 dir = mainCamera.transform.forward;
@@ -74,44 +81,81 @@ public class PlayerInteractionSystem : MonoBehaviour
             _hud.HideItemName();
         }
 
+        if (_pickUpItemSystem.IsInInteraction) return;
+        
         if (_interactAction.WasPressedThisFrame())
         {
-            if (_playerOpenDoorSystem.IsHoldingHandle)
+            _interactHeldTime = 0f;
+        }
+
+        if (_interactAction.IsPressed())
+        {
+            if (_interactHeldTime < howLongButtonShouldBeHeld)
             {
-                _playerOpenDoorSystem.ReleaseHandle();
-                return;
+                _interactHeldTime += Time.deltaTime;
             }
-            
-            if (!_playerHoldItemSystem.IsHoldingItem)
+        }
+
+        bool interactButtonWasPressed = false;
+        bool interactButtonWasHeld = false;
+        if (_interactAction.WasReleasedThisFrame())
+        {
+            interactButtonWasPressed = true;
+            if (_interactHeldTime > howLongButtonShouldBeHeld)
             {
-                string layer = LayerMask.LayerToName(_currentlyAimedAtTransform.gameObject.layer);
-                switch (layer)
-                {
-                    case LayerConstants.LAYER_GUN:
-                    case LayerConstants.LAYER_ITEM:
-                        _playerHoldItemSystem.PickupItem(_currentlyAimedAtTransform);
-                        break;
-                    case LayerConstants.LAYER_DOOR:
-                        _playerOpenDoorSystem.OpenDoor(_currentlyAimedAtTransform);
-                        break;
-                    default:
-                        break;
-                }
+                interactButtonWasHeld = true;
             }
-            else 
+        }
+
+        if (_pickUpItemSystem.IsHoldingItem && interactButtonWasHeld)
+        {
+            if (!_pickUpItemSystem.HasItemEquipped)
             {
                 Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
                 Vector3 dir = mainCamera.transform.forward;
                 Ray ray = new Ray(origin, dir);
                 if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
                 {
+                    //TODO: Replace with dot product?
                     if (hit.normal == Vector3.up)
                     {
-                        _playerHoldItemSystem.PlaceItem(hit.point, 0.5f);
+                        _pickUpItemSystem.PlaceItem(hit.point, 0.5f);
                         return;
                     }
                 }
-                _playerHoldItemSystem.DropItem();
+                _pickUpItemSystem.DropItem();
+            }
+            else
+            {
+                _pickUpItemSystem.UnEquipItem();
+            }
+            
+        } 
+        else if (interactButtonWasPressed)
+        {
+            if (_playerOpenDoorSystem.IsHoldingHandle)
+            {
+                _playerOpenDoorSystem.ReleaseHandle();
+                return;
+            }
+
+            if (!_pickUpItemSystem.IsHoldingItem)
+            {
+                string layer = LayerMask.LayerToName(_currentlyAimedAtTransform.gameObject.layer);
+                switch (layer)
+                {
+                    case LayerConstants.LAYER_GUN:
+                    case LayerConstants.LAYER_ITEM:
+                        _pickUpItemSystem.PickupItem(_currentlyAimedAtTransform);
+                        break;
+                    case LayerConstants.LAYER_DOOR:
+                        _playerOpenDoorSystem.OpenDoor(_currentlyAimedAtTransform);
+                        break;
+                }
+            }
+            else
+            {
+                _pickUpItemSystem.EquipItem();
             }
         }
     }

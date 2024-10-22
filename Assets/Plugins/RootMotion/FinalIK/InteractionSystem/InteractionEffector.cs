@@ -348,7 +348,7 @@ namespace RootMotion.FinalIK {
 
 			var rigidbody = interactionObject.targetsRoot.GetComponent<Rigidbody>();
 
-			if (rigidbody != null) {
+			if (rigidbody is not null) {
 				if (!rigidbody.isKinematic) {
 					rigidbody.isKinematic = true;
 				}
@@ -356,7 +356,7 @@ namespace RootMotion.FinalIK {
                 // Ignore collisions between the character and the colliders of the interaction object
                 var rootCollider = root.GetComponent<Collider>();
 
-				if (rootCollider != null) {
+				if (rootCollider is not null) {
 					var colliders = interactionObject.targetsRoot.GetComponentsInChildren<Collider>();
 
 					foreach (Collider collider in colliders) {
@@ -364,8 +364,8 @@ namespace RootMotion.FinalIK {
 					}
 				}
 			}
-				
-			if (interactionSystem.OnInteractionPickUp != null) interactionSystem.OnInteractionPickUp(effectorType, interactionObject);
+
+			interactionSystem.OnInteractionPickUp?.Invoke(effectorType, interactionObject);
 		}
 
 		// Stop the interaction
@@ -377,7 +377,7 @@ namespace RootMotion.FinalIK {
 			TriggerUntriggeredEvents(false, out pickUp, out pause);
 
 			// Reset the interaction target
-			if (interactionTarget != null) interactionTarget.ResetRotation();
+			if (interactionTarget is not null) interactionTarget.ResetRotation();
 
 			// Reset the internal values
 			interactionObject = null;

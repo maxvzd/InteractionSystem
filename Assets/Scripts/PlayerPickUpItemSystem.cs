@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections;
-using Constants;
+﻿using System.Collections;
 using Items;
 using RootMotion.FinalIK;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerHoldItemSystem : MonoBehaviour
+public class PlayerPickUpItemSystem : MonoBehaviour
 {
     public bool IsHoldingItem => _isHoldingItem;
+    public bool HasItemEquipped => _hasItemEquipped;
+    public bool IsInInteraction => _interactionSystem.IsInInteraction(FullBodyBipedEffector.RightHand);
 
     [SerializeField] private Transform rightArmIkTarget;
 
     private Transform _currentlyHeldItem;
     private bool _isHoldingItem;
+    private bool _hasItemEquipped;
+    private IPhysicsItem _physicsItem;
 
     private OffsetPose _offsetPose;
     private float _holdWeight;
@@ -27,11 +28,16 @@ public class PlayerHoldItemSystem : MonoBehaviour
     private Vector3 _headPosition;
     private IEquipabble _equipItem;
 
+    private Vector3 _heldPosition;
+    private Quaternion _heldRotation;
+    private Transform _heldSocket;
+
     private void Start()
     {
         _ik = GetComponent<FullBodyBipedIK>();
         _lookAtIk = GetComponent<LookAtIK>();
         _interactionSystem = GetComponent<InteractionSystem>();
+        _interactionSystem.OnInteractionStop += OnInteractionStop;
     }
 
     private void Update()
@@ -59,24 +65,28 @@ public class PlayerHoldItemSystem : MonoBehaviour
 
         if (_interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false))
         {
-            _interactionSystem.OnInteractionStop += OnInteractionStop;
-
             _currentlyHeldItem = currentlyHeldItem;
             _equipItem = _currentlyHeldItem.GetComponent<IEquipabble>();
-            
             _offsetPose = currentlyHeldItem.GetComponent<OffsetPose>();
+            _physicsItem = currentlyHeldItem.GetComponent<IPhysicsItem>();
+            
+            if (_physicsItem is not null)
+            {
+                _physicsItem.DisablePhysics();
+            }
+            
             _isHoldingItem = true;
-
             StartHoldWeightCoRoutine(1);
         }
     }
 
-    private void OnInteractionStop(FullBodyBipedEffector effectortype, InteractionObject interactionobject)
+    private void OnInteractionStop(FullBodyBipedEffector effectorType, InteractionObject interactionObject)
     {
-        if (effectortype == FullBodyBipedEffector.RightHand)
+        if (_currentlyHeldItem is not null)
         {
-            StartCoroutine(EquipWeapon());
-            _interactionSystem.OnInteractionStop -= OnInteractionStop;
+            _heldPosition = _currentlyHeldItem.localPosition;
+            _heldRotation = _currentlyHeldItem.localRotation;
+            _heldSocket = _currentlyHeldItem.parent;
         }
     }
 
@@ -168,15 +178,24 @@ public class PlayerHoldItemSystem : MonoBehaviour
 
     public void DropItem()
     {
+        if (_physicsItem is not null)
+        {
+            _physicsItem.EnablePhysics();
+        }
+        
         _currentlyHeldItem.transform.SetParent(null);
-        _currentlyHeldItem.GetComponent<Rigidbody>().isKinematic = false;
+        
+        _heldPosition = Vector3.zero;
+        _heldRotation = Quaternion.identity;
+        _heldSocket = null;
+        
         Poser rightHandPoser = _ik.solver.rightHandEffector.bone.GetComponent<Poser>();
         if (rightHandPoser is not null)
         {
             rightHandPoser.weight = 0f;
         }
 
-        if (_equipItem is not null)
+        if (_equipItem is not null && _equipItem.IsEquipped)
         {
             _equipItem.UnEquipItem();
         }
@@ -191,14 +210,23 @@ public class PlayerHoldItemSystem : MonoBehaviour
         StartPlaceItemCoRoutine(position, placeTime);
     }
 
-    private IEnumerator EquipWeapon()
+    public void EquipItem()
     {
-        //TODO hacky weird way to do this but idk what's changing the weight afterwards
-        yield return new WaitForSeconds(1f);
+        if (_equipItem is null || _hasItemEquipped) return;
+        
+        _hasItemEquipped = true;
+        _equipItem.EquipItem(transform);
+    }
 
-        if (_equipItem is not null)
-        {
-            _equipItem.EquipItem(transform);
-        }
+    public void UnEquipItem()
+    {
+        if (!_hasItemEquipped || _equipItem is null) return;
+
+        _hasItemEquipped = false;
+        _equipItem.UnEquipItem();
+
+        _currentlyHeldItem.parent = _heldSocket;
+        _currentlyHeldItem.localPosition = _heldPosition;
+        _currentlyHeldItem.localRotation = _heldRotation;
     }
 }
