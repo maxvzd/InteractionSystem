@@ -1,4 +1,4 @@
-﻿using Items.ItemSlots;
+﻿using Items.ItemInterfaces;
 
 namespace Items
 {

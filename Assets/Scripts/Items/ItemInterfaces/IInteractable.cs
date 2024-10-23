@@ -1,6 +1,6 @@
 ﻿using Items.Properties;
 
-namespace Items
+namespace Items.ItemInterfaces
 {
     public interface IInteractable
     {

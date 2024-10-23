@@ -2,7 +2,7 @@
 using System.Collections;
 using Constants;
 using GunStuff;
-using Items.ItemSlots;
+using Items.ItemInterfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,7 +42,7 @@ namespace PlayerAiming
             _aimAction = _playerInput.actions[InputConstants.AimAction];
         }
 
-        public void EquipGun(GunPositionData posData, IEquipabble weaponInfo)
+        public void EquipGun(GunPositionData posData, IEquippable weaponInfo)
         {
             _gunIsEquipped = true;
             _gunFulcrum = posData.GunFulcrum;

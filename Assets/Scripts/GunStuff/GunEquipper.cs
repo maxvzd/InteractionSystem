@@ -1,6 +1,6 @@
 ﻿using Constants;
 using Items;
-using Items.ItemSlots;
+using Items.ItemInterfaces;
 using PlayerAiming;
 using UnityEngine;
 

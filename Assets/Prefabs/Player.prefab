@@ -1882,7 +1882,7 @@ MonoBehaviour:
   mainCamera: {fileID: 3136159229119246486}
   hudDoc: {fileID: 0}
   maxInteractDistance: 1.5
-  howLongButtonShouldBeHeld: 1
+  howLongButtonShouldBeHeld: 0.5
 --- !u!114 &1061455986807267722
 MonoBehaviour:
   m_ObjectHideFlags: 0

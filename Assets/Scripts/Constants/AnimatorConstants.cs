@@ -11,5 +11,6 @@ namespace Constants
         public static readonly int IsHoldingTwoHandedGun = Animator.StringToHash("IsHoldingTwoHandedGun");
         public static readonly int IsHoldingPistol = Animator.StringToHash("IsHoldingPistol");
         public static readonly int IsAiming = Animator.StringToHash("IsAiming");
+        public static readonly int EquipBackpackTrigger = Animator.StringToHash("EquipBackpackTrigger");
     }
 }

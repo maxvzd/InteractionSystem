@@ -1,6 +1,6 @@
-﻿namespace Items.ItemSlots
+﻿namespace Items.ItemInterfaces
 {
-    public interface IWeapon : IEquipabble
+    public interface IWeapon : IEquippable
     {
         WeaponType WeaponType { get; }
     }

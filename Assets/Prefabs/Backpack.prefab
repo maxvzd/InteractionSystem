@@ -802,6 +802,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4c37a9ff18b219743bb82839dfb0cf2b, type: 2}
+    - target: {fileID: 5866666021909216657, guid: b2e5244563adda34abb9b86352e00996,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7098699751645594745, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
       propertyPath: m_Layer
@@ -1007,6 +1017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e053e01c0343e281ada1a09172bf3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9, type: 2}
   equippedPosition: {fileID: 11400000, guid: 44e2c8e2a3add5b4ba6e1a2ac1e91c54, type: 2}
   wearableContainerProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9,
     type: 2}

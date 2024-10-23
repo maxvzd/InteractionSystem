@@ -1,4 +1,5 @@
-﻿using Items.Properties;
+﻿using Items.ItemInterfaces;
+using Items.Properties;
 using UnityEngine;
 
 namespace Items

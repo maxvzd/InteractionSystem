@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Items.ItemSlots
+﻿namespace Items.ItemInterfaces
 {
-    public interface IEquipabble
+    public interface IEquippable : IItem
     {
         EquipmentSlot EquipmentSlot { get; }
         EquippedPosition EquippedPosition { get; }

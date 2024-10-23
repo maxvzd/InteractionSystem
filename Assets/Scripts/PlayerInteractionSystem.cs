@@ -1,5 +1,6 @@
 using Constants;
 using Items;
+using Items.ItemInterfaces;
 using UI.HUD;
 using UnityEngine;
 using UnityEngine.InputSystem;

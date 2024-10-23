@@ -1,26 +1,27 @@
-﻿using System;
-using Items.Properties;
+﻿using Items.ItemInterfaces;
 using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace Items
 {
-    public class Item : MonoBehaviour, IInteractable, IPhysicsItem
+    public abstract class BaseItem : MonoBehaviour, IItem
     {
-        [SerializeField] private ItemProperties itemProperties;
         private InteractionObject _interactionObject;
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
         
         public InteractionObject InteractionObject => _interactionObject;
-        public ItemProperties ItemProperties => itemProperties;
-        public IProperties Properties => itemProperties;
+        public virtual bool IsEquippable => false;
+        public OffsetPose OffsetPose { get; private set; }
+        public bool HasOffsetPose => OffsetPose is not null;
+        public Transform Transform => transform;
 
         private void Start()
         {
             _interactionObject = GetComponent<InteractionObject>();
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
             _colliders = GetComponentsInChildren<Collider>();
+            OffsetPose = GetComponent<OffsetPose>();
         }
 
         public void EnablePhysics()

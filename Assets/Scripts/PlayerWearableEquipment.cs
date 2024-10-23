@@ -1,6 +1,7 @@
 ﻿using System;
+using Constants;
 using GunStuff;
-using Items.ItemSlots;
+using Items.ItemInterfaces;
 using UnityEngine;
 
 public class PlayerWearableEquipment : MonoBehaviour
@@ -13,12 +14,15 @@ public class PlayerWearableEquipment : MonoBehaviour
     [SerializeField] private Transform backpackSocket;
     private GunEquipper _gunEquipper;
 
+    private Animator _animator;
+
     private void Start()
     {
         _gunEquipper = GetComponent<GunEquipper>();
+        _animator = GetComponent<Animator>();
     }
 
-    public bool  EquipItem(IEquipabble item, Transform itemTransform)
+    public bool  EquipItem(IEquippable item)
     {
         switch (item.EquipmentSlot)
         {
@@ -39,12 +43,12 @@ public class PlayerWearableEquipment : MonoBehaviour
             case EquipmentSlot.Back:
                 IWearableContainer wearableContainer = CastToType<IWearableContainer>(item);
                 if (wearableContainer is null) return false;
-                return EquipItem(wearableContainer, itemTransform);
+                return EquipItem(wearableContainer, item.Transform);
             case EquipmentSlot.Wrist:
                 break;
             case EquipmentSlot.Weapon:
                 IWeapon weapon = CastToType<IWeapon>(item);
-                return EquipItem(weapon, itemTransform);
+                return EquipItem(weapon, item.Transform);
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -57,7 +61,7 @@ public class PlayerWearableEquipment : MonoBehaviour
         
     }
     
-    private T CastToType<T>(IEquipabble itemToCast) where T : IEquipabble
+    private T CastToType<T>(IEquippable itemToCast) where T : IEquippable
     {
         try
         {
@@ -72,6 +76,14 @@ public class PlayerWearableEquipment : MonoBehaviour
     private bool EquipItem(IWearableContainer wearableContainer, Transform itemTransform)
     {
         if (_backpackSlot is not null) return false;
+        
+        _animator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
+        Animator backpackAnimator = itemTransform.GetComponent<Animator>();
+        if (backpackAnimator is not null)
+        {
+            Debug.Log("Found animator");
+            backpackAnimator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
+        }
         
         itemTransform.SetParent(backpackSocket);
         
