@@ -67,6 +67,8 @@ namespace GunStuff
                 EquippedPosition equippedPosition = gunInfo.EquippedPosition;
                 _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
                 _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
+                
+                LayerManager.ChangeLayerOfItem(gun, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
                 //StartCoroutine(LerpGunToPosition(1f, posData));
                 return true;
             }

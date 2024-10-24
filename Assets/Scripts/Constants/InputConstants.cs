@@ -18,5 +18,6 @@
         public static string InteractAction => "Interact";
         public static string AimAction => "Aim";
         public static string FireAction => "Fire";
+        public static string OpenInventoryAction => "OpenInventory";
     }
 }

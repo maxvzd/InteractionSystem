@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace Items.Properties
 {
     [CreateAssetMenu(menuName = "ItemProperties/InteractableProperties")]
-    public class InteractableProperties : ScriptableObject, IProperties
+    public class InteractableProperties : ScriptableObject, IInteractableProperties
     {
         public Texture2D InteractIcon => interactIcon;
         [SerializeField] private Texture2D interactIcon;

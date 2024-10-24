@@ -46,7 +46,7 @@ ModelImporter:
       name: Loot_BackPack_OpenExit
       takeName: Take 001
       internalID: 0
-      firstFrame: 100
+      firstFrame: 110
       lastFrame: 147
       wrapMode: 0
       orientationOffsetY: 0

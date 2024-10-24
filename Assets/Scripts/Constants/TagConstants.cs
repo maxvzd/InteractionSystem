@@ -2,6 +2,7 @@
 {
     public static class TagConstants
     {
-        public static string Interactable => "Interactable";
+        public static string InteractableTag => "Interactable";
+        public static string PlayerTag => "Player";
     }
 }

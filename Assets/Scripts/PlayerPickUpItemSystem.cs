@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Items;
 using Items.ItemInterfaces;
 using RootMotion.FinalIK;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         _playerEquipmentSystem = GetComponent<PlayerWearableEquipment>();
         _interactionSystem = GetComponent<InteractionSystem>();
         _interactionSystem.OnInteractionStop += OnInteractionStop;
-        _currentlyHeldItem = new EmptyHand();
+        _currentlyHeldItem = new EmptyItem();
     }
 
     private void Update()
@@ -177,7 +178,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         UnEquipItem();
         
         _currentlyHeldItem.Transform.SetParent(null);
-        _currentlyHeldItem = new EmptyHand();
+        _currentlyHeldItem = new EmptyItem();
         
         _heldPosition = Vector3.zero;
         _heldRotation = Quaternion.identity;
@@ -208,7 +209,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         IEquippable equippableItem = _currentlyHeldItem as IEquippable;
         if (_playerEquipmentSystem.EquipItem(equippableItem))
         {
-            _currentlyHeldItem = new EmptyHand();
+            _currentlyHeldItem = new EmptyItem();
             ResetPoser();
         }
     }

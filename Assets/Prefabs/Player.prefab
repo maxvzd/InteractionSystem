@@ -1078,6 +1078,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 243938388330078608}
+    - targetCorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7335631756924255985}
     - targetCorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,
         type: 3}
       insertIndex: -1
@@ -1882,7 +1886,6 @@ MonoBehaviour:
   mainCamera: {fileID: 3136159229119246486}
   hudDoc: {fileID: 0}
   maxInteractDistance: 1.5
-  howLongButtonShouldBeHeld: 0.5
 --- !u!114 &1061455986807267722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2206,6 +2209,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backpackSocket: {fileID: 7370169024874419861}
+--- !u!114 &7335631756924255985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5645015958737254630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d25efc0aadc4045b091c650e33af254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 0}
 --- !u!1 &5645015958737254688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,

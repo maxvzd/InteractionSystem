@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e16ad3927344eba3e89948c295141d, type: 3}
   m_Name: M9
   m_EditorClassIdentifier: 
-  equippedLocalPosition: {x: 0, y: 1.359, z: 0.1}
+  equippedLocalPosition: {x: 0, y: 1.2, z: 0.1}
   equippedLocalRotation: {x: 0, y: 180, z: -0.038}

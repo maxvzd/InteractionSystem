@@ -7,6 +7,6 @@ namespace Items
     public class Interactable : MonoBehaviour, IInteractable
     {
         [SerializeField] private InteractableProperties interactableProperties;
-        public IProperties Properties => interactableProperties;
+        public IInteractableProperties Properties => interactableProperties;
     }
 }

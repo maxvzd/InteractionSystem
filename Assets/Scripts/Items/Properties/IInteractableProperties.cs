@@ -2,7 +2,7 @@
 
 namespace Items.Properties
 {
-    public interface IProperties
+    public interface IInteractableProperties
     {
         Texture2D InteractIcon { get; }
         string ItemName { get; }

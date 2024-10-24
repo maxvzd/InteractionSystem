@@ -1,4 +1,5 @@
 ﻿using Items.ItemInterfaces;
+using Items.Properties;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -15,8 +16,10 @@ namespace Items
         public OffsetPose OffsetPose { get; private set; }
         public bool HasOffsetPose => OffsetPose is not null;
         public Transform Transform => transform;
+        public abstract IItemProperties ItemProperties { get; }
+        public abstract IInteractableProperties Properties { get; }
 
-        private void Start()
+        protected virtual void Start()
         {
             _interactionObject = GetComponent<InteractionObject>();
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
@@ -33,5 +36,6 @@ namespace Items
         {
             PhysicsManager.Disable(_rigidBodies, _colliders);
         }
+
     }
 }

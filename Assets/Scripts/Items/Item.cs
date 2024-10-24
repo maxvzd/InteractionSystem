@@ -7,7 +7,7 @@ namespace Items
     public class Item : BaseItem, IInteractable
     {
         [SerializeField] private ItemProperties itemProperties;
-        public ItemProperties ItemProperties => itemProperties;
-        public virtual IProperties Properties => itemProperties;
+        public override IItemProperties ItemProperties => itemProperties;
+        public override IInteractableProperties Properties => itemProperties;
     }
 }

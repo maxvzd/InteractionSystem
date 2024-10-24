@@ -4,6 +4,6 @@ namespace Items.ItemInterfaces
 {
     public interface IInteractable
     {
-        IProperties Properties { get; }
+        IInteractableProperties Properties { get; }
     }
 }

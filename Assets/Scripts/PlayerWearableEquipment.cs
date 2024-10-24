@@ -6,14 +6,18 @@ using UnityEngine;
 
 public class PlayerWearableEquipment : MonoBehaviour
 {
+    public bool IsBackpackEquipped => _backpackSlot != null;
+    public IWearableContainer Backpack => _backpackSlot;
+
+    //[SerializeField] private UIDocument inventoryUI;
+    [SerializeField] private Transform backpackSocket;
+
     //Slots 
     private IWearableContainer _backpackSlot;
     private IWeapon _rightHandWeaponSlot;
-    
-    
-    [SerializeField] private Transform backpackSocket;
-    private GunEquipper _gunEquipper;
 
+    //Player components
+    private GunEquipper _gunEquipper;
     private Animator _animator;
 
     private void Start()
@@ -22,7 +26,7 @@ public class PlayerWearableEquipment : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public bool  EquipItem(IEquippable item)
+    public bool EquipItem(IEquippable item)
     {
         switch (item.EquipmentSlot)
         {
@@ -43,7 +47,7 @@ public class PlayerWearableEquipment : MonoBehaviour
             case EquipmentSlot.Back:
                 IWearableContainer wearableContainer = CastToType<IWearableContainer>(item);
                 if (wearableContainer is null) return false;
-                return EquipItem(wearableContainer, item.Transform);
+                return EquipItem(wearableContainer);
             case EquipmentSlot.Wrist:
                 break;
             case EquipmentSlot.Weapon:
@@ -58,9 +62,8 @@ public class PlayerWearableEquipment : MonoBehaviour
 
     public void UnEquipItem(EquipmentSlot slot)
     {
-        
     }
-    
+
     private T CastToType<T>(IEquippable itemToCast) where T : IEquippable
     {
         try
@@ -73,20 +76,20 @@ public class PlayerWearableEquipment : MonoBehaviour
         }
     }
 
-    private bool EquipItem(IWearableContainer wearableContainer, Transform itemTransform)
+    private bool EquipItem(IWearableContainer wearableContainer)
     {
         if (_backpackSlot is not null) return false;
-        
+
         _animator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
+        Transform itemTransform = wearableContainer.Transform;
         Animator backpackAnimator = itemTransform.GetComponent<Animator>();
         if (backpackAnimator is not null)
         {
-            Debug.Log("Found animator");
             backpackAnimator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
         }
-        
+
         itemTransform.SetParent(backpackSocket);
-        
+        LayerManager.ChangeLayerOfItem(itemTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
         _backpackSlot = wearableContainer;
         itemTransform.localPosition = wearableContainer.EquippedPosition.EquippedLocalPosition;
         itemTransform.localEulerAngles = wearableContainer.EquippedPosition.EquippedLocalRotation;
@@ -118,6 +121,6 @@ public enum EquipmentSlot
     Face, //masks
     Back, //backpacks
     Wrist, //watches
-    
+
     Weapon,
 }
