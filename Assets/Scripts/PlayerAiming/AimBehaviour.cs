@@ -4,6 +4,7 @@ using Constants;
 using GunStuff;
 using Items.ItemInterfaces;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace PlayerAiming
@@ -12,7 +13,9 @@ namespace PlayerAiming
     {
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
-
+        [SerializeField] private UnityEvent playerAiming;
+        [SerializeField] private UnityEvent playerNotAiming;
+        
         private Transform _rearSight;
         private Transform _gunFulcrum;
 
@@ -26,10 +29,7 @@ namespace PlayerAiming
         private bool _gunIsEquipped;
         private PlayerInput _playerInput;
         private InputAction _aimAction;
-
-        public event EventHandler<EventArgs> PlayerAiming;
-        public event EventHandler<EventArgs> PlayerNotAiming;
-
+        
         private void Start()
         {
             _originalFOV = mainCamera.fieldOfView;
@@ -80,7 +80,7 @@ namespace PlayerAiming
                     40,
                     0.2f);
 
-                PlayerAiming?.Invoke(this, EventArgs.Empty);
+                playerAiming.Invoke();
             }
 
             if (_aimAction.WasReleasedThisFrame())
@@ -93,7 +93,7 @@ namespace PlayerAiming
                     _originalFOV,
                     0.2f);
 
-                PlayerNotAiming?.Invoke(this, EventArgs.Empty);
+                playerNotAiming.Invoke();
             }
 
             Quaternion lookAtRotation = Quaternion.LookRotation(_gunFulcrum.position - aimTarget.position);

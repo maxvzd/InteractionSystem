@@ -1913,6 +1913,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceToLetGoOfDoor: 0.85
   doorMoveSensitivity: 0.5
+  lockYDirection:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: LockYDirection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  unlockYDirection:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: UnlockYDirection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerInteractingWithDoor:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1444973590247671098}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: ClampMovementSpeedTo
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerNoLongerInteractingWithDoor:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1444973590247671098}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: UnlockWalkSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7776337434875471961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1925,7 +1985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1445133d10435cb0e1238aa9c5a74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLookBehaviour: {fileID: 1349432885391015607}
 --- !u!114 &8883178332065833975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,6 +1999,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimTarget: {fileID: 8276594933313107463}
   mainCamera: {fileID: 3136159229119246486}
+  playerAiming:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: OnPlayerAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerNotAiming:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: OnPlayerNotAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &877809587151797015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,6 +2313,36 @@ MonoBehaviour:
   inventoryUI: {fileID: 0}
   inventoryItemVisualTemplate: {fileID: 9197481963319205126, guid: 9ee330c0e9fc58943b113650e641bfbf,
     type: 3}
+  uiShown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: LockCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  uiHidden:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349432885391015607}
+        m_TargetAssemblyTypeName: PlayerAiming.DeadZoneLook, Assembly-CSharp
+        m_MethodName: UnlockCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5645015958737254688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,

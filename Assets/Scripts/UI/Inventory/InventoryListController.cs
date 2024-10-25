@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items.ItemInterfaces;
 using Items.UITemplates;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UI.Inventory
@@ -18,9 +17,7 @@ namespace UI.Inventory
         {
             foreach (IItem item in items)
             {
-                var fuck = new UIItemModel(item);
-                _inventoryItems.Add(fuck);
-                Debug.Log($"Creating item for: {fuck.Name}");
+                _inventoryItems.Add(new UIItemModel(item));
             }
 
             _inventoryItemTemplate = listElementTemplate;

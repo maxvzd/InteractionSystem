@@ -1,20 +1,24 @@
 ﻿using Constants;
 using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerOpenDoorSystem : MonoBehaviour
 {
     public bool IsHoldingHandle => _isHoldingHandle;
 
-    private InteractionSystem _interactionSystem;
-    private PlayerState _playerState;
-    private OpenDoor _currentDoor;
-    private bool _isHoldingHandle;
-
     [SerializeField] private float distanceToLetGoOfDoor;
     [SerializeField] private float doorMoveSensitivity;
-
+    [SerializeField] private UnityEvent lockYDirection; 
+    [SerializeField] private UnityEvent unlockYDirection;
+    private UnityEvent<float> _playerInteractingWithDoor;
+    private UnityEvent _playerNoLongerInteractingWithDoor;
+    
+    private InteractionSystem _interactionSystem;
+    private OpenDoor _currentDoor;
+    private bool _isHoldingHandle;
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
     private InputAction _lookAction;
@@ -23,12 +27,15 @@ public class PlayerOpenDoorSystem : MonoBehaviour
     private void Start()
     {
         _interactionSystem = GetComponent<InteractionSystem>();
-        _playerState = GetComponent<PlayerState>();
-
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
         _lookAction = _playerInput.actions[InputConstants.LookAction];
         _fireAction = _playerInput.actions[InputConstants.FireAction];
+
+        _playerInteractingWithDoor = new UnityEvent<float>();
+        _playerNoLongerInteractingWithDoor = new UnityEvent();
+        _playerInteractingWithDoor.AddListener(_playerMovement.ClampMovementSpeedTo);
+        _playerNoLongerInteractingWithDoor.AddListener(_playerMovement.UnlockWalkSpeed);
     }
 
     public void Update()
@@ -44,7 +51,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
 
         if (_fireAction.WasPressedThisFrame())
         {
-            _playerState.LockYLookDirection();
+            lockYDirection.Invoke();
             _currentDoor.ChangeHingeLimitsToOpen();
         }
 
@@ -66,7 +73,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
 
         if (_fireAction.WasReleasedThisFrame())
         {
-            _playerState.UnlockYLookDirection();
+            unlockYDirection.Invoke();
         }
     }
 
@@ -89,7 +96,7 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         if (ReferenceEquals(_currentDoor, null)) return;
 
         _isHoldingHandle = true;
-        _playerState.ClampMovementSpeed(0.7f);
+        _playerInteractingWithDoor.Invoke(0.7f);
 
         if (Vector3.Dot((door.position - transform.position).normalized, door.right) < 0)
         {
@@ -126,8 +133,8 @@ public class PlayerOpenDoorSystem : MonoBehaviour
         }
 
         _isHoldingHandle = false;
-        _playerState.UnlockYLookDirection();
+        unlockYDirection.Invoke();
         _currentDoor = null;
-        _playerState.UnlockWalkSpeed();
+        _playerNoLongerInteractingWithDoor.Invoke();
     }
 }

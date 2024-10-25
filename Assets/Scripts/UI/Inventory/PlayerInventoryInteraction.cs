@@ -3,8 +3,11 @@ using System.Linq;
 using Constants;
 using Items.ItemInterfaces;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 namespace UI.Inventory
 {
@@ -21,6 +24,9 @@ namespace UI.Inventory
         //private HoldInputButton _heldChecker;
         private float _buttonHeldTime;
         private bool _uiIsHidden;
+
+        public UnityEvent uiShown;
+        public UnityEvent uiHidden;
 
         private void Start()
         {
@@ -63,14 +69,21 @@ namespace UI.Inventory
         private void HideUI()
         {
             if (_uiIsHidden) return;
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.None;
             _uiIsHidden = true;
+            uiHidden.Invoke();
         }
 
         private void ShowUI()
         {
             if (!_uiIsHidden) return;
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
 
             IReadOnlyList<IItem> items = _equipment.IsBackpackEquipped ? _equipment.Backpack.Inventory : new List<IItem>(); 
             
@@ -79,6 +92,7 @@ namespace UI.Inventory
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
             _uiIsHidden = false;
+            uiShown.Invoke();
         }
     
         private void Update()

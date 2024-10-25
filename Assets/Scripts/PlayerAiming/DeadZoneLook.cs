@@ -7,19 +7,19 @@ namespace PlayerAiming
 {
     public class DeadZoneLook : MonoBehaviour
     {
+        public bool UseDeadZone { get; set; }
+        
         [SerializeField] private Transform lookAtBase;
         [SerializeField] private Transform aimAtBase;
-
         [SerializeField] private float maxGunAimAngle;
         [SerializeField] private float sensitivity;
         [SerializeField] private float maxVerticalAngle;
-        private IEnumerator _lerpAimToLookCoRoutine;
-
-        private bool _lockVerticalRotation;
         [SerializeField] private PlayerInput playerInput;
+        
+        private IEnumerator _lerpAimToLookCoRoutine;
+        private bool _isVericalRotationLocked;
         private InputAction _lookAction;
-
-        public bool UseDeadZone { get; set; } = false;
+        private bool _isCameraLocked;
 
         private void Start()
         {
@@ -31,11 +31,13 @@ namespace PlayerAiming
         
         private void Update()
         {
+            if (_isCameraLocked) return;
+            
             Vector2 mouseDelta = _lookAction.ReadValue<Vector2>() * sensitivity;
             float verticalRotation = -mouseDelta.y;
             float horizontalRotation = mouseDelta.x;
             
-            if (_lockVerticalRotation)
+            if (_isVericalRotationLocked)
             {
                 verticalRotation = 0f;
             }
@@ -82,19 +84,6 @@ namespace PlayerAiming
             return angle > 180 ? angle - 360 : angle;
         }
         
-        
-        
-        public void LerpAimToLook()
-        {
-            if (_lerpAimToLookCoRoutine is not null)
-            {
-                StopCoroutine(_lerpAimToLookCoRoutine);
-            }
-
-            _lerpAimToLookCoRoutine = LerpAimToLookCoroutine();
-            StartCoroutine(_lerpAimToLookCoRoutine);
-        }
-
         private IEnumerator LerpAimToLookCoroutine()
         {
             float timeElapsed = 0f;
@@ -113,15 +102,47 @@ namespace PlayerAiming
 
             aimAtBase.eulerAngles = lookAtBase.eulerAngles;
         }
+
+        public void OnPlayerAiming()
+        {
+            LerpAimToLook();
+            UseDeadZone = false;
+        }
+
+        public void OnPlayerNotAiming()
+        {
+            UseDeadZone = true;
+        }
+        
+        private void LerpAimToLook()
+        {
+            if (_lerpAimToLookCoRoutine is not null)
+            {
+                StopCoroutine(_lerpAimToLookCoRoutine);
+            }
+
+            _lerpAimToLookCoRoutine = LerpAimToLookCoroutine();
+            StartCoroutine(_lerpAimToLookCoRoutine);
+        }
         
         public void UnlockYDirection()
         {
-            _lockVerticalRotation = false;
+            _isVericalRotationLocked = false;
         }
 
         public void LockYDirection()
         {
-            _lockVerticalRotation = true;
+            _isVericalRotationLocked = true;
+        }
+
+        public void LockCamera()
+        {
+            _isCameraLocked = true;
+        }
+
+        public void UnlockCamera()
+        {
+            _isCameraLocked = false;
         }
     }
 }
