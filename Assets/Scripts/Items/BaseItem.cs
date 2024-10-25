@@ -1,5 +1,6 @@
 ﻿using Items.ItemInterfaces;
 using Items.Properties;
+using Items.UITemplates;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace Items
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
         
+        [SerializeField] private UIItemProperties uiProperties;
+        
         public InteractionObject InteractionObject => _interactionObject;
         public virtual bool IsEquippable => false;
         public OffsetPose OffsetPose { get; private set; }
@@ -18,6 +21,7 @@ namespace Items
         public Transform Transform => transform;
         public abstract IItemProperties ItemProperties { get; }
         public abstract IInteractableProperties Properties { get; }
+        public IUIItemProperties UIProperties => uiProperties;
 
         protected virtual void Start()
         {

@@ -1,5 +1,6 @@
 ﻿using Items.ItemInterfaces;
 using Items.Properties;
+using Items.UITemplates;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -28,5 +29,6 @@ namespace Items
         public bool IsEmpty => true;
         public IInteractableProperties Properties => new EmptyProperties();
         public IItemProperties ItemProperties => null;
+        public IUIItemProperties UIProperties => null;
     }
 }

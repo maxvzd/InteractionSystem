@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Items
 {
-    public class Item : BaseItem, IInteractable
+    public class Item : BaseItem
     {
         [SerializeField] private ItemProperties itemProperties;
         public override IItemProperties ItemProperties => itemProperties;

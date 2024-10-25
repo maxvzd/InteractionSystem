@@ -17,6 +17,8 @@ namespace UI.HUD
             
             _crossHairElement = _uiDocument.rootVisualElement.Q<VisualElement>(UiConstants.CrossHair);
             _itemNameLabel = _uiDocument.rootVisualElement.Q<Label>(UiConstants.ItemNameLabel);
+
+            Hide();
         }
 
         private void ChangeCrossHair(Texture2D texture)

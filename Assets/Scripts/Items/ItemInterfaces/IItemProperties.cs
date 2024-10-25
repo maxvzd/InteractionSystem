@@ -2,9 +2,8 @@
 
 namespace Items.ItemInterfaces
 {
-    public interface IItemProperties
+    public interface IItemProperties : IInteractableProperties
     {
-        string Description { get; }
         float Weight { get; }
         float Volume { get; }
     }
