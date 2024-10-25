@@ -23,12 +23,13 @@ namespace Items
             CurrentVolume = 0f;
         }
         
-        public bool AddItem(IItem itemToAdd)
+        public AddItemToBackpackResult AddItem(IItem itemToAdd)
         {
-            if (itemToAdd.ItemProperties.Volume + CurrentVolume > VolumeLimit || itemToAdd.ItemProperties.Weight + CurrentWeight > WeightLimit) return false;
-                
+            if (itemToAdd.ItemProperties.Volume + CurrentVolume > VolumeLimit) return AddItemToBackpackResult.TooMuchVolume;
+            if (itemToAdd.ItemProperties.Weight + CurrentWeight > WeightLimit) return AddItemToBackpackResult.TooMuchWeight;
+
             _inventory.Add(itemToAdd);
-            return true;
+            return AddItemToBackpackResult.Succeeded;
         }
 
         public bool RemoveItem(IItem itemToAdd)

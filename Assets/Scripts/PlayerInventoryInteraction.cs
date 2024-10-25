@@ -1,4 +1,5 @@
 ﻿using Constants;
+using Items.ItemInterfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -9,9 +10,10 @@ public class PlayerInventoryInteraction : MonoBehaviour
     
     private PlayerWearableEquipment _equipment;
     private InputAction _openInventoryAction;
+    private InputAction _closeInventoryAction;
     private Animator _animator;
     private bool _isBackpackOut;
-    private HoldInputButton _heldChecker;
+    //private HoldInputButton _heldChecker;
     private float _buttonHeldTime;
     private bool _uiIsHidden;
 
@@ -21,9 +23,10 @@ public class PlayerInventoryInteraction : MonoBehaviour
         _equipment = GetComponent<PlayerWearableEquipment>();
         PlayerInput input = GetComponent<PlayerInput>();
         _openInventoryAction = input.actions[InputConstants.OpenInventoryAction];
+        _closeInventoryAction = input.actions[InputConstants.CloseInventoryAction];
 
         _animator = GetComponent<Animator>();
-        _heldChecker = new HoldInputButton();
+        //_heldChecker = new HoldInputButton();
 
         HideUI();
     }
@@ -70,28 +73,23 @@ public class PlayerInventoryInteraction : MonoBehaviour
     
     private void Update()
     {
-        HeldButtonDetails heldDetails = _heldChecker.CheckForButtonHold(_openInventoryAction, Time.deltaTime);
+        //HeldButtonDetails heldDetails = _heldChecker.CheckForButtonHold(_openInventoryAction, Time.deltaTime);
 
-        if (heldDetails.WasButtonHeld)
+        if (_closeInventoryAction.WasPerformedThisFrame())
         {
             if (_isBackpackOut)
             {
                 PutBackpackAway();
             }
             HideUI();
-            return;
         }
-        
-        if (heldDetails.WasButtonPressed)
+        else if (_openInventoryAction.WasPerformedThisFrame())
         {
-            
             if (!_isBackpackOut && _equipment.IsBackpackEquipped)
             {
                 GetBackpackOut();
-                return;
             }
-            
-            if (!_uiIsHidden)
+            else if (!_uiIsHidden)
             {
                 HideUI();
             }
@@ -100,6 +98,16 @@ public class PlayerInventoryInteraction : MonoBehaviour
                 ShowUI();
             }
         }
-        
+
+    }
+
+    public AddItemToBackpackResult AddItemToInventory(IItem item)
+    {
+        if (_isBackpackOut)
+        {
+            return _equipment.Backpack.AddItem(item);
+        }
+
+        return AddItemToBackpackResult.BackpackIsNotOut;
     }
 }

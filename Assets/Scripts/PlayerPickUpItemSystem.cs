@@ -8,6 +8,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 {
     public bool IsHoldingItem => !_currentlyHeldItem.IsEmpty;
     public bool IsInInteraction => _interactionSystem.IsInInteraction(FullBodyBipedEffector.RightHand);
+    public bool IsItemEquippable => _currentlyHeldItem.IsEquippable;
 
     [SerializeField] private Transform rightArmIkTarget;
 
@@ -26,15 +27,18 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private Vector3 _heldPosition;
     private Quaternion _heldRotation;
     private Transform _heldSocket;
-    
+
     private PlayerWearableEquipment _playerEquipmentSystem;
+    private PlayerInventoryInteraction _playerInventory;
 
     private void Start()
     {
         _ik = GetComponent<FullBodyBipedIK>();
         _lookAtIk = GetComponent<LookAtIK>();
-        
+
         _playerEquipmentSystem = GetComponent<PlayerWearableEquipment>();
+        _playerInventory = GetComponent<PlayerInventoryInteraction>();
+
         _interactionSystem = GetComponent<InteractionSystem>();
         _interactionSystem.OnInteractionStop += OnInteractionStop;
         _currentlyHeldItem = new EmptyItem();
@@ -43,7 +47,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private void Update()
     {
         if (_currentlyHeldItem.IsEmpty) return;
-        
+
         _lookAtIk.solver.head.UpdateSolverState();
         _headPosition = _lookAtIk.solver.head.solverPosition;
     }
@@ -51,7 +55,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private void LateUpdate()
     {
         if (!_currentlyHeldItem.HasOffsetPose) return;
-        
+
         _currentlyHeldItem.OffsetPose.Apply(_ik.solver, _holdWeight, transform.rotation, _headPosition);
     }
 
@@ -68,7 +72,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         {
             _currentlyHeldItem = currentlyHeldItem.GetComponent<IItem>();
             _currentlyHeldItem.DisablePhysics();
-            
+
             StartHoldWeightCoRoutine(1);
         }
     }
@@ -172,14 +176,14 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     public void DropItem()
     {
         if (_currentlyHeldItem.IsEmpty) return;
-        
+
         _currentlyHeldItem.EnablePhysics();
-        
+
         UnEquipItem();
-        
+
         _currentlyHeldItem.Transform.SetParent(null);
         _currentlyHeldItem = new EmptyItem();
-        
+
         _heldPosition = Vector3.zero;
         _heldRotation = Quaternion.identity;
         _heldSocket = null;
@@ -224,5 +228,17 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         // _currentlyHeldItem.parent = _heldSocket;
         // _currentlyHeldItem.localPosition = _heldPosition;
         // _currentlyHeldItem.localRotation = _heldRotation;
+    }
+
+    public AddItemToBackpackResult TryAddItemToBackpack()
+    {
+        if (!IsHoldingItem) return AddItemToBackpackResult.NoItemInHand;
+        
+        AddItemToBackpackResult result = _playerInventory.AddItemToInventory(_currentlyHeldItem);
+        if (result != AddItemToBackpackResult.Succeeded) return result;
+        
+        Destroy(_currentlyHeldItem.Transform.gameObject);
+        _currentlyHeldItem = new EmptyItem();
+        return AddItemToBackpackResult.Succeeded;
     }
 }

@@ -37,7 +37,7 @@ namespace Items
             _container = new Container(volumeLimit, weightLimit);
         }
         
-        public bool AddItem(IItem itemToAdd) => _container.AddItem(itemToAdd);
+        public AddItemToBackpackResult AddItem(IItem itemToAdd) => _container.AddItem(itemToAdd);
         public bool RemoveItem(IItem itemToAdd) =>_container.RemoveItem(itemToAdd);
     }
 }

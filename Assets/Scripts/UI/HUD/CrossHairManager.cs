@@ -1,4 +1,5 @@
 using Constants;
+using Items.ItemInterfaces;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,8 +9,6 @@ namespace UI.HUD
     {
         private UIDocument _uiDocument;
         private VisualElement _crossHairElement;
-
-        private bool _isCustomCrosshair;
         private Label _itemNameLabel;
 
         private void Start()
@@ -18,36 +17,25 @@ namespace UI.HUD
             
             _crossHairElement = _uiDocument.rootVisualElement.Q<VisualElement>(UiConstants.CrossHair);
             _itemNameLabel = _uiDocument.rootVisualElement.Q<Label>(UiConstants.ItemNameLabel);
-            _itemNameLabel.visible = false;
-            //_itemNameLabel.style.borderLeftWidth = 0f;
         }
 
-        public void ChangeCrossHair(Texture2D texture)
+        private void ChangeCrossHair(Texture2D texture)
         {
             StyleBackground background = _crossHairElement.style.backgroundImage;
             background.value = Background.FromTexture2D(texture);
             _crossHairElement.style.backgroundImage = background;
-            _isCustomCrosshair = true;
         }
 
-        public void ShowItemName(string itemName)
+        public void ShowCrossHair(IInteractable itemToShow)
         {
-            _itemNameLabel.text = itemName;
-            _itemNameLabel.visible = true;
+            _itemNameLabel.text = itemToShow.Properties.ItemName;
+            ChangeCrossHair(itemToShow.Properties.InteractIcon);
+            _uiDocument.rootVisualElement.style.display = DisplayStyle.Flex;
         }
 
-        public void HideItemName()
+        public void Hide()
         {
-            _itemNameLabel.text = string.Empty;
-            _itemNameLabel.visible = false;
-        }
-
-        public void ChangeCrosshairToDefault()
-        {
-            if (!_isCustomCrosshair) return;
-
-            _crossHairElement.style.backgroundImage = null;
-            _isCustomCrosshair = false;
+            _uiDocument.rootVisualElement.style.display = DisplayStyle.None;
         }
     }
 }

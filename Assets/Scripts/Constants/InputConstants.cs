@@ -19,5 +19,7 @@
         public static string AimAction => "Aim";
         public static string FireAction => "Fire";
         public static string OpenInventoryAction => "OpenInventory";
+        public static string CloseInventoryAction => "CloseInventory";
+        public static string LongPressInteractAction => "LongPressInteract";
     }
 }

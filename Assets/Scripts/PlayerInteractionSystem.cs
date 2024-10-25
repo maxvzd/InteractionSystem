@@ -17,25 +17,23 @@ public class PlayerInteractionSystem : MonoBehaviour
 
     private PlayerPickUpItemSystem _pickUpItemSystem;
     private PlayerOpenDoorSystem _playerOpenDoorSystem;
-    private PlayerToHudCommunication _hud;
+    private CrossHairManager _crossHair;
 
-    //private Transform _currentlyAimedAtTransform;
     private PlayerInput _playerInput;
     private InputAction _interactAction;
-
-    private HoldInputButton _heldChecker;
+    private InputAction _longInteractAction;
 
     private void Start()
     {
         _pickUpItemSystem = GetComponent<PlayerPickUpItemSystem>();
         _playerOpenDoorSystem = GetComponent<PlayerOpenDoorSystem>();
 
-        _hud = hudDoc.GetComponent<PlayerToHudCommunication>();
+        _crossHair = hudDoc.GetComponent<CrossHairManager>();
         hudDoc = null;
 
         _playerInput = GetComponent<PlayerInput>();
         _interactAction = _playerInput.actions[InputConstants.InteractAction];
-        _heldChecker = new HoldInputButton();
+        _longInteractAction = _playerInput.actions[InputConstants.LongPressInteractAction];
     }
 
     private void Update()
@@ -46,59 +44,62 @@ public class PlayerInteractionSystem : MonoBehaviour
             Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
             Vector3 dir = mainCamera.transform.forward;
             Ray sphereRay = new Ray(origin, dir);
-            
+
             if (Physics.SphereCast(sphereRay, 0.1f, out RaycastHit hit, maxInteractDistance, ~LayerMask.GetMask(LayerConstants.LAYER_PLAYER)))
             {
-                Debug.DrawRay(origin, dir * maxInteractDistance, Color.green);
+                //Debug.DrawRay(origin, dir * maxInteractDistance, Color.green);
                 if (hit.transform.gameObject.CompareTag(TagConstants.InteractableTag))
                 {
                     IInteractable interactable = hit.transform.GetComponent<IInteractable>();
                     if (interactable?.Properties is not null)
                     {
                         interactableItem = hit.transform;
-                        _hud.ChangeCrossHair(interactable.Properties.InteractIcon);
-                        _hud.ShowItemName(interactable.Properties.ItemName);
+                        _crossHair.ShowCrossHair(interactable);
                     }
                 }
             }
-            else { Debug.DrawRay(origin, dir * maxInteractDistance, Color.red);}
+            // else
+            // {
+            //     Debug.DrawRay(origin, dir * maxInteractDistance, Color.red);
+            // }
         }
 
         if (interactableItem is null)
         {
-            _hud.ResetCrosshair();
-            _hud.HideItemName();
+            _crossHair.Hide();
         }
 
         if (_pickUpItemSystem.IsInInteraction) return;
 
-        HeldButtonDetails heldDetails = _heldChecker.CheckForButtonHold(_interactAction, Time.deltaTime);
-
-        if (_pickUpItemSystem.IsHoldingItem && heldDetails.WasButtonHeld)
+        if (_pickUpItemSystem.IsHoldingItem)
         {
-            //if (!_pickUpItemSystem.HasItemEquipped)
-            //{
-            Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
-            Vector3 dir = mainCamera.transform.forward;
-            Ray ray = new Ray(origin, dir);
-            if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
+            if (_longInteractAction.WasPerformedThisFrame())
             {
-                //TODO: Replace with dot product?
-                if (hit.normal == Vector3.up)
+                Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
+                Vector3 dir = mainCamera.transform.forward;
+                Ray ray = new Ray(origin, dir);
+                if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
                 {
-                    _pickUpItemSystem.PlaceItem(hit.point, 0.5f);
-                    return;
+                    //TODO: Replace with dot product?
+                    if (hit.normal == Vector3.up)
+                    {
+                        _pickUpItemSystem.PlaceItem(hit.point, 0.5f);
+                        return;
+                    }
+                }
+
+                _pickUpItemSystem.DropItem();
+            }
+            else if (_interactAction.WasPerformedThisFrame())
+            {
+                AddItemToBackpackResult addItemToBackpackResult = _pickUpItemSystem.TryAddItemToBackpack();
+                if (addItemToBackpackResult == AddItemToBackpackResult.BackpackIsNotOut)
+                {
+                    _pickUpItemSystem.EquipItem();
                 }
             }
-
-            _pickUpItemSystem.DropItem();
-            //}
-            //else
-            //{
-            //_pickUpItemSystem.UnEquipItem();
-            //}
-        }
-        else if (heldDetails.WasButtonPressed)
+        } 
+        else if (_interactAction.WasPerformedThisFrame())
         {
             if (_playerOpenDoorSystem.IsHoldingHandle)
             {
@@ -109,7 +110,7 @@ public class PlayerInteractionSystem : MonoBehaviour
             if (!_pickUpItemSystem.IsHoldingItem)
             {
                 if (interactableItem is null) return;
-                
+
                 string layer = LayerMask.LayerToName(interactableItem.gameObject.layer);
                 switch (layer)
                 {
@@ -122,10 +123,16 @@ public class PlayerInteractionSystem : MonoBehaviour
                         break;
                 }
             }
-            else
-            {
-                _pickUpItemSystem.EquipItem();
-            }
         }
     }
+}
+
+public enum AddItemToBackpackResult
+{
+    TooMuchWeight,
+    TooMuchVolume,
+    NoBackpackEquipped,
+    BackpackIsNotOut,
+    NoItemInHand,
+    Succeeded
 }

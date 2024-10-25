@@ -5,7 +5,7 @@ namespace Items.ItemInterfaces
     public interface IContainer
     {
         IReadOnlyList<IItem> Inventory { get; }
-        bool AddItem(IItem itemToAdd);
+        AddItemToBackpackResult AddItem(IItem itemToAdd);
         bool RemoveItem(IItem itemToAdd);
         float VolumeLimit { get; }
         float WeightLimit { get; }

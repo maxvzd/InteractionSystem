@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LongPressInteract",
+                    "type": "Button",
+                    "id": "0ada6aef-0561-4c74-9b89-871d5ba78622",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Aim",
                     "type": "Button",
                     "id": "0f37d292-f2d7-416a-8a86-53103fd217f0",
@@ -72,6 +81,15 @@
                     "name": "OpenInventory",
                     "type": "Button",
                     "id": "e5bc21bf-1e2e-46f6-b122-5104e986ff2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseInventory",
+                    "type": "Button",
+                    "id": "6cef7e59-7cba-4ea6-ad3b-0fbbce9396e5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -303,7 +321,7 @@
                     "name": "",
                     "id": "54f6d3f0-f3c0-4789-8f3a-d3d028da9ee5",
                     "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Interact",
@@ -325,10 +343,32 @@
                     "name": "",
                     "id": "068d6edf-7385-4fea-9904-66feddf97856",
                     "path": "<Keyboard>/tab",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "OpenInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0486d186-71a8-4dcf-8f5f-5f0f2e157ad4",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CloseInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc2870fa-1669-4053-b6dc-77bdc58c482b",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "LongPressInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
