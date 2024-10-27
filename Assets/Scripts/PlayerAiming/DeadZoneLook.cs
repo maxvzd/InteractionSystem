@@ -134,15 +134,5 @@ namespace PlayerAiming
         {
             _isVericalRotationLocked = true;
         }
-
-        public void LockCamera()
-        {
-            _isCameraLocked = true;
-        }
-
-        public void UnlockCamera()
-        {
-            _isCameraLocked = false;
-        }
     }
 }

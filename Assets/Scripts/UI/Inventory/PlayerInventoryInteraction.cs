@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Constants;
 using Items.ItemInterfaces;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
@@ -21,24 +19,19 @@ namespace UI.Inventory
         private InputAction _closeInventoryAction;
         private Animator _animator;
         private bool _isBackpackOut;
-        //private HoldInputButton _heldChecker;
         private float _buttonHeldTime;
         private bool _uiIsHidden;
-
-        public UnityEvent uiShown;
-        public UnityEvent uiHidden;
+        private PlayerInput _input;
 
         private void Start()
         {
-            //_inventory = new List<IItem>();
             _equipment = GetComponent<PlayerWearableEquipment>();
-            PlayerInput input = GetComponent<PlayerInput>();
-            _openInventoryAction = input.actions[InputConstants.OpenInventoryAction];
-            _closeInventoryAction = input.actions[InputConstants.CloseInventoryAction];
-
             _animator = GetComponent<Animator>();
-            //_heldChecker = new HoldInputButton();
-
+            
+            _input = GetComponent<PlayerInput>();
+            _openInventoryAction = _input.actions[InputConstants.OpenInventoryAction];
+            _closeInventoryAction = _input.actions[InputConstants.CloseInventoryAction];
+            
             HideUI();
         }
 
@@ -75,7 +68,8 @@ namespace UI.Inventory
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.None;
             _uiIsHidden = true;
-            uiHidden.Invoke();
+            
+            _input.actions.Enable();
         }
 
         private void ShowUI()
@@ -92,13 +86,13 @@ namespace UI.Inventory
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
             _uiIsHidden = false;
-            uiShown.Invoke();
+            
+            _input.actions.Disable();
+            _openInventoryAction.Enable();
         }
     
         private void Update()
         {
-            //HeldButtonDetails heldDetails = _heldChecker.CheckForButtonHold(_openInventoryAction, Time.deltaTime);
-
             if (_closeInventoryAction.WasPerformedThisFrame())
             {
                 if (_isBackpackOut)
@@ -122,17 +116,9 @@ namespace UI.Inventory
                     ShowUI();
                 }
             }
-
         }
 
-        public AddItemToBackpackResult AddItemToInventory(IItem item)
-        {
-            if (_isBackpackOut)
-            {
-                return _equipment.Backpack.AddItem(item);
-            }
-
-            return AddItemToBackpackResult.BackpackIsNotOut;
-        }
+        public AddItemToBackpackResult AddItemToInventory(IItem item) 
+            => _isBackpackOut ? _equipment.Backpack.AddItem(item) : AddItemToBackpackResult.BackpackIsNotOut;
     }
 }
