@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items.ItemInterfaces;
 using Items.UITemplates;
-using UnityEngine;
 
 namespace UI.Inventory
 {
