@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using Items.ItemInterfaces;
-using Items.UITemplates;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,7 +14,7 @@ namespace UI.Inventory
         private VisualTreeAsset _inventoryItemTemplate;
         private InventoryModel _inventoryModel;
 
-        public void InitialiseItemList(VisualElement root, VisualTreeAsset listElementTemplate, IEnumerable<IItem> items)
+        public void InitialiseItemList(VisualElement root, IEnumerable<IItem> items)
         {
             _inventoryModel = new InventoryModel();
             foreach (IItem item in items)
@@ -39,20 +36,34 @@ namespace UI.Inventory
 
         private void PopulateInventoryList()
         {
-            _inventoryListView.columns["Icon"].makeCell = () => new VisualElement();
-            _inventoryListView.columns["Name"].makeCell = () => new Label();
-            _inventoryListView.columns["Category"].makeCell = () => new Label();
-            _inventoryListView.columns["Weight"].makeCell = () => new Label();
-            _inventoryListView.columns["Volume"].makeCell = () => new Label();
-
-            _inventoryListView.columns["Icon"].bindCell = (element, i) => element.style.backgroundImage = _inventoryModel.InventoryItems[i].InventoryIcon; 
-            _inventoryListView.columns["Name"].bindCell = (element, i) => ((Label)element).text = _inventoryModel.InventoryItems[i].Name; 
-            _inventoryListView.columns["Category"].bindCell = (element, i) => ((Label)element).text = _inventoryModel.InventoryItems[i].Type.ToString(); 
-            _inventoryListView.columns["Weight"].bindCell = (element, i) => ((Label)element).text = _inventoryModel.InventoryItems[i].Weight.ToString("F"); 
-            _inventoryListView.columns["Volume"].bindCell = (element, i) => ((Label)element).text = _inventoryModel.InventoryItems[i].Volume.ToString("F"); 
+            _inventoryListView.columns["Icon"].bindCell = (element, i) =>
+            {
+                VisualElement iconContainer = element.Q<VisualElement>("IconElement");
+                if (iconContainer is not null)
+                {
+                    iconContainer.style.backgroundImage = _inventoryModel.InventoryItems[i].InventoryIcon;
+                }
+            }; 
+            
+            TemplateContainer container = _inventoryListView.columns["Icon"].cellTemplate.CloneTree();
+            container.style.flexGrow = 1;
+            
+            _inventoryListView.columns["Name"].bindCell = (element, i) => SetTextInDisplayLabel(_inventoryModel.InventoryItems[i].Name, element); 
+            _inventoryListView.columns["Category"].bindCell = (element, i) => SetTextInDisplayLabel(_inventoryModel.InventoryItems[i].Type.ToString(), element); 
+            _inventoryListView.columns["Weight"].bindCell = (element, i) => SetTextInDisplayLabel(_inventoryModel.InventoryItems[i].Weight.ToString("F"), element); 
+            _inventoryListView.columns["Volume"].bindCell = (element, i) => SetTextInDisplayLabel(_inventoryModel.InventoryItems[i].Volume.ToString("F"), element); 
             _inventoryListView.itemsSource = _inventoryModel.InventoryItems;
             
-            _inventoryListView.fixedItemHeight = 100;
+            _inventoryListView.fixedItemHeight = 95;
+        }
+
+        private static void SetTextInDisplayLabel(string text, VisualElement root)
+        {
+            Label label = root.Q<Label>("DisplayLabel");
+            if (label is not null)
+            {
+                label.text = text;
+            }
         }
     }
 }

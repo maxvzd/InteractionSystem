@@ -12,7 +12,7 @@ namespace UI.Inventory
     public class PlayerInventoryInteraction : MonoBehaviour
     {
         [SerializeField] private UIDocument inventoryUI;
-        [SerializeField] private VisualTreeAsset inventoryItemVisualTemplate;
+        [SerializeField] private VisualTreeAsset iconCellTemplate;
     
         private PlayerWearableEquipment _equipment;
         private InputAction _openInventoryAction;
@@ -82,7 +82,7 @@ namespace UI.Inventory
             IReadOnlyList<IItem> items = _equipment.IsBackpackEquipped ? _equipment.Backpack.Inventory : new List<IItem>(); 
             
             InventoryListController inventoryListController = new InventoryListController();
-            inventoryListController.InitialiseItemList(inventoryUI.rootVisualElement, inventoryItemVisualTemplate, items);
+            inventoryListController.InitialiseItemList(inventoryUI.rootVisualElement, items);
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
             _uiIsHidden = false;

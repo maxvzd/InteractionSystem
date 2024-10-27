@@ -5,6 +5,7 @@
     color: rgb(255, 255, 255);
     font-size: 22px;
     -unity-text-align: middle-left;
+    align-self: stretch;
 }
 
 .unity-list-view__item:hover {
@@ -112,4 +113,12 @@ VisualElement > #InventoryTab > #unity-tab-view__header-container {
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
+}
+
+.unity-multi-column-view__cell {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+    align-content: center;
+    align-self: stretch;
+    justify-content: center;
 }
