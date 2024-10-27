@@ -1,4 +1,6 @@
-﻿using Items.ItemInterfaces;
+﻿using System;
+using Constants;
+using Items.ItemInterfaces;
 using UnityEngine;
 
 namespace Items.UITemplates
@@ -10,6 +12,7 @@ namespace Items.UITemplates
         public Texture2D InventoryIcon  { get; }
         public float Volume { get; }
         public float Weight { get; }
+        public ItemType Type { get; }
         
         public UIItemModel(IItem item)
         {
@@ -18,6 +21,7 @@ namespace Items.UITemplates
             InventoryIcon = item.UIProperties.InventoryIcon;
             Volume = item.ItemProperties.Volume;
             Weight = item.ItemProperties.Weight;
+            Type = item.ItemProperties.Type;
         }
     }
 }

@@ -2,12 +2,12 @@
 {
     public interface IWeapon : IEquippable
     {
-        WeaponType WeaponType { get; }
+        //WeaponType WeaponType { get; }
     }
 
-    public enum WeaponType
-    {
-        Rifle,
-        Pistol
-    }
+    // public enum WeaponType
+    // {
+    //     Rifle,
+    //     Pistol
+    // }
 }

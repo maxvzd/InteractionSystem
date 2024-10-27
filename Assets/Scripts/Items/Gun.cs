@@ -12,7 +12,6 @@ namespace Items
         public override IInteractableProperties Properties => gunProperties;
         public EquipmentSlot EquipmentSlot => EquipmentSlot.Weapon;
         public EquippedPosition EquippedPosition => equippedPosition;
-        public abstract WeaponType WeaponType { get; }
         public override bool IsEquippable => true;
         public override IItemProperties ItemProperties => GunProperties;
     }

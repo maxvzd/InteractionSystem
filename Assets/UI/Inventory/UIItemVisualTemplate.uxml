@@ -1,8 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Inventory/ItemTemplateUSS.uss?fileID=7433441132597879392&amp;guid=2f3e6566548b87a4ea27e3c85ec6c467&amp;type=3#ItemTemplateUSS" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
         <ui:VisualElement name="ItemMargin" style="justify-content: center; align-items: center; align-self: stretch; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; width: 100px;">
             <ui:VisualElement name="ItemImage" style="flex-grow: 1; align-self: stretch;" />
         </ui:VisualElement>
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" style="flex-grow: 1; align-self: center; justify-content: center; flex-shrink: 1; font-size: 17px; color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" text="Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemNameLabel" />
+        <ui:VisualElement name="RightAlignBox" style="flex-direction: row-reverse; align-content: stretch; right: 0; bottom: 0; flex-grow: 1;">
+            <ui:Label text="Volume" name="ItemVolumeLabel" style="color: rgba(255, 255, 255, 0.47);" />
+            <ui:Label text="Weight" name="ItemWeightLabel" style="align-items: stretch; color: rgba(255, 255, 255, 0.47);" />
+            <ui:Label text="Category" name="ItemCategoryLabel" style="color: rgba(255, 255, 255, 0.47);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

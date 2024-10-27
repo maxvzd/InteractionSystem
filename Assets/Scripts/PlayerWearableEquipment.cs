@@ -8,8 +8,7 @@ public class PlayerWearableEquipment : MonoBehaviour
 {
     public bool IsBackpackEquipped => _backpackSlot != null;
     public IWearableContainer Backpack => _backpackSlot;
-
-    //[SerializeField] private UIDocument inventoryUI;
+    
     [SerializeField] private Transform backpackSocket;
 
     //Slots 
@@ -98,11 +97,11 @@ public class PlayerWearableEquipment : MonoBehaviour
 
     private bool EquipItem(IWeapon weapon, Transform itemTransform)
     {
-        switch (weapon.WeaponType)
+        switch (weapon.ItemProperties.Type)
         {
-            case WeaponType.Rifle:
+            case ItemType.Rifle:
                 return _gunEquipper.EquipRifle(itemTransform, weapon);
-            case WeaponType.Pistol:
+            case ItemType.Pistol:
                 return _gunEquipper.EquipPistol(itemTransform, weapon);
             default:
                 return false;

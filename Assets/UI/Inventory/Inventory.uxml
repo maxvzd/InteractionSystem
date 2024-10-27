@@ -1,6 +1,25 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Inventory/InventoryStyleSheet.uss?fileID=7433441132597879392&amp;guid=ecc59ff920e6cd8469a4ddedef01b930&amp;type=3#InventoryStyleSheet" />
-    <ui:VisualElement style="flex-grow: 1;">
-        <ui:ListView name="InventoryItems" style="align-self: stretch; justify-content: center; flex-grow: 1; width: 500px; margin-top: 50px; margin-right: 50px; margin-bottom: 50px; margin-left: 50px; background-color: rgba(0, 0, 0, 0.47);" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
+        <ui:TabView name="InventoryTab" style="align-self: stretch; width: 50%; background-color: rgba(0, 0, 0, 0.47); margin-right: 50px; flex-direction: row;">
+            <ui:Tab label="All" name="AllTab" style="flex-grow: 0;">
+                <ui:ListView name="InventoryItemsOLD" style="align-self: stretch; justify-content: center; flex-grow: 0; background-color: rgba(0, 0, 0, 0); align-items: stretch;" />
+                <ui:MultiColumnListView name="InventoryItems">
+                    <ui:Columns reorderable="false">
+                        <ui:Column name="Icon" stretchable="false" optional="false" width="100px" max-width="100px" min-width="100px" />
+                        <ui:Column name="Name" title="Name" optional="false" stretchable="true" />
+                        <ui:Column name="Category" title="Category" optional="false" stretchable="true" />
+                        <ui:Column name="Weight" title="Weight" optional="false" stretchable="true" />
+                        <ui:Column name="Volume" title="Volume" optional="false" stretchable="true" />
+                    </ui:Columns>
+                </ui:MultiColumnListView>
+            </ui:Tab>
+            <ui:Tab label="Tools &#10;&amp; Weapons" name="ToolsAndWeaponsTab" />
+            <ui:Tab label="Clothing" name="ClothingTab" />
+            <ui:Tab label="Consumables&#10;" name="ConsumablesTab" />
+            <ui:Tab label="Books" name="BooksTab" />
+            <ui:Tab label="Misc." name="MiscTab" />
+        </ui:TabView>
+        <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.47);" />
     </ui:VisualElement>
 </ui:UXML>

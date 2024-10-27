@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Constants;
 using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
@@ -12,7 +13,6 @@ namespace Items
         public override IInteractableProperties Properties => wearableContainerProperties;
         public override IItemProperties ItemProperties => wearableContainerProperties;
         public override bool IsEquippable => true;
-        
         public IReadOnlyList<IItem> Inventory => _container.Inventory;
         public float VolumeLimit => _container.VolumeLimit;
         public float WeightLimit => _container.WeightLimit;

@@ -7,8 +7,7 @@ namespace Items.UITemplates
     {
         [SerializeField] private Texture2D inventoryIcon;
         [SerializeField] private string description;
-
-
+        
         public Texture2D InventoryIcon => inventoryIcon;
         public string Description => description;
     }

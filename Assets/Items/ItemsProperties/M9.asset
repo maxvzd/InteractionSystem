@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: M9
   m_EditorClassIdentifier: 
   interactIcon: {fileID: 2800000, guid: d9ee6dc18508efb47aa981bc3475a4ad, type: 3}
-  objectName: M9 Beretta
+  itemName: M9 Beretta
   description: shooty
   weight: 3
   volume: 2
+  type: 1
   damage: 15
   effectiveRange: 200

@@ -1,4 +1,5 @@
-﻿using Items.ItemInterfaces;
+﻿using Constants;
+using Items.ItemInterfaces;
 using Items.Properties;
 using Items.UITemplates;
 using RootMotion.FinalIK;
@@ -30,5 +31,6 @@ namespace Items
         public IInteractableProperties Properties => new EmptyProperties();
         public IItemProperties ItemProperties => null;
         public IUIItemProperties UIProperties => null;
+        public ItemType Type => ItemType.Junk;
     }
 }

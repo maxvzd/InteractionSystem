@@ -17,3 +17,4 @@ MonoBehaviour:
   description: Put your stuff in it
   weight: 1
   volume: 10
+  type: 14

@@ -1,4 +1,5 @@
-﻿using Items.ItemInterfaces;
+﻿using Constants;
+using Items.ItemInterfaces;
 using Items.Properties;
 using Items.UITemplates;
 using RootMotion.FinalIK;

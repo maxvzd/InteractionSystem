@@ -1,4 +1,5 @@
-﻿using Items.UITemplates;
+﻿using Constants;
+using Items.UITemplates;
 using RootMotion.FinalIK;
 using UnityEngine;
 
