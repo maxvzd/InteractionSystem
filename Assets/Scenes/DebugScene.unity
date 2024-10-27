@@ -3036,11 +3036,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3661071366835447277, guid: 6cbcf552d4be24f499849bfe166e146a,
+        type: 3}
+      propertyPath: solver.boneMappings.Array.data[0].maintainRotationWeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3710902175569230163, guid: 6cbcf552d4be24f499849bfe166e146a,
         type: 3}
       propertyPath: hudDoc
       value: 
       objectReference: {fileID: 1678612544}
+    - target: {fileID: 3710902175569230163, guid: 6cbcf552d4be24f499849bfe166e146a,
+        type: 3}
+      propertyPath: maxInteractDistance
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6000930689571151920, guid: 6cbcf552d4be24f499849bfe166e146a,
         type: 3}
       propertyPath: playerInteractingWithDoor.m_PersistentCalls.m_Calls.Array.size
