@@ -8,9 +8,12 @@ namespace UI.Inventory
     {
         public readonly List<UIItemModel> InventoryItems = new();
 
-        public void AddItem(IItem item)
+        public InventoryModel(IEnumerable<IItem> items)
         {
-            InventoryItems.Add(new UIItemModel(item));
+            foreach (IItem item in items)
+            {
+                InventoryItems.Add(new UIItemModel(item));
+            }
         }
     }
 }

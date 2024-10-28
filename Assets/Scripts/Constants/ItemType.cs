@@ -29,10 +29,10 @@ namespace Constants
 
     public enum ItemCategory
     {
-        Weapon,
+        WeaponsAndTools,
         Clothing,
         Consumables,
-        Book,
+        Books,
         Misc,
         None
     }
@@ -41,11 +41,11 @@ namespace Constants
     {
         private static readonly Dictionary<ItemType, ItemCategory> ItemToCategory = new()
         {
-            {ItemType.Rifle, ItemCategory.Weapon},
-            {ItemType.Pistol, ItemCategory.Weapon},
-            {ItemType.Blunt, ItemCategory.Weapon},
-            {ItemType.Sharp, ItemCategory.Weapon},
-            {ItemType.Axe, ItemCategory.Weapon},
+            {ItemType.Rifle, ItemCategory.WeaponsAndTools},
+            {ItemType.Pistol, ItemCategory.WeaponsAndTools},
+            {ItemType.Blunt, ItemCategory.WeaponsAndTools},
+            {ItemType.Sharp, ItemCategory.WeaponsAndTools},
+            {ItemType.Axe, ItemCategory.WeaponsAndTools},
             {ItemType.Headgear, ItemCategory.Clothing},
             {ItemType.OuterTorso, ItemCategory.Clothing},
             {ItemType.InnerTorso, ItemCategory.Clothing},
@@ -59,9 +59,8 @@ namespace Constants
             {ItemType.Liquid, ItemCategory.Consumables},
             {ItemType.Food, ItemCategory.Consumables},
             {ItemType.Junk, ItemCategory.Misc},
-            {ItemType.Book, ItemCategory.Book},
+            {ItemType.Book, ItemCategory.Books},
             {ItemType.Consumable, ItemCategory.Consumables},
-
         };
 
         public static ItemCategory GetCategory(ItemType itemType) => ItemToCategory.GetValueOrDefault(itemType, ItemCategory.None);

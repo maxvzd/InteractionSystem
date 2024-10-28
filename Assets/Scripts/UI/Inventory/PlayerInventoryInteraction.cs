@@ -2,7 +2,6 @@
 using Constants;
 using Items.ItemInterfaces;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
@@ -12,7 +11,6 @@ namespace UI.Inventory
     public class PlayerInventoryInteraction : MonoBehaviour
     {
         [SerializeField] private UIDocument inventoryUI;
-        [SerializeField] private VisualTreeAsset iconCellTemplate;
     
         private PlayerWearableEquipment _equipment;
         private InputAction _openInventoryAction;
@@ -80,9 +78,8 @@ namespace UI.Inventory
             Cursor.lockState = CursorLockMode.Confined;
 
             IReadOnlyList<IItem> items = _equipment.IsBackpackEquipped ? _equipment.Backpack.Inventory : new List<IItem>(); 
-            
-            InventoryListController inventoryListController = new InventoryListController();
-            inventoryListController.InitialiseItemList(inventoryUI.rootVisualElement, items);
+
+            InventoryTabController tabController = new InventoryTabController(inventoryUI.rootVisualElement, items);
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
             _uiIsHidden = false;

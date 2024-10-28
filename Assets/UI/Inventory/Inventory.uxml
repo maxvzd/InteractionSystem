@@ -2,22 +2,21 @@
     <Style src="project://database/Assets/UI/Inventory/InventoryStyleSheet.uss?fileID=7433441132597879392&amp;guid=ecc59ff920e6cd8469a4ddedef01b930&amp;type=3#InventoryStyleSheet" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
         <ui:TabView name="InventoryTab" style="align-self: stretch; width: 50%; background-color: rgba(0, 0, 0, 0.47); margin-right: 50px; flex-direction: row;">
-            <ui:Tab label="All" name="AllTab" style="flex-grow: 0;">
-                <ui:MultiColumnListView name="InventoryItems" style="align-content: center; justify-content: center; align-self: stretch; -unity-text-align: middle-left; flex-grow: 1;">
-                    <ui:Columns reorderable="false">
-                        <ui:Column name="Icon" optional="false" resizable="false" max-width="95px" min-width="95px" width="95px" title="Icon" cell-template="project://database/Assets/UI/Inventory/ListViewIconTemplate.uxml?fileID=9197481963319205126&amp;guid=8f98c35a6b65e1145b01519958ef231f&amp;type=3#ListViewIconTemplate" />
-                        <ui:Column name="Name" title="Name" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
-                        <ui:Column name="Category" title="Category" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
-                        <ui:Column name="Weight" title="Weight" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
-                        <ui:Column name="Volume" title="Volume" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
-                    </ui:Columns>
-                </ui:MultiColumnListView>
-            </ui:Tab>
+            <ui:Tab label="All" name="AllTab" style="flex-grow: 0;" />
             <ui:Tab label="Tools &#10;&amp; Weapons" name="ToolsAndWeaponsTab" />
             <ui:Tab label="Clothing" name="ClothingTab" />
             <ui:Tab label="Consumables&#10;" name="ConsumablesTab" />
             <ui:Tab label="Books" name="BooksTab" />
             <ui:Tab label="Misc." name="MiscTab" />
+            <ui:MultiColumnListView name="InventoryItems" style="align-content: center; justify-content: center; align-self: stretch; -unity-text-align: middle-left; flex-grow: 1;">
+                <ui:Columns reorderable="false">
+                    <ui:Column name="Icon" optional="false" resizable="false" max-width="95px" min-width="95px" width="95px" title="Icon" cell-template="project://database/Assets/UI/Inventory/ListViewIconTemplate.uxml?fileID=9197481963319205126&amp;guid=8f98c35a6b65e1145b01519958ef231f&amp;type=3#ListViewIconTemplate" />
+                    <ui:Column name="Name" title="Name" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
+                    <ui:Column name="Category" title="Category" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
+                    <ui:Column name="Weight" title="Weight" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
+                    <ui:Column name="Volume" title="Volume" optional="false" stretchable="true" cell-template="project://database/Assets/UI/Inventory/ListViewLabelTemplate.uxml?fileID=9197481963319205126&amp;guid=53b28d332ba160b45bd974845ee7bb92&amp;type=3#ListViewLabelTemplate" />
+                </ui:Columns>
+            </ui:MultiColumnListView>
         </ui:TabView>
         <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.47);" />
     </ui:VisualElement>
