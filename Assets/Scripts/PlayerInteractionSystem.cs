@@ -75,20 +75,26 @@ public class PlayerInteractionSystem : MonoBehaviour
         {
             if (_longInteractAction.WasPerformedThisFrame())
             {
-                Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
-                Vector3 dir = mainCamera.transform.forward;
-                Ray ray = new Ray(origin, dir);
-                if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
+                if (_pickUpItemSystem.HasWeaponEquipped)
                 {
-                    //TODO: Replace with dot product?
-                    if (hit.normal == Vector3.up)
-                    {
-                        _pickUpItemSystem.PlaceItem(hit.point, 0.5f);
-                        return;
-                    }
+                    _pickUpItemSystem.UnEquipWeapon();
                 }
-
-                _pickUpItemSystem.DropItem();
+                else
+                {
+                    Vector3 origin = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
+                    Vector3 dir = mainCamera.transform.forward;
+                    Ray ray = new Ray(origin, dir);
+                    if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance, LayerMask.GetMask(LayerConstants.LAYER_TERRAIN)))
+                    {
+                        //TODO: Replace with dot product?
+                        if (hit.normal == Vector3.up)
+                        {
+                            _pickUpItemSystem.PlaceItem(hit.point, 0.5f);
+                            return;
+                        }
+                    }
+                    _pickUpItemSystem.DropItem();
+                }
             }
             else if (_interactAction.WasPerformedThisFrame())
             {

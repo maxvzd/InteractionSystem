@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74e15331bc042f7829953b8fee40026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemProperties: {fileID: 11400000, guid: 51f5ff285dce1a644af32ba52071701c, type: 2}
+  uiProperties: {fileID: 11400000, guid: 94d4ae34a0313a742a5b5230be010a8d, type: 2}
   equippedPosition: {fileID: 11400000, guid: 508a3af2e727abb458a53cacc7544705, type: 2}
   gunProperties: {fileID: 11400000, guid: 51f5ff285dce1a644af32ba52071701c, type: 2}
 --- !u!1 &4056424808492808589

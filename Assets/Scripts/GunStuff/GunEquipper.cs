@@ -10,14 +10,11 @@ namespace GunStuff
     {
         [SerializeField] private Transform lookBase;
 
-        private bool _isGunEquipped;
         private AimBehaviour _aimBehaviour;
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
         private Transform _equippedGunTransform;
-
-        public bool IsGunEquipped => _isGunEquipped;
 
         private void Awake()
         {
@@ -27,22 +24,20 @@ namespace GunStuff
             _deadZoneLook = lookBase.GetComponent<DeadZoneLook>();
         }
 
-        // public void UnEquipGun()
-        // {
-        //     _isGunEquipped = false;
-        //
-        //     _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
-        //     _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
-        //     _animator.SetBool(AnimatorConstants.IsAiming, false);
-        //
-        //     _aimBehaviour.UnEquipGun();
-        //     _gunHandPlacement.UnEquipGun();
-        //
-        //     _deadZoneLook.UseDeadZone = false;
-        //     //_equippedGunTransform.SetParent(null);
-        //
-        //     //_currentlyEquippedPhysicsData.EnablePhysics();
-        // }
+        public void UnEquipGun()
+        {
+            LayerManager.ChangeLayerOfItem(_equippedGunTransform, LayerMask.NameToLayer(LayerConstants.LAYER_GUN), TagConstants.InteractableTag);
+            
+            _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
+            _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
+            _animator.SetBool(AnimatorConstants.IsAiming, false);
+        
+            _aimBehaviour.UnEquipGun();
+            _gunHandPlacement.UnEquipGun();
+        
+            _deadZoneLook.UseDeadZone = false;
+            _equippedGunTransform = null;
+        }
 
         public bool EquipPistol(Transform gunTransform, IWeapon gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingPistol);
         
@@ -52,28 +47,24 @@ namespace GunStuff
         private bool EquipGun(Transform gun, IWeapon gunInfo, int animName)
         {
             GunPositionData posData = gun.GetComponent<GunPositionData>();
-            if (posData is not null)
-            {
-                _isGunEquipped = true;
-                _equippedGunTransform = gun;
+            if (posData is null) return false;
+            
+            _equippedGunTransform = gun;
 
-                _equippedGunTransform.SetParent(transform);
-                _animator.SetBool(animName, true);
-                _deadZoneLook.UseDeadZone = true;
+            _equippedGunTransform.SetParent(transform);
+            _animator.SetBool(animName, true);
+            _deadZoneLook.UseDeadZone = true;
 
-                _gunHandPlacement.EquipGun(posData);
-                _aimBehaviour.EquipGun(posData, gunInfo);
+            _gunHandPlacement.EquipGun(posData);
+            _aimBehaviour.EquipGun(posData, gunInfo);
 
-                EquippedPosition equippedPosition = gunInfo.EquippedPosition;
-                _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
-                _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
+            EquippedPosition equippedPosition = gunInfo.EquippedPosition;
+            _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
+            _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
                 
-                LayerManager.ChangeLayerOfItem(gun, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
-                //StartCoroutine(LerpGunToPosition(1f, posData));
-                return true;
-            }
+            LayerManager.ChangeLayerOfItem(gun, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
+            return true;
 
-            return false;
         }
 
         // private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)

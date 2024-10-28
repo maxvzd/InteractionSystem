@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PlayerWearableEquipment : MonoBehaviour
 {
-    public bool IsBackpackEquipped => _backpackSlot != null;
+    public bool IsBackpackEquipped => _backpackSlot is not null;
+    public bool IsWeaponEquipped => _rightHandWeaponSlot is not null;
     public IWearableContainer Backpack => _backpackSlot;
     
     [SerializeField] private Transform backpackSocket;
@@ -50,6 +51,7 @@ public class PlayerWearableEquipment : MonoBehaviour
             case EquipmentSlot.Wrist:
                 break;
             case EquipmentSlot.Weapon:
+                if (!IsWeaponEquipped) return false;
                 IWeapon weapon = CastToType<IWeapon>(item);
                 return EquipItem(weapon, item.Transform);
             default:
@@ -61,6 +63,33 @@ public class PlayerWearableEquipment : MonoBehaviour
 
     public void UnEquipItem(EquipmentSlot slot)
     {
+        switch (slot)
+        {
+            case EquipmentSlot.Hands:
+                break;
+            case EquipmentSlot.UnderTorso:
+                break;
+            case EquipmentSlot.OverTorso:
+                break;
+            case EquipmentSlot.Legs:
+                break;
+            case EquipmentSlot.Feet:
+                break;
+            case EquipmentSlot.Head:
+                break;
+            case EquipmentSlot.Face:
+                break;
+            case EquipmentSlot.Back:
+                break;
+            case EquipmentSlot.Wrist:
+                break;
+            case EquipmentSlot.Weapon:
+                _gunEquipper.UnEquipGun();
+                _rightHandWeaponSlot = null;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
+        }
     }
 
     private T CastToType<T>(IEquippable itemToCast) where T : IEquippable
@@ -100,10 +129,15 @@ public class PlayerWearableEquipment : MonoBehaviour
         switch (weapon.ItemProperties.Type)
         {
             case ItemType.Rifle:
-                return _gunEquipper.EquipRifle(itemTransform, weapon);
+                if (!_gunEquipper.EquipRifle(itemTransform, weapon)) return false;
+                _rightHandWeaponSlot = weapon;
+                return true;
             case ItemType.Pistol:
-                return _gunEquipper.EquipPistol(itemTransform, weapon);
+                if (!_gunEquipper.EquipPistol(itemTransform, weapon)) return false;
+                _rightHandWeaponSlot = weapon;
+                return true;
             default:
+                _rightHandWeaponSlot = null;
                 return false;
         }
     }

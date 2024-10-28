@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Constants;
 using Items;
 using Items.ItemInterfaces;
 using RootMotion.FinalIK;
@@ -10,6 +11,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     public bool IsHoldingItem => !_currentlyHeldItem.IsEmpty;
     public bool IsInInteraction => _interactionSystem.IsInInteraction(FullBodyBipedEffector.RightHand);
     public bool IsItemEquippable => _currentlyHeldItem.IsEquippable;
+    public bool HasWeaponEquipped => _playerEquipmentSystem.IsWeaponEquipped;
 
     [SerializeField] private Transform rightArmIkTarget;
 
@@ -180,8 +182,6 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
         _currentlyHeldItem.EnablePhysics();
 
-        UnEquipItem();
-
         _currentlyHeldItem.Transform.SetParent(null);
         _currentlyHeldItem = new EmptyItem();
 
@@ -210,25 +210,24 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     public void EquipItem()
     {
         if (!_currentlyHeldItem.IsEquippable) return;
+        if (_currentlyHeldItem is not IEquippable equippableItem) return;
+        if (!_playerEquipmentSystem.EquipItem(equippableItem)) return;
 
-        IEquippable equippableItem = _currentlyHeldItem as IEquippable;
-        if (_playerEquipmentSystem.EquipItem(equippableItem))
+        if (ItemTypeCategory.GetCategory(equippableItem.ItemProperties.Type) != ItemCategory.WeaponsAndTools)
         {
             _currentlyHeldItem = new EmptyItem();
             ResetPoser();
         }
     }
 
-    public void UnEquipItem()
+    public void UnEquipWeapon()
     {
-        // if (!_hasItemEquipped || _equipItem is null) return;
-        //
-        // //_hasItemEquipped = false;
-        // _equipItem.UnEquipItem();
-        //
-        // _currentlyHeldItem.parent = _heldSocket;
-        // _currentlyHeldItem.localPosition = _heldPosition;
-        // _currentlyHeldItem.localRotation = _heldRotation;
+         if (!_playerEquipmentSystem.IsWeaponEquipped) return;
+         _playerEquipmentSystem.UnEquipItem(EquipmentSlot.Weapon);
+         
+         _currentlyHeldItem.Transform.SetParent(_heldSocket);
+         _currentlyHeldItem.Transform.localPosition = _heldPosition;
+         _currentlyHeldItem.Transform.localRotation = _heldRotation;
     }
 
     public AddItemToBackpackResult TryAddItemToBackpack()
@@ -238,7 +237,9 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         AddItemToBackpackResult result = _playerInventory.AddItemToInventory(_currentlyHeldItem);
         if (result != AddItemToBackpackResult.Succeeded) return result;
         
-        Destroy(_currentlyHeldItem.Transform.gameObject);
+        
+        _currentlyHeldItem.Transform.gameObject.SetActive(false);
+        //Destroy(_currentlyHeldItem.Transform.gameObject);
         _currentlyHeldItem = new EmptyItem();
         return AddItemToBackpackResult.Succeeded;
     }

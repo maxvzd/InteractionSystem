@@ -2,7 +2,7 @@
 
 namespace Items
 {
-    public class EquippableItem : Item, IEquippable
+    public abstract class EquippableItem : Item, IEquippable
     {
         public EquipmentSlot EquipmentSlot { get; }
         public EquippedPosition EquippedPosition { get; }

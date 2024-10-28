@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Constants;
 using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
