@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Inventory/InventoryStyleSheet.uss?fileID=7433441132597879392&amp;guid=ecc59ff920e6cd8469a4ddedef01b930&amp;type=3#InventoryStyleSheet" />
-    <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
+    <Style src="project://database/Assets/UI/GenericUSS.uss?fileID=7433441132597879392&amp;guid=456a6365891983745a21cc65feca7084&amp;type=3#GenericUSS" />
+    <ui:VisualElement name="Root" style="flex-grow: 1; flex-direction: row; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
         <ui:TabView name="InventoryTab" style="align-self: stretch; width: 50%; background-color: rgba(0, 0, 0, 0.47); margin-right: 50px; flex-direction: row;">
             <ui:Tab label="All" name="AllTab" style="flex-grow: 0;" />
             <ui:Tab label="Tools &#10;&amp; Weapons" name="ToolsAndWeaponsTab" />
@@ -18,6 +19,17 @@
                 </ui:Columns>
             </ui:MultiColumnListView>
         </ui:TabView>
-        <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.47);" />
+        <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.47); padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+            <ui:VisualElement name="ItemInformation" style="flex-grow: 1; border-left-color: rgba(255, 255, 255, 0.47); border-right-color: rgba(255, 255, 255, 0.47); border-top-color: rgba(255, 255, 255, 0.47); border-bottom-color: rgba(255, 255, 255, 0.47); border-bottom-width: 2px; max-height: 50%;">
+                <ui:Label text="Item Title&#10;" name="TitleLabel" style="font-size: 36px; color: rgba(255, 255, 255, 0.47); border-left-color: rgba(255, 255, 255, 0.47); border-right-color: rgba(255, 255, 255, 0.47); border-top-color: rgba(255, 255, 255, 0.47); border-bottom-color: rgba(255, 255, 255, 0.47); border-bottom-width: 2px;" />
+                <ui:Label text="Label" name="DescriptionLabel" style="color: rgba(255, 255, 255, 0.47); font-size: 20px; margin-top: 10px;" />
+                <ui:VisualElement name="BottomAlign" style="flex-grow: 1; align-content: flex-end; justify-content: flex-end; padding-top: 50px; padding-right: 0; padding-bottom: 50px; padding-left: 0;">
+                    <ui:Label text="Weight: " name="WeightLabel" style="font-size: 20px;" />
+                    <ui:Label text="Volume: " name="VolumeLabel" style="font-size: 20px;" />
+                    <ui:Button text="Retrieve Item" name="RetrieveItemButton" style="align-self: center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Equipment" style="flex-grow: 1; max-height: 50%;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

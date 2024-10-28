@@ -21,7 +21,7 @@
 }
 
 .menu-button:hover {
-    background-color: rgba(94, 94, 94, 0.59);
+    background-color: rgba(100, 100, 100, 0.47);
     transition-duration: 0.1s;
     border-left-color: rgb(255, 255, 255);
     border-right-color: rgb(255, 255, 255);
