@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Constants;
-using Items.ItemInterfaces;
 using UnityEngine.UIElements;
 
 namespace UI.Inventory
 {
     public class InventoryTabController
     {
-        private readonly IReadOnlyList<IItem> _items;
-        private readonly InventoryListController _listController;
-
-        public InventoryTabController(VisualElement root, IReadOnlyList<IItem> items)
+        public event EventHandler<CategoryChangedEventsArgs> TabSelected;
+        
+        public InventoryTabController(VisualElement root)
         {
-            _items = items;
-            
-            MultiColumnListView inventoryListView = root.Q<MultiColumnListView>(InventoryUIConstants.InventoryItems);
-            _listController = new InventoryListController(inventoryListView);
-
-            PopulateList();
-
             GetTabAndSubScribeToSelected(InventoryUIConstants.AllTab, AllTabOnSelected, root);
             GetTabAndSubScribeToSelected(InventoryUIConstants.ToolsAndWeaponsTab, ToolsAndWeaponsTabOnSelected, root);
             GetTabAndSubScribeToSelected(InventoryUIConstants.ClothingTab, ClothingTabOnSelected, root);
@@ -35,46 +24,44 @@ namespace UI.Inventory
             tab.selected += selectedMethod;
         }
 
-        private void PopulateListWithCategory(ItemCategory category)
-        {
-            InventoryModel model = new InventoryModel(_items.Where(x => ItemTypeCategory.GetCategory(x.ItemProperties.Type) == category));
-            _listController.PopulateInventoryList(model);
-        }
-        
-        private void PopulateList()
-        {
-            InventoryModel model = new InventoryModel(_items);
-            _listController.PopulateInventoryList(model);
-        }
-
         private void AllTabOnSelected(Tab obj)
         {
-            PopulateList();
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.None));
         }
 
         private void ToolsAndWeaponsTabOnSelected(Tab obj)
         {
-            PopulateListWithCategory(ItemCategory.WeaponsAndTools);
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.WeaponsAndTools));
         }
         
         private void ClothingTabOnSelected(Tab obj)
         {
-            PopulateListWithCategory(ItemCategory.Clothing);
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.Clothing));
         }
 
         private void ConsumablesTabOnSelected(Tab obj)
         {
-            PopulateListWithCategory(ItemCategory.Consumables);
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.Consumables));
         }
 
         private void BooksTabOnSelected(Tab obj)
         {
-            PopulateListWithCategory(ItemCategory.Books);
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.Books));
         }
 
         private void MiscTabOnSelected(Tab obj)
         {
-            PopulateListWithCategory(ItemCategory.Misc);
+            TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.Misc));
         }
+    }
+}
+
+public class CategoryChangedEventsArgs : EventArgs
+{
+    public ItemCategory ItemCategory { get; }
+
+    public CategoryChangedEventsArgs(ItemCategory itemCategory)
+    {
+        ItemCategory = itemCategory;
     }
 }

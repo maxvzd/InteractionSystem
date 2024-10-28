@@ -11,5 +11,9 @@
         public static string ConsumablesTab => "ConsumablesTab";
         public static string BooksTab => "BooksTab";
         public static string MiscTab => "MiscTab";
+        public static string ItemTitle => "ItemTitleLabel";
+        public static string ItemVolume => "ItemVolumeLabel";
+        public static string ItemWeight => "ItemWeightLabel";
+        public static string ItemDescription=> "ItemDescriptionLabel";
     }
 }

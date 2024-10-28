@@ -21,11 +21,11 @@
         </ui:TabView>
         <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.47); padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
             <ui:VisualElement name="ItemInformation" style="flex-grow: 1; border-left-color: rgba(255, 255, 255, 0.47); border-right-color: rgba(255, 255, 255, 0.47); border-top-color: rgba(255, 255, 255, 0.47); border-bottom-color: rgba(255, 255, 255, 0.47); border-bottom-width: 2px; max-height: 50%;">
-                <ui:Label text="Item Title&#10;" name="TitleLabel" style="font-size: 36px; color: rgba(255, 255, 255, 0.47); border-left-color: rgba(255, 255, 255, 0.47); border-right-color: rgba(255, 255, 255, 0.47); border-top-color: rgba(255, 255, 255, 0.47); border-bottom-color: rgba(255, 255, 255, 0.47); border-bottom-width: 2px;" />
-                <ui:Label text="Label" name="DescriptionLabel" style="color: rgba(255, 255, 255, 0.47); font-size: 20px; margin-top: 10px;" />
+                <ui:Label text="Item Title&#10;" name="ItemTitleLabel" style="font-size: 36px; color: rgba(255, 255, 255, 0.47); border-left-color: rgba(255, 255, 255, 0.47); border-right-color: rgba(255, 255, 255, 0.47); border-top-color: rgba(255, 255, 255, 0.47); border-bottom-color: rgba(255, 255, 255, 0.47); border-bottom-width: 2px;" />
+                <ui:Label text="Label" name="ItemDescriptionLabel" style="color: rgba(255, 255, 255, 0.47); font-size: 20px; margin-top: 10px;" />
                 <ui:VisualElement name="BottomAlign" style="flex-grow: 1; align-content: flex-end; justify-content: flex-end; padding-top: 50px; padding-right: 0; padding-bottom: 50px; padding-left: 0;">
-                    <ui:Label text="Weight: " name="WeightLabel" style="font-size: 20px;" />
-                    <ui:Label text="Volume: " name="VolumeLabel" style="font-size: 20px;" />
+                    <ui:Label text="Weight: " name="ItemWeightLabel" style="font-size: 20px;" />
+                    <ui:Label text="Volume: " name="ItemVolumeLabel" style="font-size: 20px;" />
                     <ui:Button text="Retrieve Item" name="RetrieveItemButton" style="align-self: center;" />
                 </ui:VisualElement>
             </ui:VisualElement>

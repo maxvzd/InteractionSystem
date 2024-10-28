@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Constants;
+using Items.UITemplates;
 using UnityEngine.UIElements;
 
 namespace UI.Inventory
@@ -7,8 +9,9 @@ namespace UI.Inventory
     public class InventoryListController
     {
         private readonly MultiColumnListView _inventoryListView;
-
         private VisualTreeAsset _inventoryItemTemplate;
+        
+        public event EventHandler<ItemChangedEventArgs> ItemChanged;
 
         public InventoryListController(MultiColumnListView listView)
         {
@@ -18,6 +21,13 @@ namespace UI.Inventory
 
         private void InventoryListViewOnSelectionChanged(IEnumerable<object> obj)
         {
+            foreach (object listItem in obj)
+            {
+                if (listItem is UIItemModel uiItemModel)
+                {
+                    ItemChanged?.Invoke(this, new ItemChangedEventArgs(uiItemModel));
+                }
+            }
         }
 
         public void PopulateInventoryList(InventoryModel model)
@@ -47,5 +57,14 @@ namespace UI.Inventory
                 label.text = text;
             }
         }
+    }
+}
+
+public class ItemChangedEventArgs
+{
+    public UIItemModel Item { get; }
+    public ItemChangedEventArgs(UIItemModel item)
+    {
+        Item = item;
     }
 }

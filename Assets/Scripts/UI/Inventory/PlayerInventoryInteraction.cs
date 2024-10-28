@@ -20,6 +20,7 @@ namespace UI.Inventory
         private float _buttonHeldTime;
         private bool _uiIsHidden;
         private PlayerInput _input;
+        private InventoryController _inventoryController;
 
         private void Start()
         {
@@ -29,6 +30,8 @@ namespace UI.Inventory
             _input = GetComponent<PlayerInput>();
             _openInventoryAction = _input.actions[InputConstants.OpenInventoryAction];
             _closeInventoryAction = _input.actions[InputConstants.CloseInventoryAction];
+            
+            _inventoryController = new InventoryController(inventoryUI.rootVisualElement);
             
             HideUI();
         }
@@ -77,9 +80,8 @@ namespace UI.Inventory
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
 
-            IReadOnlyList<IItem> items = _equipment.IsBackpackEquipped ? _equipment.Backpack.Inventory : new List<IItem>(); 
-
-            InventoryTabController tabController = new InventoryTabController(inventoryUI.rootVisualElement, items);
+            IEnumerable<IItem> items = _equipment.IsBackpackEquipped ? _equipment.Backpack.Inventory : new List<IItem>();
+            _inventoryController.PopulateItems(items);
         
             inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
             _uiIsHidden = false;
