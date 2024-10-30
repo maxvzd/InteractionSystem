@@ -1,43 +1,64 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Constants;
 using Items.ItemInterfaces;
+using Items.UITemplates;
 using UnityEngine.UIElements;
 
 namespace UI.Inventory
 {
     public class InventoryController
     {
-        private IEnumerable<IItem> _items;
+        private Dictionary<Guid, IItem> _items;
         private readonly InventoryListController _listController;
         private readonly InventoryItemInfoPanelController _itemInfoPanelController;
+        private UIItemModel _selectedItem;
+        private InventoryModel _model;
+
+        public EventHandler<ItemEventArgs> RetrieveItemClicked;
 
         public InventoryController(VisualElement root)
         {
             MultiColumnListView inventoryListView = root.Q<MultiColumnListView>(InventoryUIConstants.InventoryItems);
             _listController = new InventoryListController(inventoryListView);
-            _listController.ItemChanged+= ListControllerOnItemChanged;
+            _listController.ItemChanged += ListControllerOnItemChanged;
 
             InventoryTabController tabController = new InventoryTabController(root);
             tabController.TabSelected += TabControllerOnTabSelected;
 
             _itemInfoPanelController = new InventoryItemInfoPanelController(root);
+            _itemInfoPanelController.RetrieveItemButtonClicked += RetrieveItemButtonClicked;
+
+            _items = new Dictionary<Guid, IItem>();
         }
 
-        public void PopulateItems(IEnumerable<IItem> items)
+        private void RetrieveItemButtonClicked(object sender, EventArgs e)
         {
-            _items = items;
+            if (_selectedItem.ItemId != Guid.Empty)
+            {
+                RetrieveItemClicked?.Invoke(this, new ItemEventArgs(_selectedItem.ItemId));
+            }
+        }
+
+        public void PopulateItems(IReadOnlyDictionary<Guid, IItem> items)
+        {
+            foreach (KeyValuePair<Guid, IItem> item in items)
+            {
+                _items.Add(item.Key, item.Value);
+            }
             PopulateList();
         }
 
         private void ListControllerOnItemChanged(object sender, ItemChangedEventArgs e)
         {
-            _itemInfoPanelController.SetItem(e.Item);
+            _selectedItem = _model.InventoryItems[e.Item.ItemId];
+            _itemInfoPanelController.SetItem(_selectedItem);
         }
 
         private void TabControllerOnTabSelected(object sender, CategoryChangedEventsArgs e)
         {
-            if(e.ItemCategory == ItemCategory.None)
+            if (e.ItemCategory == ItemCategory.None)
             {
                 PopulateList();
             }
@@ -49,14 +70,24 @@ namespace UI.Inventory
 
         private void PopulateListWithCategory(ItemCategory category)
         {
-            InventoryModel model = new InventoryModel(_items.Where(x => ItemTypeCategory.GetCategory(x.ItemProperties.Type) == category));
-            _listController.PopulateInventoryList(model);
+            _model = ConstructUiModel(_items.Where(x => ItemTypeCategory.GetCategory(x.Value.ItemProperties.Type) == category).Select(x=> x.Value));
+            _listController.PopulateInventoryList(_model);
         }
-        
+
         private void PopulateList()
         {
-            InventoryModel model = new InventoryModel(_items);
-            _listController.PopulateInventoryList(model);
+             _model = ConstructUiModel(_items.Select(x => x.Value));
+             _listController.PopulateInventoryList(_model);
+        }
+
+        private InventoryModel ConstructUiModel(IEnumerable<IItem> items)
+        {
+            List<UIItemModel> uiModels = new List<UIItemModel>();
+            foreach (IItem item in items)
+            {
+                uiModels.Add(new UIItemModel(item));
+            }
+            return new InventoryModel(uiModels);
         }
     }
 }

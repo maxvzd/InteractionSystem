@@ -1,5 +1,5 @@
-﻿using Constants;
-using Items.ItemInterfaces;
+﻿using System;
+using Constants;
 using Items.UITemplates;
 using UnityEngine.UIElements;
 
@@ -12,12 +12,16 @@ namespace UI.Inventory
         private readonly Label _itemWeightLabel;
         private readonly Label _itemVolumeLabel;
 
+        public EventHandler RetrieveItemButtonClicked;
+        
         public InventoryItemInfoPanelController(VisualElement root)
         {
             _itemTitleLabel = root.Q<Label>(InventoryUIConstants.ItemTitle);
             _itemDescriptionLabel = root.Q<Label>(InventoryUIConstants.ItemDescription);
             _itemWeightLabel = root.Q<Label>(InventoryUIConstants.ItemWeight);
             _itemVolumeLabel = root.Q<Label>(InventoryUIConstants.ItemVolume);
+            Button retrieveItemButton = root.Q<Button>(InventoryUIConstants.RetrieveItemButton);
+            retrieveItemButton.clicked += () => RetrieveItemButtonClicked?.Invoke(this, EventArgs.Empty);
 
             _itemTitleLabel.text = string.Empty;
             _itemDescriptionLabel.text = string.Empty;

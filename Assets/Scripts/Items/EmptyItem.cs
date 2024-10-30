@@ -1,4 +1,5 @@
-﻿using Constants;
+﻿using System;
+using Constants;
 using Items.ItemInterfaces;
 using Items.Properties;
 using Items.UITemplates;
@@ -10,6 +11,8 @@ namespace Items
     public struct EmptyItem : IItem
     {
         public Transform Transform => null;
+
+        public Guid Id => Guid.Empty;
 
         public void EnablePhysics()
         {
@@ -31,6 +34,8 @@ namespace Items
         public IInteractableProperties Properties => new EmptyProperties();
         public IItemProperties ItemProperties => null;
         public IUIItemProperties UIProperties => null;
+        public Guid PrefabId => Guid.Empty;
+        public Guid ItemId => Guid.Empty;
         public ItemType Type => ItemType.Junk;
     }
 }

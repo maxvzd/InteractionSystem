@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Items
         public override IInteractableProperties Properties => wearableContainerProperties;
         public override IItemProperties ItemProperties => wearableContainerProperties;
         public override bool IsEquippable => true;
-        public IReadOnlyList<IItem> Inventory => _container.Inventory;
+        public IReadOnlyDictionary<Guid, IItem> Inventory => _container.Inventory;
         public float VolumeLimit => _container.VolumeLimit;
         public float WeightLimit => _container.WeightLimit;
         public float CurrentVolume => _container.CurrentVolume;
@@ -30,13 +31,13 @@ namespace Items
 
         private Container _container;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             _container = new Container(volumeLimit, weightLimit);
         }
         
         public AddItemToBackpackResult AddItem(IItem itemToAdd) => _container.AddItem(itemToAdd);
-        public bool RemoveItem(IItem itemToAdd) =>_container.RemoveItem(itemToAdd);
+        public bool RemoveItem(IItem itemToRemove) =>_container.RemoveItem(itemToRemove);
     }
 }

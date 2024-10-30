@@ -18,5 +18,6 @@ MonoBehaviour:
   weight: 3
   volume: 2
   type: 1
+  prefabId: e57c1244-b4b0-4b3f-a73f-0187adc71a6d
   damage: 15
   effectiveRange: 200

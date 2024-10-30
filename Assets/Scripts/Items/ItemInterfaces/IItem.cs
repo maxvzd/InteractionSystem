@@ -1,7 +1,6 @@
-﻿using Constants;
+﻿using System;
 using Items.UITemplates;
 using RootMotion.FinalIK;
-using UnityEngine;
 
 namespace Items.ItemInterfaces
 {
@@ -13,8 +12,8 @@ namespace Items.ItemInterfaces
         bool IsEquippable { get; }
         bool IsEmpty => false;
         bool HasOffsetPose { get; }
-        Transform Transform { get; }
         IItemProperties ItemProperties { get; }
         IUIItemProperties UIProperties { get; }
+        Guid ItemId { get; }
     }
 }

@@ -15,5 +15,6 @@
         public static string ItemVolume => "ItemVolumeLabel";
         public static string ItemWeight => "ItemWeightLabel";
         public static string ItemDescription=> "ItemDescriptionLabel";
+        public static string RetrieveItemButton=> "RetrieveItemButton";
     }
 }

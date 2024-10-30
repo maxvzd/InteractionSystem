@@ -1,33 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
 using Constants;
 using GunStuff;
 using Items.ItemInterfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerWearableEquipment : MonoBehaviour
 {
     public bool IsBackpackEquipped => _backpackSlot is not null;
     public bool IsWeaponEquipped => _rightHandWeaponSlot is not null;
-    public IWearableContainer Backpack => _backpackSlot;
+    public IBackpack Backpack => _backpackSlot;
     
     [SerializeField] private Transform backpackSocket;
 
     //Slots 
-    private IWearableContainer _backpackSlot;
+    private IBackpack _backpackSlot;
     private IWeapon _rightHandWeaponSlot;
 
     //Player components
     private GunEquipper _gunEquipper;
     private Animator _animator;
 
+    private List<IWearableContainer> _playerContainers;
+    public IEnumerable<IWearableContainer> PlayerContainers => _playerContainers;
+    
+
     private void Start()
     {
         _gunEquipper = GetComponent<GunEquipper>();
         _animator = GetComponent<Animator>();
+
+        _playerContainers = new List<IWearableContainer>();
     }
 
-    public bool EquipItem(IEquippable item)
+    public bool EquipItem(IEquippable item, Transform itemTransform)
     {
+        if (item is IWearableContainer container)
+        {
+            _playerContainers.Add(container);
+        }
+        
         switch (item.EquipmentSlot)
         {
             case EquipmentSlot.Hands:
@@ -45,15 +58,15 @@ public class PlayerWearableEquipment : MonoBehaviour
             case EquipmentSlot.Face:
                 break;
             case EquipmentSlot.Back:
-                IWearableContainer wearableContainer = CastToType<IWearableContainer>(item);
-                if (wearableContainer is null) return false;
-                return EquipItem(wearableContainer);
+                IBackpack backpack = CastToType<IBackpack>(item);
+                if (backpack is null) return false;
+                return EquipItem(backpack, itemTransform);
             case EquipmentSlot.Wrist:
                 break;
             case EquipmentSlot.Weapon:
-                if (!IsWeaponEquipped) return false;
+                if (IsWeaponEquipped) return false;
                 IWeapon weapon = CastToType<IWeapon>(item);
-                return EquipItem(weapon, item.Transform);
+                return EquipItem(weapon, itemTransform);
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -104,23 +117,23 @@ public class PlayerWearableEquipment : MonoBehaviour
         }
     }
 
-    private bool EquipItem(IWearableContainer wearableContainer)
+    private bool EquipItem(IBackpack wearableContainer, Transform backpackTransform)
     {
         if (_backpackSlot is not null) return false;
 
         _animator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
-        Transform itemTransform = wearableContainer.Transform;
-        Animator backpackAnimator = itemTransform.GetComponent<Animator>();
+        //_backpackTransform = backpackTransform;
+        Animator backpackAnimator = backpackTransform.GetComponent<Animator>();
         if (backpackAnimator is not null)
         {
             backpackAnimator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
         }
 
-        itemTransform.SetParent(backpackSocket);
-        LayerManager.ChangeLayerOfItem(itemTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
+        backpackTransform.SetParent(backpackSocket);
+        LayerManager.ChangeLayerOfItem(backpackTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
         _backpackSlot = wearableContainer;
-        itemTransform.localPosition = wearableContainer.EquippedPosition.EquippedLocalPosition;
-        itemTransform.localEulerAngles = wearableContainer.EquippedPosition.EquippedLocalRotation;
+        backpackTransform.localPosition = wearableContainer.EquippedPosition.EquippedLocalPosition;
+        backpackTransform.localEulerAngles = wearableContainer.EquippedPosition.EquippedLocalRotation;
         return true;
     }
 
@@ -139,6 +152,29 @@ public class PlayerWearableEquipment : MonoBehaviour
             default:
                 _rightHandWeaponSlot = null;
                 return false;
+        }
+    }
+
+    public void GetBackpackOut()
+    {
+        backpackSocket.localPosition += _backpackSlot.BackpackOutPositionOffset;
+        backpackSocket.localEulerAngles += _backpackSlot.BackpackOutRotationOffset;
+    }
+
+    public void PutBackpackAway()
+    {
+        backpackSocket.localPosition -= _backpackSlot.BackpackOutPositionOffset;
+        backpackSocket.localEulerAngles -= _backpackSlot.BackpackOutRotationOffset;
+    }
+
+    public void RemoveItemFromWearableContainers(IItem item)
+    {
+        foreach (IWearableContainer container in _playerContainers)
+        {
+            if (container.RemoveItem(item))
+            {
+                return;
+            }
         }
     }
 }

@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
-using Items.ItemInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Items.UITemplates;
 
 namespace UI.Inventory
 {
     public class InventoryModel
     {
-        public readonly List<UIItemModel> InventoryItems = new();
+        public readonly Dictionary<Guid, UIItemModel> InventoryItems;
+        public List<UIItemModel> ItemList => InventoryItems.Values.ToList();
 
-        public InventoryModel(IEnumerable<IItem> items)
+        public InventoryModel(IEnumerable<UIItemModel> items)
         {
-            foreach (IItem item in items)
+            InventoryItems = new Dictionary<Guid, UIItemModel>();
+            foreach (UIItemModel model in items)
             {
-                InventoryItems.Add(new UIItemModel(item));
+                InventoryItems.Add(model.ItemId, model);
             }
         }
     }

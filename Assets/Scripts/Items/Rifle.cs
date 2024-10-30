@@ -1,7 +1,4 @@
-﻿using Constants;
-using Items.ItemInterfaces;
-
-namespace Items
+﻿namespace Items
 {
     public class Rifle : Gun
     {

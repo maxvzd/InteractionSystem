@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Items.ItemInterfaces;
+using UI.Inventory;
 
 namespace Items
 {
     public class Container : IContainer
     {
-        public IReadOnlyList<IItem> Inventory => _inventory;
-        
-        private readonly List<IItem> _inventory;
+        public IReadOnlyDictionary<Guid, IItem> Inventory => _inventory;
+        private readonly Dictionary<Guid, IItem> _inventory;
         
         public float VolumeLimit { get; }
         public float WeightLimit { get; }
         public float CurrentVolume { get; }
         public float CurrentWeight { get; }
 
+        public EventHandler<ItemEventArgs> ItemAdded; 
+        public EventHandler<ItemEventArgs> ItemRemoved; 
+
         public Container(float volumeLimit, float weightLimit)
         {
-            _inventory = new List<IItem>();
+            _inventory = new Dictionary<Guid, IItem>();
             VolumeLimit = volumeLimit;
             WeightLimit = weightLimit;
             CurrentWeight = 0f;
@@ -28,13 +32,17 @@ namespace Items
             if (itemToAdd.ItemProperties.Volume + CurrentVolume > VolumeLimit) return AddItemToBackpackResult.TooMuchVolume;
             if (itemToAdd.ItemProperties.Weight + CurrentWeight > WeightLimit) return AddItemToBackpackResult.TooMuchWeight;
 
-            _inventory.Add(itemToAdd);
+            _inventory.Add(itemToAdd.ItemId, itemToAdd);
+            ItemAdded?.Invoke(this, new ItemEventArgs(itemToAdd.ItemId));
             return AddItemToBackpackResult.Succeeded;
         }
 
-        public bool RemoveItem(IItem itemToAdd)
+        public bool RemoveItem(IItem itemToRemove)
         {
-            throw new System.NotImplementedException();
+            if (!_inventory.Remove(itemToRemove.ItemId)) return false;
+            
+            ItemRemoved?.Invoke(this, new ItemEventArgs(itemToRemove.ItemId));
+            return true;
         }
     }
 }

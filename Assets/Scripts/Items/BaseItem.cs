@@ -1,4 +1,4 @@
-﻿using Constants;
+﻿using System;
 using Items.ItemInterfaces;
 using Items.Properties;
 using Items.UITemplates;
@@ -12,9 +12,8 @@ namespace Items
         private InteractionObject _interactionObject;
         private Rigidbody[] _rigidBodies;
         private Collider[] _colliders;
-        
+
         [SerializeField] private UIItemProperties uiProperties;
-        
         public InteractionObject InteractionObject => _interactionObject;
         public virtual bool IsEquippable => false;
         public OffsetPose OffsetPose { get; private set; }
@@ -23,13 +22,16 @@ namespace Items
         public abstract IItemProperties ItemProperties { get; }
         public abstract IInteractableProperties Properties { get; }
         public IUIItemProperties UIProperties => uiProperties;
+        public Guid ItemId { get; private set; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             _interactionObject = GetComponent<InteractionObject>();
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
             _colliders = GetComponentsInChildren<Collider>();
             OffsetPose = GetComponent<OffsetPose>();
+
+            ItemId = Guid.NewGuid();
         }
 
         public void EnablePhysics()
@@ -41,6 +43,5 @@ namespace Items
         {
             PhysicsManager.Disable(_rigidBodies, _colliders);
         }
-
     }
 }

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: AK47
   m_EditorClassIdentifier: 
   interactIcon: {fileID: 2800000, guid: d9ee6dc18508efb47aa981bc3475a4ad, type: 3}
-  objectName: AK47
+  itemName: AK47
   description: Shoot zombie
   weight: 5
   volume: 3
+  type: 0
+  prefabId: 415f18ad-e729-4604-b6ba-842ad1693e9d
   damage: 25
   effectiveRange: 350

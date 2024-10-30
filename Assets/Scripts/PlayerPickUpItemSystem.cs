@@ -10,12 +10,12 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 {
     public bool IsHoldingItem => !_currentlyHeldItem.IsEmpty;
     public bool IsInInteraction => _interactionSystem.IsInInteraction(FullBodyBipedEffector.RightHand);
-    public bool IsItemEquippable => _currentlyHeldItem.IsEquippable;
+    public bool IsItemEquippable => !_currentlyHeldItem.IsEmpty && _currentlyHeldItem.Item.IsEquippable;
     public bool HasWeaponEquipped => _playerEquipmentSystem.IsWeaponEquipped;
 
     [SerializeField] private Transform rightArmIkTarget;
 
-    private IItem _currentlyHeldItem;
+    private HeldItem _currentlyHeldItem;
 
     private float _holdWeight;
     private IEnumerator _holdWeightCoRoutine;
@@ -44,7 +44,8 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
         _interactionSystem = GetComponent<InteractionSystem>();
         _interactionSystem.OnInteractionStop += OnInteractionStop;
-        _currentlyHeldItem = new EmptyItem();
+        
+        _currentlyHeldItem = new HeldItem(new EmptyItem(), null);
     }
 
     private void Update()
@@ -57,9 +58,9 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!_currentlyHeldItem.HasOffsetPose) return;
+        if (_currentlyHeldItem.IsEmpty  || !_currentlyHeldItem.Item.HasOffsetPose) return;
 
-        _currentlyHeldItem.OffsetPose.Apply(_ik.solver, _holdWeight, transform.rotation, _headPosition);
+        _currentlyHeldItem.Item.OffsetPose.Apply(_ik.solver, _holdWeight, transform.rotation, _headPosition);
     }
 
     public void PickupItem(Transform currentlyHeldItem)
@@ -73,8 +74,8 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
         if (_interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false))
         {
-            _currentlyHeldItem = currentlyHeldItem.GetComponent<IItem>();
-            _currentlyHeldItem.DisablePhysics();
+            _currentlyHeldItem = new HeldItem(currentlyHeldItem.GetComponent<IItem>(), currentlyHeldItem);
+            _currentlyHeldItem.Item.DisablePhysics();
 
             StartHoldWeightCoRoutine(1);
         }
@@ -180,10 +181,10 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     {
         if (_currentlyHeldItem.IsEmpty) return;
 
-        _currentlyHeldItem.EnablePhysics();
+        _currentlyHeldItem.Item.EnablePhysics();
 
         _currentlyHeldItem.Transform.SetParent(null);
-        _currentlyHeldItem = new EmptyItem();
+        _currentlyHeldItem = new HeldItem(new EmptyItem());
 
         _heldPosition = Vector3.zero;
         _heldRotation = Quaternion.identity;
@@ -209,13 +210,14 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
     public void EquipItem()
     {
-        if (!_currentlyHeldItem.IsEquippable) return;
-        if (_currentlyHeldItem is not IEquippable equippableItem) return;
-        if (!_playerEquipmentSystem.EquipItem(equippableItem)) return;
+        if (_currentlyHeldItem.IsEmpty) return;
+        if (!_currentlyHeldItem.Item.IsEquippable) return;
+        if (_currentlyHeldItem.Item is not IEquippable equippableItem) return;
+        if (!_playerEquipmentSystem.EquipItem(equippableItem, _currentlyHeldItem.Transform)) return;
 
         if (ItemTypeCategory.GetCategory(equippableItem.ItemProperties.Type) != ItemCategory.WeaponsAndTools)
         {
-            _currentlyHeldItem = new EmptyItem();
+            _currentlyHeldItem = new HeldItem(new EmptyItem());
             ResetPoser();
         }
     }
@@ -234,13 +236,34 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     {
         if (!IsHoldingItem) return AddItemToBackpackResult.NoItemInHand;
         
-        AddItemToBackpackResult result = _playerInventory.AddItemToInventory(_currentlyHeldItem);
+        AddItemToBackpackResult result = _playerInventory.AddItemToInventory(_currentlyHeldItem.Item);
         if (result != AddItemToBackpackResult.Succeeded) return result;
         
         
         _currentlyHeldItem.Transform.gameObject.SetActive(false);
         //Destroy(_currentlyHeldItem.Transform.gameObject);
-        _currentlyHeldItem = new EmptyItem();
+        _currentlyHeldItem = new HeldItem(new EmptyItem());
         return AddItemToBackpackResult.Succeeded;
+    }
+}
+
+public struct HeldItem
+{
+    public readonly IItem Item;
+    public readonly Transform Transform;
+    public readonly bool IsEmpty;
+    
+    public HeldItem(IItem item, Transform itemTransform)
+    {
+        IsEmpty = item is EmptyItem;
+        Item = item;
+        Transform = itemTransform;
+    }
+
+    public HeldItem(EmptyItem emptyItem)
+    {
+        IsEmpty = true;
+        Item = emptyItem;
+        Transform = null;
     }
 }

@@ -13,7 +13,8 @@ namespace Items.UITemplates
         public float Volume { get; }
         public float Weight { get; }
         public ItemType Type { get; }
-        
+        public Guid ItemId { get; }
+
         public UIItemModel(IItem item)
         {
             Name = item.ItemProperties.ItemName;
@@ -22,6 +23,7 @@ namespace Items.UITemplates
             Volume = item.ItemProperties.Volume;
             Weight = item.ItemProperties.Weight;
             Type = item.ItemProperties.Type;
+            ItemId = item.ItemId;
         }
     }
 }

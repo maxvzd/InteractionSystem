@@ -841,11 +841,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7986933832200888993}
+      addedObject: {fileID: 7567939102146892952}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7567939102146892952}
+      addedObject: {fileID: 5297040209405840342}
     - targetCorrespondingSourceObject: {fileID: 3385000124571244174, guid: b2e5244563adda34abb9b86352e00996,
         type: 3}
       insertIndex: -1
@@ -1005,25 +1005,6 @@ MonoBehaviour:
     offset: {x: 0, y: 0, z: 0}
     pin: {x: -0.3, y: 0.61, z: -0.07}
     pinWeight: {x: 1, y: 1, z: 1}
---- !u!114 &7986933832200888993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325275814391681625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2e053e01c0343e281ada1a09172bf3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equippedPosition: {fileID: 11400000, guid: 44e2c8e2a3add5b4ba6e1a2ac1e91c54, type: 2}
-  wearableContainerProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9,
-    type: 2}
-  weightLimit: 10
-  volumeLimit: 5
-  backpackOutPositionOffset: {x: 0, y: -0.3, z: 0.3}
-  backpackOutRotationOffset: {x: 180, y: 0, z: 0}
 --- !u!54 &7567939102146892952
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1051,6 +1032,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5297040209405840342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325275814391681625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b9db66401d4a988761f5df29952cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiProperties: {fileID: 0}
+  equippedPosition: {fileID: 11400000, guid: 44e2c8e2a3add5b4ba6e1a2ac1e91c54, type: 2}
+  wearableContainerProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9,
+    type: 2}
+  weightLimit: 10
+  volumeLimit: 5
+  backpackOutPositionOffset: {x: 0, y: -0.3, z: 0.3}
+  backpackOutRotationOffset: {x: 180, y: 0, z: 0}
 --- !u!4 &1814814278051154147 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2e5244563adda34abb9b86352e00996,
