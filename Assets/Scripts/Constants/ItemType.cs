@@ -24,7 +24,8 @@ namespace Constants
         Food,
         Junk,
         Book,
-        Consumable
+        Consumable,
+        None
     }
 
     public enum ItemCategory

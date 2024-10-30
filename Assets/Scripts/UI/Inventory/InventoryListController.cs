@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Constants;
-using Items.ItemInterfaces;
+using Items;
 using Items.UITemplates;
 using UnityEngine.UIElements;
 
@@ -34,8 +33,7 @@ namespace UI.Inventory
 
         public void PopulateInventoryList(InventoryModel model)
         {
-            //List<UIItemModel> items = model.InventoryItems.Values.ToList();
-            
+            _inventoryListView.itemsSource = model.ItemList;
             _inventoryListView.columns["Icon"].bindCell = (element, i) =>
             {
                 VisualElement iconContainer = element.Q<VisualElement>(InventoryUIConstants.IconElement);
@@ -49,7 +47,6 @@ namespace UI.Inventory
             _inventoryListView.columns["Weight"].bindCell = (element, i) => SetTextInDisplayLabel(model.ItemList[i].Weight.ToString("F"), element); 
             _inventoryListView.columns["Volume"].bindCell = (element, i) => SetTextInDisplayLabel(model.ItemList[i].Volume.ToString("F"), element); 
             
-            _inventoryListView.itemsSource = model.ItemList;
             _inventoryListView.fixedItemHeight = 95;
         }
 
@@ -60,6 +57,21 @@ namespace UI.Inventory
             {
                 label.text = text;
             }
+        }
+        
+        public void Rebuild(InventoryModel model)
+        {
+            _inventoryListView.itemsSource = model.ItemList;
+            _inventoryListView.Rebuild();
+        }
+
+        public IUIItemModel GetSelectedItem()
+        {
+            if (_inventoryListView.selectedItem is IUIItemModel item)
+            {
+                return item;
+            }
+            return new EmptyUIItemModel();
         }
     }
 }

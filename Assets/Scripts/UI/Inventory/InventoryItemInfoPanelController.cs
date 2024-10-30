@@ -21,7 +21,7 @@ namespace UI.Inventory
             _itemWeightLabel = root.Q<Label>(InventoryUIConstants.ItemWeight);
             _itemVolumeLabel = root.Q<Label>(InventoryUIConstants.ItemVolume);
             Button retrieveItemButton = root.Q<Button>(InventoryUIConstants.RetrieveItemButton);
-            retrieveItemButton.clicked += () => RetrieveItemButtonClicked?.Invoke(this, EventArgs.Empty);
+            retrieveItemButton.clicked += OnRetrieveItemButtonClicked;
 
             _itemTitleLabel.text = string.Empty;
             _itemDescriptionLabel.text = string.Empty;
@@ -29,7 +29,12 @@ namespace UI.Inventory
             _itemVolumeLabel.text = string.Empty;
         }
 
-        public void SetItem(UIItemModel item)
+        private void OnRetrieveItemButtonClicked()
+        {
+            RetrieveItemButtonClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetItem(IUIItemModel item)
         {
             _itemTitleLabel.text = item.Name;
             _itemDescriptionLabel.text = item.Description;

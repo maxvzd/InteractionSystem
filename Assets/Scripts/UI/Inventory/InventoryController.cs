@@ -13,7 +13,7 @@ namespace UI.Inventory
         private Dictionary<Guid, IItem> _items;
         private readonly InventoryListController _listController;
         private readonly InventoryItemInfoPanelController _itemInfoPanelController;
-        private UIItemModel _selectedItem;
+        private IUIItemModel _selectedItem;
         private InventoryModel _model;
 
         public EventHandler<ItemEventArgs> RetrieveItemClicked;
@@ -38,11 +38,19 @@ namespace UI.Inventory
             if (_selectedItem.ItemId != Guid.Empty)
             {
                 RetrieveItemClicked?.Invoke(this, new ItemEventArgs(_selectedItem.ItemId));
+                
+                _items.Remove(_selectedItem.ItemId);
+                _model.RemoveItem(_selectedItem.ItemId);
+                
+                _listController.Rebuild(_model);
+                _selectedItem = _listController.GetSelectedItem();
+                _itemInfoPanelController.SetItem(_selectedItem);
             }
         }
 
         public void PopulateItems(IReadOnlyDictionary<Guid, IItem> items)
         {
+            _items = new Dictionary<Guid, IItem>(items.Count);
             foreach (KeyValuePair<Guid, IItem> item in items)
             {
                 _items.Add(item.Key, item.Value);

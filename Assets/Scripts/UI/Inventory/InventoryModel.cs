@@ -18,5 +18,10 @@ namespace UI.Inventory
                 InventoryItems.Add(model.ItemId, model);
             }
         }
+
+        public void RemoveItem(Guid guid)
+        {
+            InventoryItems.Remove(guid);
+        }
     }
 }
