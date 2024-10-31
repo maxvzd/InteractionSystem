@@ -16,5 +16,9 @@
         public static string ItemWeight => "ItemWeightLabel";
         public static string ItemDescription=> "ItemDescriptionLabel";
         public static string RetrieveItemButton=> "RetrieveItemButton";
+        public static string HeadSlot => "HeadSlot";
+        public static string TorsoSlot => "TorsoSlot";
+        public static string MainTabView => "MainTabView";
+        public static string BeltSlot => "BeltSlot";
     }
 }

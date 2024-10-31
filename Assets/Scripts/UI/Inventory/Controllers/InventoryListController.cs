@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Constants;
-using Items;
 using Items.UITemplates;
 using UnityEngine.UIElements;
 
-namespace UI.Inventory
+namespace UI.Inventory.Controllers
 {
     public class InventoryListController
     {
@@ -74,13 +73,13 @@ namespace UI.Inventory
             return new EmptyUIItemModel();
         }
     }
-}
 
-public class ItemChangedEventArgs
-{
-    public UIItemModel Item { get; }
-    public ItemChangedEventArgs(UIItemModel item)
+    public class ItemChangedEventArgs
     {
-        Item = item;
+        public UIItemModel Item { get; }
+        public ItemChangedEventArgs(UIItemModel item)
+        {
+            Item = item;
+        }
     }
 }

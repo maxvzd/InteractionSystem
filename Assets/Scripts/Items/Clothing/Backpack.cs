@@ -1,6 +1,6 @@
 ﻿using Items.ItemInterfaces;
 
-namespace Items
+namespace Items.Clothing
 {
     public class Backpack : WearableContainer, IBackpack
     {

@@ -3,7 +3,7 @@ using Constants;
 using Items.UITemplates;
 using UnityEngine.UIElements;
 
-namespace UI.Inventory
+namespace UI.Inventory.Controllers
 {
     public class InventoryItemInfoPanelController
     {

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using Constants;
 using GunStuff;
 using Items.ItemInterfaces;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerWearableEquipment : MonoBehaviour
+public class PlayerEquipper : MonoBehaviour
 {
     public bool IsBackpackEquipped => _backpackSlot is not null;
     public bool IsWeaponEquipped => _rightHandWeaponSlot is not null;
@@ -177,19 +176,4 @@ public class PlayerWearableEquipment : MonoBehaviour
             }
         }
     }
-}
-
-public enum EquipmentSlot
-{
-    Hands, //gloves etc
-    UnderTorso, //tshirts
-    OverTorso, //jackets
-    Legs, //trousers
-    Feet, //shoes/boots
-    Head, //helmets/hats
-    Face, //masks
-    Back, //backpacks
-    Wrist, //watches
-
-    Weapon,
 }

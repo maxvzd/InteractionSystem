@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Constants;
 using Items.ItemInterfaces;
 using UI.Inventory;
+using UI.Inventory.Controllers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +14,7 @@ public class PlayerInventoryInteraction : MonoBehaviour
 {
     [SerializeField] private UIDocument inventoryUI;
 
-    private PlayerWearableEquipment _equipment;
+    private PlayerEquipper _equipment;
     private InputAction _openInventoryAction;
     private InputAction _closeInventoryAction;
     private Animator _animator;
@@ -25,7 +26,7 @@ public class PlayerInventoryInteraction : MonoBehaviour
 
     private void Start()
     {
-        _equipment = GetComponent<PlayerWearableEquipment>();
+        _equipment = GetComponent<PlayerEquipper>();
         _animator = GetComponent<Animator>();
 
         _input = GetComponent<PlayerInput>();

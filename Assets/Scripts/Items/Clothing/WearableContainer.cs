@@ -4,7 +4,7 @@ using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
 
-namespace Items
+namespace Items.Clothing
 {
     public class WearableContainer : BaseItem, IWearableContainer
     {

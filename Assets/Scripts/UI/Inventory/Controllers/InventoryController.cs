@@ -6,13 +6,16 @@ using Items.ItemInterfaces;
 using Items.UITemplates;
 using UnityEngine.UIElements;
 
-namespace UI.Inventory
+namespace UI.Inventory.Controllers
 {
     public class InventoryController
     {
         private Dictionary<Guid, IItem> _items;
+        
         private readonly InventoryListController _listController;
         private readonly InventoryItemInfoPanelController _itemInfoPanelController;
+        private readonly EquipmentPanelController _equipmentPanelController;
+        
         private IUIItemModel _selectedItem;
         private InventoryModel _model;
 
@@ -29,6 +32,8 @@ namespace UI.Inventory
 
             _itemInfoPanelController = new InventoryItemInfoPanelController(root);
             _itemInfoPanelController.RetrieveItemButtonClicked += RetrieveItemButtonClicked;
+
+            _equipmentPanelController = new EquipmentPanelController(root);
 
             _items = new Dictionary<Guid, IItem>();
         }

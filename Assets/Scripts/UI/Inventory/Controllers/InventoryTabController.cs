@@ -2,7 +2,7 @@
 using Constants;
 using UnityEngine.UIElements;
 
-namespace UI.Inventory
+namespace UI.Inventory.Controllers
 {
     public class InventoryTabController
     {
@@ -54,14 +54,14 @@ namespace UI.Inventory
             TabSelected?.Invoke(this, new CategoryChangedEventsArgs(ItemCategory.Misc));
         }
     }
-}
 
-public class CategoryChangedEventsArgs : EventArgs
-{
-    public ItemCategory ItemCategory { get; }
-
-    public CategoryChangedEventsArgs(ItemCategory itemCategory)
+    public class CategoryChangedEventsArgs : EventArgs
     {
-        ItemCategory = itemCategory;
+        public ItemCategory ItemCategory { get; }
+
+        public CategoryChangedEventsArgs(ItemCategory itemCategory)
+        {
+            ItemCategory = itemCategory;
+        }
     }
 }

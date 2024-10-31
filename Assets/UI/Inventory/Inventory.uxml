@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/Inventory/InventoryStyleSheet.uss?fileID=7433441132597879392&amp;guid=ecc59ff920e6cd8469a4ddedef01b930&amp;type=3#InventoryStyleSheet" />
+    <ui:Template name="EquipmentSlot" src="project://database/Assets/UI/Inventory/EquipmentSlot.uxml?fileID=9197481963319205126&amp;guid=6a4106b49b44c4643a92fce8bc2c72d0&amp;type=3#EquipmentSlot" />
     <Style src="project://database/Assets/UI/GenericUSS.uss?fileID=7433441132597879392&amp;guid=456a6365891983745a21cc65feca7084&amp;type=3#GenericUSS" />
+    <Style src="project://database/Assets/UI/Inventory/InventoryStyleSheet.uss?fileID=7433441132597879392&amp;guid=ecc59ff920e6cd8469a4ddedef01b930&amp;type=3#InventoryStyleSheet" />
     <ui:VisualElement name="Root" style="flex-grow: 1; flex-direction: row; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
         <ui:TabView name="InventoryTab" style="align-self: stretch; width: 50%; background-color: rgba(0, 0, 0, 0.47); margin-right: 50px; flex-direction: row;">
             <ui:Tab label="All" name="AllTab" style="flex-grow: 0;" />
@@ -29,7 +30,27 @@
                     <ui:Button text="Retrieve Item" name="RetrieveItemButton" style="align-self: center;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Equipment" style="flex-grow: 1; max-height: 50%;" />
+            <ui:VisualElement name="EquipmentPanel" style="flex-grow: 1; max-height: 50%;">
+                <ui:VisualElement name="EquipmentSlots" style="flex-grow: 1;">
+                    <ui:Instance template="EquipmentSlot" name="HeadSlot" style="align-items: stretch; align-self: center; width: 117px; height: 100px; flex-grow: 0;" />
+                    <ui:VisualElement name="TorsoSlotContainer" style="flex-grow: 0; flex-direction: row; align-self: center;">
+                        <ui:Button text="Backpack" name="BackpackSlot" class="equipment-slot-button" />
+                        <ui:Instance template="EquipmentSlot" name="TorsoSlot" style="width: 117px; height: 100px; align-self: center;" />
+                        <ui:Button text="Weapon" name="WeaponSlot" class="equipment-slot-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BeltSlotContainer" style="flex-grow: 0; flex-direction: row; align-self: center;">
+                        <ui:Button text="Wrist" name="WristSlot" class="equipment-slot-button" />
+                        <ui:Button text="Belt" name="BeltSlot" class="equipment-slot-button" />
+                        <ui:Button text="Gloves" name="GlovesSlot" class="equipment-slot-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TrouserSlotContainer" style="flex-grow: 0; align-self: center;">
+                        <ui:Button text="Trousers" name="TrouserSlot" class="equipment-slot-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BootSlotContainer" style="flex-grow: 0; align-self: center;">
+                        <ui:Button text="Boots" name="BootSlot" class="equipment-slot-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

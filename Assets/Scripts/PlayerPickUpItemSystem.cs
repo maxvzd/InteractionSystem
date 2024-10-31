@@ -31,7 +31,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private Quaternion _heldRotation;
     private Transform _heldSocket;
 
-    private PlayerWearableEquipment _playerEquipmentSystem;
+    private PlayerEquipper _playerEquipmentSystem;
     private PlayerInventoryInteraction _playerInventory;
 
     private void Start()
@@ -39,7 +39,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         _ik = GetComponent<FullBodyBipedIK>();
         _lookAtIk = GetComponent<LookAtIK>();
 
-        _playerEquipmentSystem = GetComponent<PlayerWearableEquipment>();
+        _playerEquipmentSystem = GetComponent<PlayerEquipper>();
         _playerInventory = GetComponent<PlayerInventoryInteraction>();
 
         _interactionSystem = GetComponent<InteractionSystem>();
