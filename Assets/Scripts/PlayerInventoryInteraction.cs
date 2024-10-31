@@ -23,6 +23,19 @@ public class PlayerInventoryInteraction : MonoBehaviour
     private bool _uiIsHidden;
     private PlayerInput _input;
     private InventoryController _inventoryController;
+    
+    public IReadOnlyDictionary<Guid, IItem> Inventory
+    {
+        get
+        {
+            Dictionary<Guid, IItem> items = new Dictionary<Guid, IItem>();
+            foreach (IWearableContainer wearableContainer in _equipment.PlayerContainers)
+            {
+                items.AddRange(wearableContainer.Inventory);
+            }
+            return items;
+        }
+    }
 
     private void Start()
     {
@@ -35,28 +48,33 @@ public class PlayerInventoryInteraction : MonoBehaviour
 
         _inventoryController = new InventoryController(inventoryUI.rootVisualElement);
         _inventoryController.RetrieveItemClicked += RetrieveItemClicked;
-        
-        //_equipment.ItemAdded
+        _inventoryController.UnEquipItem += UnEquipItem;
 
         HideUI();
     }
-    
-    public IReadOnlyDictionary<Guid, IItem> Inventory
+
+    private void UnEquipItem(object sender, Guid e)
     {
-        get
+        IEquippable item;
+        if (_equipment.EquipmentSlots.Backpack.ItemId == e)
         {
-            Dictionary<Guid, IItem> items = new Dictionary<Guid, IItem>(); 
-            foreach (IWearableContainer wearableContainer in _equipment.PlayerContainers)
-            {
-                items.AddRange(wearableContainer.Inventory);
-            }
-            return items;
+            item = _equipment.EquipmentSlots.Backpack;
+            _isBackpackOut = false;
         }
+        else
+        {
+            item = Inventory[e] as IEquippable;
+        }
+
+        if (item is null) return;
+        _equipment.UnEquipItem(item.EquipmentSlot);
+        _inventoryController.PopulateItems(Inventory, _equipment.EquipmentSlots);
     }
 
-    private void RetrieveItemClicked(object sender, ItemEventArgs e)
+    private void RetrieveItemClicked(object sender, Guid e)
     {
-        IItem item = Inventory[e.ItemID];
+        IItem item = Inventory[e];
+
         GameObject itemPrefab = ItemIdLookUp.Instance.GetItemPrefab(item.ItemProperties.PrefabId);
         if (itemPrefab != null)
         {
@@ -106,7 +124,6 @@ public class PlayerInventoryInteraction : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
 
-        //IEnumerable<IItem> items = _equipment.Inventory;
         _inventoryController.PopulateItems(Inventory, _equipment.EquipmentSlots);
 
         inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;

@@ -1718,6 +1718,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.981
       objectReference: {fileID: 0}
+    - target: {fileID: 5297040209405840342, guid: a297ec0db3112544a9637367e5defe76,
+        type: 3}
+      propertyPath: backpackOutPositionOffset.z
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

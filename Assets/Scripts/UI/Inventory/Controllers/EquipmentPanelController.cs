@@ -10,6 +10,7 @@ namespace UI.Inventory.Controllers
     {
         public EventHandler<Guid> ItemUnequipped;
         private readonly Button _backpackSlot;
+        private IUIItemModel _backpackModel;
 
         public EquipmentPanelController(VisualElement root)
         {
@@ -35,14 +36,18 @@ namespace UI.Inventory.Controllers
 
         private void BackpackSlotOnClicked()
         {
+            ItemUnequipped?.Invoke(this, _backpackModel.ItemId);
+            _backpackModel = new EmptyUIItemModel();
+            _backpackSlot.iconImage = null;
+            _backpackSlot.text = "Backpack";
         }
 
         public void UpdateModel(PlayerEquipmentSlots equipmentSlots)
         {
             if (equipmentSlots.Backpack is not null)
             {
-                IUIItemModel backpackModel = new UIItemModel(equipmentSlots.Backpack);
-                _backpackSlot.iconImage = backpackModel.InventoryIcon;
+                _backpackModel = new UIItemModel(equipmentSlots.Backpack);
+                _backpackSlot.iconImage = _backpackModel.InventoryIcon;
                 _backpackSlot.text = string.Empty;
             }
         }

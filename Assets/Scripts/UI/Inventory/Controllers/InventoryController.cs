@@ -19,7 +19,8 @@ namespace UI.Inventory.Controllers
         private IUIItemModel _selectedItem;
         private InventoryModel _model;
 
-        public EventHandler<ItemEventArgs> RetrieveItemClicked;
+        public EventHandler<Guid> RetrieveItemClicked;
+        public EventHandler<Guid> UnEquipItem;
 
         public InventoryController(VisualElement root)
         {
@@ -34,15 +35,21 @@ namespace UI.Inventory.Controllers
             _itemInfoPanelController.RetrieveItemButtonClicked += RetrieveItemButtonClicked;
 
             _equipmentPanelController = new EquipmentPanelController(root);
+            _equipmentPanelController.ItemUnequipped += ItemUnequipped;
 
             _items = new Dictionary<Guid, IItem>();
+        }
+
+        private void ItemUnequipped(object sender, Guid e)
+        {
+            UnEquipItem?.Invoke(this, e);
         }
 
         private void RetrieveItemButtonClicked(object sender, EventArgs e)
         {
             if (_selectedItem.ItemId != Guid.Empty)
             {
-                RetrieveItemClicked?.Invoke(this, new ItemEventArgs(_selectedItem.ItemId));
+                RetrieveItemClicked?.Invoke(this, _selectedItem.ItemId);
                 
                 _items.Remove(_selectedItem.ItemId);
                 _model.RemoveItem(_selectedItem.ItemId);

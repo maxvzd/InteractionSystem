@@ -63,9 +63,9 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         _currentlyHeldItem.Item.OffsetPose.Apply(_ik.solver, _holdWeight, transform.rotation, _headPosition);
     }
 
-    public void PickupItem(Transform currentlyHeldItem)
+    public void PickupItem(Transform itemToPickUp)
     {
-        Transform pickedUpItem = currentlyHeldItem;
+        Transform pickedUpItem = itemToPickUp;
         InteractionObject interactionObject = pickedUpItem.GetComponent<InteractionObject>();
 
         if (interactionObject is null) return;
@@ -74,7 +74,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
         if (_interactionSystem.StartInteraction(FullBodyBipedEffector.RightHand, interactionObject, false))
         {
-            _currentlyHeldItem = new HeldItem(currentlyHeldItem.GetComponent<IItem>(), currentlyHeldItem);
+            _currentlyHeldItem = new HeldItem(itemToPickUp.GetComponent<IItem>(), itemToPickUp);
             _currentlyHeldItem.Item.DisablePhysics();
 
             StartHoldWeightCoRoutine(1);

@@ -10,20 +10,24 @@ public class PlayerEquipper : MonoBehaviour
     public bool IsBackpackEquipped => _backpackSlot is not null;
     public bool IsWeaponEquipped => _weaponSlot is not null;
     public PlayerEquipmentSlots EquipmentSlots => new PlayerEquipmentSlots(_backpackSlot, _weaponSlot);
-    
+
     [SerializeField] private Transform backpackSocket;
-    
+
     //Slots 
     private IBackpack _backpackSlot;
     private IWeapon _weaponSlot;
+
+    //slot Transforms
+    private Transform _backpackTransform;
 
     //Player components
     private GunEquipper _gunEquipper;
     private Animator _animator;
 
     private List<IWearableContainer> _playerContainers;
+    private PlayerPickUpItemSystem _pickUpItem;
     public IEnumerable<IWearableContainer> PlayerContainers => _playerContainers;
-    
+
 
     private void Start()
     {
@@ -31,6 +35,7 @@ public class PlayerEquipper : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _playerContainers = new List<IWearableContainer>();
+        _pickUpItem = GetComponent<PlayerPickUpItemSystem>();
     }
 
     public bool EquipItem(IEquippable item, Transform itemTransform)
@@ -39,7 +44,7 @@ public class PlayerEquipper : MonoBehaviour
         {
             _playerContainers.Add(container);
         }
-        
+
         switch (item.EquipmentSlot)
         {
             case EquipmentSlot.Hands:
@@ -92,6 +97,7 @@ public class PlayerEquipper : MonoBehaviour
             case EquipmentSlot.Face:
                 break;
             case EquipmentSlot.Back:
+                UnEquipBackpack();
                 break;
             case EquipmentSlot.Wrist:
                 break;
@@ -99,9 +105,20 @@ public class PlayerEquipper : MonoBehaviour
                 _gunEquipper.UnEquipGun();
                 _weaponSlot = null;
                 break;
+            case EquipmentSlot.Belt:
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
         }
+    }
+
+    private void UnEquipBackpack()
+    {
+        _playerContainers.Remove(_backpackSlot);
+        LayerManager.ChangeLayerOfItem(_backpackTransform, LayerMask.NameToLayer(LayerConstants.LAYER_ITEM), TagConstants.InteractableTag);
+        _backpackTransform.SetParent(null);
+        _pickUpItem.PickupItem(_backpackTransform);
+        _backpackSlot = null;
     }
 
     private T CastToType<T>(IEquippable itemToCast) where T : IEquippable
@@ -120,19 +137,19 @@ public class PlayerEquipper : MonoBehaviour
     {
         if (_backpackSlot is not null) return false;
 
+        _backpackTransform = backpackTransform;
         _animator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
-        //_backpackTransform = backpackTransform;
-        Animator backpackAnimator = backpackTransform.GetComponent<Animator>();
+        Animator backpackAnimator = _backpackTransform.GetComponent<Animator>();
         if (backpackAnimator is not null)
         {
             backpackAnimator.SetTrigger(AnimatorConstants.EquipBackpackTrigger);
         }
 
-        backpackTransform.SetParent(backpackSocket);
+        _backpackTransform.SetParent(backpackSocket);
         LayerManager.ChangeLayerOfItem(backpackTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
         _backpackSlot = wearableContainer;
-        backpackTransform.localPosition = wearableContainer.EquippedPosition.EquippedLocalPosition;
-        backpackTransform.localEulerAngles = wearableContainer.EquippedPosition.EquippedLocalRotation;
+        _backpackTransform.localPosition = wearableContainer.EquippedPosition.EquippedLocalPosition;
+        _backpackTransform.localEulerAngles = wearableContainer.EquippedPosition.EquippedLocalRotation;
         return true;
     }
 
@@ -156,14 +173,14 @@ public class PlayerEquipper : MonoBehaviour
 
     public void GetBackpackOut()
     {
-        backpackSocket.localPosition += _backpackSlot.BackpackOutPositionOffset;
-        backpackSocket.localEulerAngles += _backpackSlot.BackpackOutRotationOffset;
+        _backpackTransform.localPosition += _backpackSlot.BackpackOutPositionOffset;
+        _backpackTransform.localEulerAngles += _backpackSlot.BackpackOutRotationOffset;
     }
 
     public void PutBackpackAway()
     {
-        backpackSocket.localPosition -= _backpackSlot.BackpackOutPositionOffset;
-        backpackSocket.localEulerAngles -= _backpackSlot.BackpackOutRotationOffset;
+        _backpackTransform.localPosition -= _backpackSlot.BackpackOutPositionOffset;
+        _backpackTransform.localEulerAngles -= _backpackSlot.BackpackOutRotationOffset;
     }
 
     public void RemoveItemFromWearableContainers(IItem item)
