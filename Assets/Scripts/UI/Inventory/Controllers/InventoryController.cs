@@ -53,7 +53,7 @@ namespace UI.Inventory.Controllers
             }
         }
 
-        public void PopulateItems(IReadOnlyDictionary<Guid, IItem> items)
+        public void PopulateItems(IReadOnlyDictionary<Guid, IItem> items, PlayerEquipmentSlots equipmentSlots)
         {
             _items = new Dictionary<Guid, IItem>(items.Count);
             foreach (KeyValuePair<Guid, IItem> item in items)
@@ -61,6 +61,7 @@ namespace UI.Inventory.Controllers
                 _items.Add(item.Key, item.Value);
             }
             PopulateList();
+            _equipmentPanelController.UpdateModel(equipmentSlots);
         }
 
         private void ListControllerOnItemChanged(object sender, ItemChangedEventArgs e)

@@ -1,24 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Constants;
-using Unity.VisualScripting;
+using Items.UITemplates;
 using UnityEngine.UIElements;
 
 namespace UI.Inventory.Controllers
 {
     public class EquipmentPanelController
     {
+        public EventHandler<Guid> ItemUnequipped;
+        private readonly Button _backpackSlot;
+
         public EquipmentPanelController(VisualElement root)
         {
             VisualElement headSlot = root.Q<VisualElement>(InventoryUIConstants.HeadSlot);
             VisualElement torsoSlot = root.Q<VisualElement>(InventoryUIConstants.TorsoSlot);
-            Button beltSlot = root.Q<Button>(InventoryUIConstants.BeltSlot);
 
-            AddTabs(new List<string>()
+            _backpackSlot = root.Q<Button>(InventoryUIConstants.BackpackSlot);
+            _backpackSlot.clicked += BackpackSlotOnClicked;
+
+            AddTabs(new List<string>
             {
                 "Headgear",
                 "Mask"
             }, headSlot);
-            AddTabs(new List<string>()
+
+            AddTabs(new List<string>
             {
                 "Inner Torso",
                 "Outer Torso",
@@ -26,12 +33,26 @@ namespace UI.Inventory.Controllers
             }, torsoSlot);
         }
 
+        private void BackpackSlotOnClicked()
+        {
+        }
+
+        public void UpdateModel(PlayerEquipmentSlots equipmentSlots)
+        {
+            if (equipmentSlots.Backpack is not null)
+            {
+                IUIItemModel backpackModel = new UIItemModel(equipmentSlots.Backpack);
+                _backpackSlot.iconImage = backpackModel.InventoryIcon;
+                _backpackSlot.text = string.Empty;
+            }
+        }
+
         private void AddTabs(List<string> tabs, VisualElement equipmentSlot)
         {
             TabView tabView = equipmentSlot.Q<TabView>(InventoryUIConstants.MainTabView);
 
             int i = 1;
-            foreach(string tabTitle in tabs)
+            foreach (string tabTitle in tabs)
             {
                 Tab tab = new Tab(i.ToString());
 

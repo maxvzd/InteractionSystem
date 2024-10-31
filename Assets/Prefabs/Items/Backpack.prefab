@@ -1044,7 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b9db66401d4a988761f5df29952cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiProperties: {fileID: 0}
+  uiProperties: {fileID: 11400000, guid: 3e736ee1132db3144b2f2e4ccd57c907, type: 2}
   equippedPosition: {fileID: 11400000, guid: 44e2c8e2a3add5b4ba6e1a2ac1e91c54, type: 2}
   wearableContainerProperties: {fileID: 11400000, guid: 8df5beded7192f74f983aff4da50c8b9,
     type: 2}

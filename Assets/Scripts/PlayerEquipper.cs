@@ -8,14 +8,14 @@ using UnityEngine;
 public class PlayerEquipper : MonoBehaviour
 {
     public bool IsBackpackEquipped => _backpackSlot is not null;
-    public bool IsWeaponEquipped => _rightHandWeaponSlot is not null;
-    public IBackpack Backpack => _backpackSlot;
+    public bool IsWeaponEquipped => _weaponSlot is not null;
+    public PlayerEquipmentSlots EquipmentSlots => new PlayerEquipmentSlots(_backpackSlot, _weaponSlot);
     
     [SerializeField] private Transform backpackSocket;
-
+    
     //Slots 
     private IBackpack _backpackSlot;
-    private IWeapon _rightHandWeaponSlot;
+    private IWeapon _weaponSlot;
 
     //Player components
     private GunEquipper _gunEquipper;
@@ -97,7 +97,7 @@ public class PlayerEquipper : MonoBehaviour
                 break;
             case EquipmentSlot.Weapon:
                 _gunEquipper.UnEquipGun();
-                _rightHandWeaponSlot = null;
+                _weaponSlot = null;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
@@ -142,14 +142,14 @@ public class PlayerEquipper : MonoBehaviour
         {
             case ItemType.Rifle:
                 if (!_gunEquipper.EquipRifle(itemTransform, weapon)) return false;
-                _rightHandWeaponSlot = weapon;
+                _weaponSlot = weapon;
                 return true;
             case ItemType.Pistol:
                 if (!_gunEquipper.EquipPistol(itemTransform, weapon)) return false;
-                _rightHandWeaponSlot = weapon;
+                _weaponSlot = weapon;
                 return true;
             default:
-                _rightHandWeaponSlot = null;
+                _weaponSlot = null;
                 return false;
         }
     }
@@ -175,5 +175,10 @@ public class PlayerEquipper : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public AddItemToBackpackResult AddItem(IItem item)
+    {
+        return _backpackSlot.AddItem(item);
     }
 }

@@ -107,7 +107,7 @@ public class PlayerInventoryInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         //IEnumerable<IItem> items = _equipment.Inventory;
-        _inventoryController.PopulateItems(Inventory);
+        _inventoryController.PopulateItems(Inventory, _equipment.EquipmentSlots);
 
         inventoryUI.rootVisualElement.style.display = DisplayStyle.Flex;
         _uiIsHidden = false;
@@ -146,5 +146,5 @@ public class PlayerInventoryInteraction : MonoBehaviour
 
     //Add support for multiple instance of wearable container
     public AddItemToBackpackResult AddItemToInventory(IItem item)
-        => _isBackpackOut ? _equipment.Backpack.AddItem(item) : AddItemToBackpackResult.BackpackIsNotOut;
+        => _isBackpackOut ? _equipment.AddItem(item) : AddItemToBackpackResult.BackpackIsNotOut;
 }

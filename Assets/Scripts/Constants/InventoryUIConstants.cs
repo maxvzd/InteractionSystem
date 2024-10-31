@@ -20,5 +20,6 @@
         public static string TorsoSlot => "TorsoSlot";
         public static string MainTabView => "MainTabView";
         public static string BeltSlot => "BeltSlot";
+        public static string BackpackSlot => "BackpackSlot";
     }
 }
