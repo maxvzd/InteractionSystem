@@ -3,9 +3,9 @@
     align-items: stretch;
     align-content: center;
     align-self: center;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
-    border-right-width: 2px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-right-width: 0;
     border-left-color: rgba(0, 0, 0, 0.47);
     border-right-color: rgba(0, 0, 0, 0.47);
     border-top-color: rgba(0, 0, 0, 0.47);
@@ -14,18 +14,14 @@
 }
 
 #MainTabView > #unity-tab-view__header-container > #unity-tab__header {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
     padding-top: 0;
     padding-right: 2px;
     padding-bottom: 0;
     padding-left: 3px;
     border-left-width: 2px;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
+    border-top-width: 1px;
+    border-right-width: 2px;
+    border-bottom-width: 1px;
     border-left-color: rgba(0, 0, 0, 0.47);
     border-right-color: rgba(0, 0, 0, 0.47);
     border-top-color: rgba(0, 0, 0, 0.47);
@@ -38,10 +34,11 @@
 }
 
 #MainTabView > #unity-tab-view__header-container > #unity-tab__header:selected {
-    border-left-width: 0;
     padding-left: 5px;
+    border-left-width: 0;
 }
 
 #MainTabView > #unity-tab-view__content-container {
     background-color: rgba(255, 255, 255, 0);
+    margin-right: 1px;
 }

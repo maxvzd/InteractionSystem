@@ -32,10 +32,10 @@
             </ui:VisualElement>
             <ui:VisualElement name="EquipmentPanel" style="flex-grow: 1; max-height: 50%;">
                 <ui:VisualElement name="EquipmentSlots" style="flex-grow: 1;">
-                    <ui:Instance template="EquipmentSlot" name="HeadSlot" style="align-items: stretch; align-self: center; width: 117px; height: 100px; flex-grow: 0;" />
+                    <ui:Instance template="EquipmentSlot" name="HeadSlot" style="align-items: stretch; align-self: center; width: 118px; height: 100px; flex-grow: 0;" />
                     <ui:VisualElement name="TorsoSlotContainer" style="flex-grow: 0; flex-direction: row; align-self: center;">
                         <ui:Button text="Backpack" name="BackpackSlot" class="equipment-slot-button" />
-                        <ui:Instance template="EquipmentSlot" name="TorsoSlot" style="width: 117px; height: 100px; align-self: center;" />
+                        <ui:Instance template="EquipmentSlot" name="TorsoSlot" style="width: 118px; height: 100px; align-self: center;" />
                         <ui:Button text="Weapon" name="WeaponSlot" class="equipment-slot-button" />
                     </ui:VisualElement>
                     <ui:VisualElement name="BeltSlotContainer" style="flex-grow: 0; flex-direction: row; align-self: center;">
