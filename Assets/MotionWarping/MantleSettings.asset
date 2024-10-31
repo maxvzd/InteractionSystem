@@ -18,7 +18,7 @@ MonoBehaviour:
   maxHeight: 4
   lowHeight: 1.5
   minHeight: 0.5
-  maxDistance: 0.5
+  maxDistance: 1
   characterCapsuleRadius: 0.25
   characterCapsuleHeight: 1.9
   sphereEdgeCheckRadius: 0.15

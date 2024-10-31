@@ -19,7 +19,7 @@ MonoBehaviour:
   maxObstacleLength: 0.7
   minObstacleLength: 0.1
   sphereEdgeCheckRadius: 0.1
-  maxAllowedStartLength: 0.5
+  maxAllowedStartLength: 1
   maxAllowedStartHeight: 4
   highStartHeight: 1.5
   minAllowedStartHeight: 0.3
