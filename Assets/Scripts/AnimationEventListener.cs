@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class AnimationEventListener : MonoBehaviour
 {
-    public event EventHandler FinishedTurning;
+    public EventHandler FinishedTurning;
+    public EventHandler JumpPeaked;
     
     private void OnFinishedTurning()
     {
         FinishedTurning?.Invoke(this, EventArgs.Empty);
     }
-
-    public event EventHandler FinishedStepping;
-
-    private void OnFinishedStepping()
+    
+    private void JumpPeak()
     {
-        FinishedStepping?.Invoke(this, EventArgs.Empty);
-    }
+        JumpPeaked?.Invoke(this, EventArgs.Empty);
+    } 
 }

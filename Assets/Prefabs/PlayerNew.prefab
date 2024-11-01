@@ -1380,7 +1380,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8
     maxStep: 0.5
-    heightOffset: 0
+    heightOffset: -0.02
     footSpeed: 2.5
     footRadius: 0.15
     footCenterOffset: 0
@@ -1723,6 +1723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bce0284a1ad416484d299f5b66e153d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeedJumpTolerance: 1.5
+  playerJumpHeight: 350
 --- !u!114 &5486022541130947994
 MonoBehaviour:
   m_ObjectHideFlags: 0
