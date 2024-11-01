@@ -6802,11 +6802,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8091416122883118559, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
-      propertyPath: playerJumpHeight
-      value: 350
-      objectReference: {fileID: 0}
-    - target: {fileID: 8091416122883118559, guid: da328efb65cd58c41ab087555491e096,
-        type: 3}
       propertyPath: playerSpeedJumpModifier.m_Curve.Array.size
       value: 3
       objectReference: {fileID: 0}

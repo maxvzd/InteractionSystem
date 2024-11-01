@@ -74,15 +74,16 @@ public class PlayerClimbing : MonoBehaviour
         Transform currentTransform = transform;
         Vector3 up = currentTransform.up;
         Vector3 forward = currentTransform.forward;
-
         Vector3 characterRootPosition = currentTransform.position;
+        float distanceToCheck = 3f;
 
         //Cast ray forward and below to check for ground where character would land
         bool isJumpEndGrounded = Physics.Raycast(
             characterRootPosition,
-            (-up + forward * 2),
-            2,
-            LayerMask.GetMask("Terrain"));
+            -up + forward,
+            distanceToCheck,
+            LayerMask.GetMask(LayerConstants.LAYER_TERRAIN));
+        //Debug.DrawRay(characterRootPosition, (-up+ forward * distanceToCheck), Color.green, 1f);
 
         _animator.SetBool(AnimatorConstants.IsJumpLocationGrounded, isJumpEndGrounded);
     }

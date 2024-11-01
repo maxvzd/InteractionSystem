@@ -17,5 +17,6 @@ namespace Constants
         public static readonly int JumpTrigger = Animator.StringToHash("JumpTrigger");
         public static readonly int IsJumpLocationGrounded = Animator.StringToHash("IsJumpLocationGrounded");
         public static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
+        public static readonly int FallIntensity = Animator.StringToHash("FallIntensity");
     }
 }
