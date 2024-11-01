@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e16ad3927344eba3e89948c295141d, type: 3}
   m_Name: AK47
   m_EditorClassIdentifier: 
-  equippedLocalPosition: {x: 0.065, y: 1.251, z: 0.055}
+  equippedLocalPosition: {x: 0.079, y: 1.432, z: 0.0298}
   equippedLocalRotation: {x: 0, y: 180, z: 0}
