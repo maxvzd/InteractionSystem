@@ -1702,7 +1702,7 @@ MonoBehaviour:
       twistWeight: 1
     boneMappings:
     - bone: {fileID: 5645015958737544512}
-      maintainRotationWeight: 0
+      maintainRotationWeight: 1
     limbMappings:
     - parentBone: {fileID: 7353498894660410767}
       bone1: {fileID: 2270284800706442554}
@@ -2183,8 +2183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 0}
-  iconCellTemplate: {fileID: 9197481963319205126, guid: 8f98c35a6b65e1145b01519958ef231f,
-    type: 3}
 --- !u!1 &5645015958737254688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2686890238580948174, guid: 7856c197eb4c77840878eba92e1c48b7,
