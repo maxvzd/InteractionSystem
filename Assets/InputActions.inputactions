@@ -81,7 +81,16 @@
                     "name": "OpenInventory",
                     "type": "Button",
                     "id": "e5bc21bf-1e2e-46f6-b122-5104e986ff2a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "45166d35-786c-4731-995b-f8cb5080c3f8",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -90,7 +99,7 @@
                     "name": "CloseInventory",
                     "type": "Button",
                     "id": "6cef7e59-7cba-4ea6-ad3b-0fbbce9396e5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -347,6 +356,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "OpenInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c514f370-c349-4d37-b01b-52c501d47ab7",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

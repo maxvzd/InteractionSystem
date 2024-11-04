@@ -21,5 +21,6 @@
         public static string OpenInventoryAction => "OpenInventory";
         public static string CloseInventoryAction => "CloseInventory";
         public static string LongPressInteractAction => "LongPressInteract";
+        public static string CrouchAction => "Crouch";
     }
 }

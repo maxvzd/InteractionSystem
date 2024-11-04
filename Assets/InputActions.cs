@@ -103,7 +103,16 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""OpenInventory"",
                     ""type"": ""Button"",
                     ""id"": ""e5bc21bf-1e2e-46f6-b122-5104e986ff2a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""45166d35-786c-4731-995b-f8cb5080c3f8"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -112,7 +121,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""CloseInventory"",
                     ""type"": ""Button"",
                     ""id"": ""6cef7e59-7cba-4ea6-ad3b-0fbbce9396e5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -369,6 +378,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c514f370-c349-4d37-b01b-52c501d47ab7"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -987,6 +1007,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_LongPressInteract = m_Player.FindAction("LongPressInteract", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_CloseInventory = m_Player.FindAction("CloseInventory", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1076,6 +1097,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LongPressInteract;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_OpenInventory;
+    private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_CloseInventory;
     public struct PlayerActions
     {
@@ -1090,6 +1112,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @LongPressInteract => m_Wrapper.m_Player_LongPressInteract;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @CloseInventory => m_Wrapper.m_Player_CloseInventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1127,6 +1150,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenInventory.started += instance.OnOpenInventory;
             @OpenInventory.performed += instance.OnOpenInventory;
             @OpenInventory.canceled += instance.OnOpenInventory;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
             @CloseInventory.started += instance.OnCloseInventory;
             @CloseInventory.performed += instance.OnCloseInventory;
             @CloseInventory.canceled += instance.OnCloseInventory;
@@ -1161,6 +1187,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenInventory.started -= instance.OnOpenInventory;
             @OpenInventory.performed -= instance.OnOpenInventory;
             @OpenInventory.canceled -= instance.OnOpenInventory;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
             @CloseInventory.started -= instance.OnCloseInventory;
             @CloseInventory.performed -= instance.OnCloseInventory;
             @CloseInventory.canceled -= instance.OnCloseInventory;
@@ -1355,6 +1384,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnLongPressInteract(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
         void OnCloseInventory(InputAction.CallbackContext context);
     }
     public interface IUIActions

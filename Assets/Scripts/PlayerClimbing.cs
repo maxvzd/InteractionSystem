@@ -100,7 +100,7 @@ public class PlayerClimbing : MonoBehaviour
         //check for anything infront for x units
 
         if (_playerMovement.CurrentSpeed.y < playerSpeedJumpTolerance) return;
-        //Necessary? Maybe causes the player to ragdoll if it hits something
+        //Necessary? Maybe causes the player to ragdoll if it hits something (puppetmaster)
         if (SpaceInFrontOfPlayerIsObstructed(2.5f)) return;
         Jump();
     }
