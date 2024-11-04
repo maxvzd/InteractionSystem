@@ -6,18 +6,29 @@ using UnityEngine.Serialization;
 
 public class PlayerCrouchBehaviour : MonoBehaviour
 {
+    public EventHandler PlayerCrouched;
+    public EventHandler PlayerUnCrouched;
+    
     [FormerlySerializedAs("crouchFallWindow")] [SerializeField] private float rollFallWindow;
     
     private PlayerGroundedStatus _playerGrounded;
     private bool _isGrounded;
     private Animator _animator;
-
     private float _shouldRollWhenGrounded;
     private float _rollTimer;
     private float _timeWhenCrouchWasPressed;
     private InputAction _crouchAction;
     private bool _crouchedPerformedDuringFall;
+    private bool _isCrouching;
+    private CapsuleCollider _playerCollider;
 
+    private const float CROUCH_HEIGHT = 1.35f;
+    private const float STANDING_HEIGHT = 1.9f;
+    private const float CROUCH_COLLIDER_CENTRE_HEIGHT = 0.7f;
+    private const float STANDING_COLLIDER_CENTRE_HEIGHT = 0.95f;
+
+    public const float CROUCH_DISTANCE = 0.4f; 
+    
     private void Start()
     {
         _playerGrounded = GetComponent<PlayerGroundedStatus>();
@@ -27,6 +38,8 @@ public class PlayerCrouchBehaviour : MonoBehaviour
 
         _playerGrounded.IsGrounded += OnPlayerGrounded;
         _playerGrounded.IsNotGrounded += OnPlayerNotGrounded;
+
+        _playerCollider = GetComponent<CapsuleCollider>();
     }
 
     private void OnPlayerGrounded(object sender, EventArgs args)
@@ -53,15 +66,43 @@ public class PlayerCrouchBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (_isGrounded) return;
+        bool wasCrouchPerformed = _crouchAction.WasPerformedThisFrame();
         
-        bool crouchPerformed = _crouchAction.WasPerformedThisFrame();
-        _rollTimer += Time.deltaTime;
-        
-        if (crouchPerformed)
+        if (_isGrounded)
         {
-            _crouchedPerformedDuringFall = true;
-            _timeWhenCrouchWasPressed = _rollTimer;
+            if (wasCrouchPerformed)
+            {
+                Crouch();
+            }
+        }
+        else
+        {
+            _rollTimer += Time.deltaTime;
+        
+            if (wasCrouchPerformed)
+            {
+                _crouchedPerformedDuringFall = true;
+                _timeWhenCrouchWasPressed = _rollTimer;
+            }
+        }
+    }
+
+    private void Crouch()
+    {
+        _isCrouching = !_isCrouching;
+        _animator.SetBool(AnimatorConstants.IsCrouching, _isCrouching);
+
+        float colliderCentre = _isCrouching ? CROUCH_COLLIDER_CENTRE_HEIGHT : STANDING_COLLIDER_CENTRE_HEIGHT;
+        _playerCollider.center = new Vector3(0, colliderCentre, 0);
+        _playerCollider.height = _isCrouching ? CROUCH_HEIGHT : STANDING_HEIGHT;
+
+        if (_isCrouching)
+        {
+            PlayerCrouched?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            PlayerUnCrouched?.Invoke(this, EventArgs.Empty);
         }
     }
 }

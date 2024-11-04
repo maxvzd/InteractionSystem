@@ -1380,7 +1380,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8
     maxStep: 0.5
-    heightOffset: -0.02
+    heightOffset: 0
     footSpeed: 2.5
     footRadius: 0.15
     footCenterOffset: 0

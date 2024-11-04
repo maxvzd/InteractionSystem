@@ -20,5 +20,6 @@ namespace Constants
         public static readonly int FallIntensity = Animator.StringToHash("FallIntensity");
         public static readonly int RollTrigger = Animator.StringToHash("RollTrigger");
         public static readonly int WasCrouchPressed = Animator.StringToHash("WasCrouchPressed");
+        public static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
     }
 }
