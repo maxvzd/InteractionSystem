@@ -9,7 +9,10 @@ public class PlayerEquipper : MonoBehaviour
 {
     public bool IsBackpackEquipped => _backpackSlot is not null;
     public bool IsWeaponEquipped => _weaponSlot is not null;
+    public bool IsWeaponAGun => _isWeaponAGun;
     public PlayerEquipmentSlots EquipmentSlots => new PlayerEquipmentSlots(_backpackSlot, _weaponSlot);
+    public IEnumerable<IWearableContainer> PlayerContainers => _playerContainers;
+
 
     [SerializeField] private Transform backpackSocket;
 
@@ -26,8 +29,7 @@ public class PlayerEquipper : MonoBehaviour
 
     private List<IWearableContainer> _playerContainers;
     private PlayerPickUpItemSystem _pickUpItem;
-    public IEnumerable<IWearableContainer> PlayerContainers => _playerContainers;
-
+    private bool _isWeaponAGun = false;
 
     private void Start()
     {
@@ -103,6 +105,7 @@ public class PlayerEquipper : MonoBehaviour
                 break;
             case EquipmentSlot.Weapon:
                 _gunEquipper.UnEquipGun();
+                _isWeaponAGun = false;
                 _weaponSlot = null;
                 break;
             case EquipmentSlot.Belt:
@@ -160,10 +163,12 @@ public class PlayerEquipper : MonoBehaviour
             case ItemType.Rifle:
                 if (!_gunEquipper.EquipRifle(itemTransform, weapon)) return false;
                 _weaponSlot = weapon;
+                _isWeaponAGun = true;
                 return true;
             case ItemType.Pistol:
                 if (!_gunEquipper.EquipPistol(itemTransform, weapon)) return false;
                 _weaponSlot = weapon;
+                _isWeaponAGun = true;
                 return true;
             default:
                 _weaponSlot = null;

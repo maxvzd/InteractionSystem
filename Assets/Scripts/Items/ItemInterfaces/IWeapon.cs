@@ -2,12 +2,7 @@
 {
     public interface IWeapon : IEquippable
     {
-        //WeaponType WeaponType { get; }
+        void AttackDown();
+        void AttackUp();
     }
-
-    // public enum WeaponType
-    // {
-    //     Rifle,
-    //     Pistol
-    // }
 }

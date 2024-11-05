@@ -125,6 +125,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchFireMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""47ee0822-0983-4e15-a555-e8b53c7db1eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -411,6 +420,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""LongPressInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""339e9493-c682-4583-9c77-62e2647627b6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SwitchFireMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1009,6 +1029,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_CloseInventory = m_Player.FindAction("CloseInventory", throwIfNotFound: true);
+        m_Player_SwitchFireMode = m_Player.FindAction("SwitchFireMode", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1099,6 +1120,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OpenInventory;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_CloseInventory;
+    private readonly InputAction m_Player_SwitchFireMode;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1114,6 +1136,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @CloseInventory => m_Wrapper.m_Player_CloseInventory;
+        public InputAction @SwitchFireMode => m_Wrapper.m_Player_SwitchFireMode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1156,6 +1179,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseInventory.started += instance.OnCloseInventory;
             @CloseInventory.performed += instance.OnCloseInventory;
             @CloseInventory.canceled += instance.OnCloseInventory;
+            @SwitchFireMode.started += instance.OnSwitchFireMode;
+            @SwitchFireMode.performed += instance.OnSwitchFireMode;
+            @SwitchFireMode.canceled += instance.OnSwitchFireMode;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1193,6 +1219,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseInventory.started -= instance.OnCloseInventory;
             @CloseInventory.performed -= instance.OnCloseInventory;
             @CloseInventory.canceled -= instance.OnCloseInventory;
+            @SwitchFireMode.started -= instance.OnSwitchFireMode;
+            @SwitchFireMode.performed -= instance.OnSwitchFireMode;
+            @SwitchFireMode.canceled -= instance.OnSwitchFireMode;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1386,6 +1415,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnCloseInventory(InputAction.CallbackContext context);
+        void OnSwitchFireMode(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
