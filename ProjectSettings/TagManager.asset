@@ -16,8 +16,8 @@ TagManager:
   - Item
   - Gun
   - Player
-  - 
-  - 
+  - ZombieCollider
+  - ZombieRagdoll
   - 
   - 
   - 
