@@ -457,6 +457,7 @@ MonoBehaviour:
   uiProperties: {fileID: 11400000, guid: d4713c19d9ba0214ebc9d8daed33c59a, type: 2}
   equippedPosition: {fileID: 11400000, guid: dd65f4cbc51d07944904e9ddeee57cfc, type: 2}
   gunProperties: {fileID: 11400000, guid: 49ff50a8471872446a0aa161876e0e13, type: 2}
+  muzzleTransform: {fileID: 5738985880698110574}
 --- !u!1 &4258316209016110103
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +805,37 @@ Transform:
   - {fileID: 1901514640169876045}
   m_Father: {fileID: 1223251794889889644}
   m_LocalEulerAnglesHint: {x: 3.194, y: -5.88, z: -8.907}
+--- !u!1 &7981149960568031560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5738985880698110574}
+  m_Layer: 8
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5738985880698110574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7981149960568031560}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.12858321, z: -0.13325757}
+  m_LocalScale: {x: 0.8333331, y: 0.83333325, z: 0.8333331}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 805206233185246299}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8130215732463270313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,6 +1142,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4941554014748695272}
+    - targetCorrespondingSourceObject: {fileID: 1786759125029253417, guid: 24293e33d3322f84bb98b6c032ce2dc9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5738985880698110574}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3763604498974455608, guid: 24293e33d3322f84bb98b6c032ce2dc9,
         type: 3}

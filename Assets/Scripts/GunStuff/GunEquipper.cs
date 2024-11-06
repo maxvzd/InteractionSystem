@@ -1,6 +1,7 @@
 ﻿using Constants;
 using Items;
 using Items.ItemInterfaces;
+using Items.Weapons;
 using PlayerAiming;
 using UnityEngine;
 
@@ -9,12 +10,14 @@ namespace GunStuff
     public class GunEquipper : MonoBehaviour
     {
         [SerializeField] private Transform lookBase;
+        [SerializeField] private Transform recoilScriptTransform;
 
         private AimBehaviour _aimBehaviour;
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
         private Transform _equippedGunTransform;
+        private PlayerGunRecoil _recoil;
 
         private void Awake()
         {
@@ -22,6 +25,7 @@ namespace GunStuff
             _gunHandPlacement = GetComponent<GunHandPlacement>();
             _animator = GetComponent<Animator>();
             _deadZoneLook = lookBase.GetComponent<DeadZoneLook>();
+            _recoil = recoilScriptTransform.GetComponent<PlayerGunRecoil>();
         }
 
         public void UnEquipGun()
@@ -34,17 +38,24 @@ namespace GunStuff
         
             _aimBehaviour.UnEquipGun();
             _gunHandPlacement.UnEquipGun();
-        
+
+            IGun gun = _equippedGunTransform.GetComponent<IGun>();
+            if (gun is not null)
+            {
+                gun.GunFired -= _recoil.AddRecoil;
+                gun.CurrentAimAtTarget = null;
+            }
+
             _deadZoneLook.UseDeadZone = false;
             _equippedGunTransform = null;
         }
 
-        public bool EquipPistol(Transform gunTransform, IWeapon gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingPistol);
+        public bool EquipPistol(Transform gunTransform, IGun gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingPistol);
         
-        public bool EquipRifle(Transform gunTransform, IWeapon gunInfo) => EquipGun(gunTransform, gunInfo,AnimatorConstants.IsHoldingTwoHandedGun);
+        public bool EquipRifle(Transform gunTransform, IGun gunInfo) => EquipGun(gunTransform, gunInfo,AnimatorConstants.IsHoldingTwoHandedGun);
         
 
-        private bool EquipGun(Transform gun, IWeapon gunInfo, int animName)
+        private bool EquipGun(Transform gun, IGun gunInfo, int animName)
         {
             GunPositionData posData = gun.GetComponent<GunPositionData>();
             if (posData is null) return false;
@@ -61,7 +72,11 @@ namespace GunStuff
             EquippedPosition equippedPosition = gunInfo.EquippedPosition;
             _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
             _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
-                
+
+            gunInfo.GunFired += _recoil.AddRecoil;
+            gunInfo.CurrentAimAtTarget = recoilScriptTransform;
+            
+            
             LayerManager.ChangeLayerOfItem(gun, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
             return true;
 

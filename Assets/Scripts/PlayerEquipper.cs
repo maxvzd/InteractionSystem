@@ -161,12 +161,12 @@ public class PlayerEquipper : MonoBehaviour
         switch (weapon.ItemProperties.Type)
         {
             case ItemType.Rifle:
-                if (!_gunEquipper.EquipRifle(itemTransform, weapon)) return false;
+                if (!_gunEquipper.EquipRifle(itemTransform, weapon as IGun)) return false;
                 _weaponSlot = weapon;
                 _isWeaponAGun = true;
                 return true;
             case ItemType.Pistol:
-                if (!_gunEquipper.EquipPistol(itemTransform, weapon)) return false;
+                if (!_gunEquipper.EquipPistol(itemTransform, weapon as IGun)) return false;
                 _weaponSlot = weapon;
                 _isWeaponAGun = true;
                 return true;

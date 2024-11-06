@@ -1664,6 +1664,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookBase: {fileID: 6705591922934153433}
+  aimAtTarget: {fileID: 0}
+  recoilScriptTransform: {fileID: 4964192619593503860}
 --- !u!114 &5331812242160048819
 MonoBehaviour:
   m_ObjectHideFlags: 0

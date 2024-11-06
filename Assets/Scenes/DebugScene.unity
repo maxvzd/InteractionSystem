@@ -5108,6 +5108,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1205674726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205674728}
+  - component: {fileID: 1205674727}
+  m_Layer: 0
+  m_Name: BloodSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1205674727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205674726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9636b01dc7519d54aa81439c3a607586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodPrefab: {fileID: 0}
+--- !u!4 &1205674728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205674726}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.38258627, y: 1.7819889, z: 1.2208183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1225794753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5932,12 +5977,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e163505e89f430495747c907e0a20eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1590568395 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6705591922934153433, guid: da328efb65cd58c41ab087555491e096,
+--- !u!1 &1600388053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8546619755622829481, guid: da328efb65cd58c41ab087555491e096,
     type: 3}
   m_PrefabInstance: {fileID: 7885384650498026760}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1600388054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600388053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f3df101f61cb248920ff615b983768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoveryTime: 0.2
+  recoilSpeed: 0.05
 --- !u!1 &1626368495
 GameObject:
   m_ObjectHideFlags: 0
@@ -7645,9 +7704,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3989373386177917611, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
-      propertyPath: lookBase
+      propertyPath: _recoilScriptTran
       value: 
-      objectReference: {fileID: 1590568395}
+      objectReference: {fileID: 1140259322}
     - target: {fileID: 4058756852465133595, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
       propertyPath: m_Layer
@@ -8230,6 +8289,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1775597638}
+    - targetCorrespondingSourceObject: {fileID: 8546619755622829481, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1600388054}
   m_SourcePrefab: {fileID: 100100000, guid: da328efb65cd58c41ab087555491e096, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -8257,3 +8320,4 @@ SceneRoots:
   - {fileID: 1304314075}
   - {fileID: 582110852}
   - {fileID: 1065112251}
+  - {fileID: 1205674728}

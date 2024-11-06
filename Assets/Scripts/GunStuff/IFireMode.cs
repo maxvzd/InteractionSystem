@@ -2,11 +2,11 @@
 
 namespace GunStuff
 {
-    public interface IGunFireBehaviour
+    public interface IFireMode
     {
         FireMode FireMode { get; }
 
         void TriggerUp();
-        void Fire(Gun gun);
+        bool Fire();
     }
 }

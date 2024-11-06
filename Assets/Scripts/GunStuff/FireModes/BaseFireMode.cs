@@ -1,24 +1,29 @@
 ﻿using System.Collections;
+using GunStuff.FireBehaviour;
 using Items.Properties;
 using Items.Weapons;
 using UnityEngine;
 
-namespace GunStuff
+namespace GunStuff.FireModes
 {
-    public abstract class BaseFireBehaviour : IGunFireBehaviour
+    public abstract class BaseFireMode : IFireMode
     {
         public abstract FireMode FireMode { get; }
 
-        public abstract void Fire(Gun gun);
+        public abstract bool Fire();
         public abstract void TriggerUp();
 
         protected bool RoundsPerMinuteLock;
+        protected readonly Gun Gun;
+        protected readonly IShotFireBehaviour ShotFireBehaviour;
         private readonly float _weaponLockWaitTime;
 
-        protected BaseFireBehaviour(GunProperties properties)
+        protected BaseFireMode(Gun gun, IShotFireBehaviour shotFireBehaviour)
         {
+            Gun = gun;
+            ShotFireBehaviour = shotFireBehaviour;
             RoundsPerMinuteLock = true;
-            float roundsPerMinute = properties.RoundsPerMinute;
+            float roundsPerMinute = gun.GunProperties.RoundsPerMinute;
             float roundsPerSecond = roundsPerMinute / 60f;
             _weaponLockWaitTime = 1 / roundsPerSecond;
         }

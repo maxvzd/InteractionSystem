@@ -18,7 +18,6 @@ namespace Items
         public virtual bool IsEquippable => false;
         public OffsetPose OffsetPose { get; private set; }
         public bool HasOffsetPose => OffsetPose is not null;
-        public Transform Transform => transform;
         public abstract IItemProperties ItemProperties { get; }
         public abstract IInteractableProperties Properties { get; }
         public IUIItemProperties UIProperties => uiProperties;
