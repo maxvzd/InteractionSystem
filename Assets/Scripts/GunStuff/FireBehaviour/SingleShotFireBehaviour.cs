@@ -1,27 +1,28 @@
 ﻿using DealDamage;
 using HitReactions;
-using Items.Weapons;
+using Items.ItemInterfaces;
 using UnityEngine;
 
 namespace GunStuff.FireBehaviour
 {
     public class SingleShotFireBehaviour : IShotFireBehaviour
     {
-        public bool Fire(Gun gun)
+        public bool Fire(IGun gun)
         {
             ShootRayCast(gun);
             return true;
         }
 
-        private void ShootRayCast(Gun gun)
+        private void ShootRayCast(IGun gun)
         {
-            Vector3 direction = (gun.CurrentAimAtTarget.position - gun.MuzzlePosition).normalized * gun.GunProperties.EffectiveRange;
+            GunPositionData positionData = gun.PositionData;
+            Vector3 direction = (positionData.FrontSight.position - positionData.RearSight.position).normalized;
             
-            Ray ray = new Ray(gun.MuzzlePosition, direction);
+            Ray ray = new Ray(positionData.MuzzlePosition, direction);
             //Debug.DrawRay(muzzleTransform, -transform.forward * props.EffectiveRange, Color.green, 1f);
             if (Physics.Raycast(ray, out RaycastHit hit, gun.GunProperties.EffectiveRange))
             {
-                Debug.DrawRay(ray.origin, ray.direction, Color.green, 1f);
+                Debug.DrawRay(ray.origin, ray.direction * gun.GunProperties.EffectiveRange, Color.green, 1f);
             
                 hit.transform.TryGetComponent(out LimbHealth receiveDamage);
                 if (receiveDamage is not null)
@@ -37,7 +38,7 @@ namespace GunStuff.FireBehaviour
             }
             else
             {
-                Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 1f);
+                Debug.DrawRay(ray.origin, ray.direction * gun.GunProperties.EffectiveRange, Color.red, 1f);
             }
         }
     }

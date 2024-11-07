@@ -6,7 +6,7 @@ public class MoveToPlayer : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
 
-    private const float PLAYER_STANDING_HEIGHT = 1.8f;
+    private const float PLAYER_STANDING_HEIGHT = 1.75f;
     private const float PLAYER_CROUCHING_HEIGHT = PLAYER_STANDING_HEIGHT - PlayerCrouchBehaviour.CROUCH_DISTANCE;
     private float _playerHeight = PLAYER_STANDING_HEIGHT;
     private IEnumerator _playerHeightLerpRoutine;
@@ -43,7 +43,6 @@ public class MoveToPlayer : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //1.8 for player height
         transform.position = playerTransform.position + Vector3.up * _playerHeight;
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GunStuff.FireBehaviour;
+using Items.ItemInterfaces;
 using Items.Properties;
 using Items.Weapons;
 using UnityEngine;
@@ -9,7 +10,6 @@ namespace GunStuff.FireModes
     public abstract class BaseFireMode : IFireMode
     {
         public abstract FireMode FireMode { get; }
-
         public abstract bool Fire();
         public abstract void TriggerUp();
 

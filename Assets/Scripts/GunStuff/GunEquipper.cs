@@ -1,7 +1,6 @@
 ﻿using Constants;
 using Items;
 using Items.ItemInterfaces;
-using Items.Weapons;
 using PlayerAiming;
 using UnityEngine;
 
@@ -31,11 +30,11 @@ namespace GunStuff
         public void UnEquipGun()
         {
             LayerManager.ChangeLayerOfItem(_equippedGunTransform, LayerMask.NameToLayer(LayerConstants.LAYER_GUN), TagConstants.InteractableTag);
-            
+
             _animator.SetBool(AnimatorConstants.IsHoldingTwoHandedGun, false);
             _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
             _animator.SetBool(AnimatorConstants.IsAiming, false);
-        
+
             _aimBehaviour.UnEquipGun();
             _gunHandPlacement.UnEquipGun();
 
@@ -51,35 +50,33 @@ namespace GunStuff
         }
 
         public bool EquipPistol(Transform gunTransform, IGun gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingPistol);
-        
-        public bool EquipRifle(Transform gunTransform, IGun gunInfo) => EquipGun(gunTransform, gunInfo,AnimatorConstants.IsHoldingTwoHandedGun);
-        
 
-        private bool EquipGun(Transform gun, IGun gunInfo, int animName)
+        public bool EquipRifle(Transform gunTransform, IGun gunInfo) => EquipGun(gunTransform, gunInfo, AnimatorConstants.IsHoldingTwoHandedGun);
+
+
+        private bool EquipGun(Transform gunTransform, IGun gunInfo, int animName)
         {
-            GunPositionData posData = gun.GetComponent<GunPositionData>();
-            if (posData is null) return false;
-            
-            _equippedGunTransform = gun;
+            GunPositionData posData = gunInfo.PositionData;
+            _equippedGunTransform = gunTransform;
 
             _equippedGunTransform.SetParent(transform);
             _animator.SetBool(animName, true);
             _deadZoneLook.UseDeadZone = true;
 
-            _gunHandPlacement.EquipGun(posData);
-            _aimBehaviour.EquipGun(posData, gunInfo);
-
             EquippedPosition equippedPosition = gunInfo.EquippedPosition;
             _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
             _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
 
+            _gunHandPlacement.EquipGun(posData);
+            _aimBehaviour.EquipGun(posData);
+
+
             gunInfo.GunFired += _recoil.AddRecoil;
             gunInfo.CurrentAimAtTarget = recoilScriptTransform;
-            
-            
-            LayerManager.ChangeLayerOfItem(gun, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
-            return true;
 
+
+            LayerManager.ChangeLayerOfItem(gunTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
+            return true;
         }
 
         // private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)

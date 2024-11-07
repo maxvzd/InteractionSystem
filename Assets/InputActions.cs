@@ -134,6 +134,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpawnZombie"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c287b58-b797-4d39-a2e6-d0909d828cf7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -431,6 +440,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SwitchFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18829e94-5b0d-4697-90cd-838ae171ae59"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SpawnZombie"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1030,6 +1050,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_CloseInventory = m_Player.FindAction("CloseInventory", throwIfNotFound: true);
         m_Player_SwitchFireMode = m_Player.FindAction("SwitchFireMode", throwIfNotFound: true);
+        m_Player_SpawnZombie = m_Player.FindAction("SpawnZombie", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1121,6 +1142,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_CloseInventory;
     private readonly InputAction m_Player_SwitchFireMode;
+    private readonly InputAction m_Player_SpawnZombie;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1137,6 +1159,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @CloseInventory => m_Wrapper.m_Player_CloseInventory;
         public InputAction @SwitchFireMode => m_Wrapper.m_Player_SwitchFireMode;
+        public InputAction @SpawnZombie => m_Wrapper.m_Player_SpawnZombie;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1182,6 +1205,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @SwitchFireMode.started += instance.OnSwitchFireMode;
             @SwitchFireMode.performed += instance.OnSwitchFireMode;
             @SwitchFireMode.canceled += instance.OnSwitchFireMode;
+            @SpawnZombie.started += instance.OnSpawnZombie;
+            @SpawnZombie.performed += instance.OnSpawnZombie;
+            @SpawnZombie.canceled += instance.OnSpawnZombie;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1222,6 +1248,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @SwitchFireMode.started -= instance.OnSwitchFireMode;
             @SwitchFireMode.performed -= instance.OnSwitchFireMode;
             @SwitchFireMode.canceled -= instance.OnSwitchFireMode;
+            @SpawnZombie.started -= instance.OnSpawnZombie;
+            @SpawnZombie.performed -= instance.OnSpawnZombie;
+            @SpawnZombie.canceled -= instance.OnSpawnZombie;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1416,6 +1445,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnCloseInventory(InputAction.CallbackContext context);
         void OnSwitchFireMode(InputAction.CallbackContext context);
+        void OnSpawnZombie(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

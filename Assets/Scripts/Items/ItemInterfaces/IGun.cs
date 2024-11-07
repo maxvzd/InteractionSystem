@@ -1,4 +1,6 @@
 ﻿using System;
+using GunStuff;
+using Items.Properties;
 using UnityEngine;
 
 namespace Items.ItemInterfaces
@@ -7,5 +9,7 @@ namespace Items.ItemInterfaces
     { 
         event EventHandler<GunFiredEventArgs> GunFired;
         Transform CurrentAimAtTarget { get; set; }
+        GunPositionData PositionData { get; }
+        GunProperties GunProperties { get; }
     }
 }

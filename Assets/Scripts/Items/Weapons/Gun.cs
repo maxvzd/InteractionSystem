@@ -19,12 +19,11 @@ namespace Items.Weapons
         public EquippedPosition EquippedPosition => equippedPosition;
         public override bool IsEquippable => true;
         public override IItemProperties ItemProperties => gunProperties;
-        public Vector3 MuzzlePosition => muzzleTransform.position;
         public event EventHandler<GunFiredEventArgs> GunFired;
+        public GunPositionData PositionData { get; private set; }
 
         [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
-        [SerializeField] private Transform muzzleTransform;
 
         private List<IFireMode> _fireModes;
         private IFireMode _currentFireMode;
@@ -53,6 +52,7 @@ namespace Items.Weapons
 
             _fireModes = fireModes;
             _currentFireMode = _fireModes[0];
+            PositionData = GetComponent<GunPositionData>();
         }
 
         private void Update()

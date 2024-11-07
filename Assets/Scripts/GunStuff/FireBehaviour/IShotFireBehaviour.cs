@@ -1,9 +1,9 @@
-﻿using Items.Weapons;
+﻿using Items.ItemInterfaces;
 
 namespace GunStuff.FireBehaviour
 {
     public interface IShotFireBehaviour
     {
-        bool Fire(Gun gun);
+        bool Fire(IGun gun);
     }
 }

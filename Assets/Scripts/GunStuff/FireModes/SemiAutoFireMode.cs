@@ -1,4 +1,5 @@
 ﻿using GunStuff.FireBehaviour;
+using Items.ItemInterfaces;
 using Items.Weapons;
 
 namespace GunStuff.FireModes
