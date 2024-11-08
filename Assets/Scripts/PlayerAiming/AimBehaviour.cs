@@ -18,6 +18,7 @@ namespace PlayerAiming
         [SerializeField] private Camera mainCamera;
         [SerializeField] private UnityEvent playerAiming;
         [SerializeField] private UnityEvent playerNotAiming;
+        [SerializeField] private float distanceFromRearSight;
         
         private IEnumerator _aimLerper;
         private IEnumerator _weaponPositionLerper;
@@ -91,10 +92,10 @@ namespace PlayerAiming
                 cameraTransform.parent = rearSight;
                 StartAimLerp(
                     cameraTransform,
-                    new Vector3(0, 0, 0.1f),
+                    new Vector3(0, 0, distanceFromRearSight),
                     fulcrum,
                     _originalGunPosition + aimOffset + _crouchOffset,
-                    40,
+                    60f,
                     0.2f);
 
                 playerAiming.Invoke();

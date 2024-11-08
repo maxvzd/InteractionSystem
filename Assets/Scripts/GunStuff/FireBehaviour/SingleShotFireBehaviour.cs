@@ -19,9 +19,9 @@ namespace GunStuff.FireBehaviour
         private void ShootRayCast(IGun gun)
         {
             GunPositionData positionData = gun.PositionData;
-            Vector3 direction = (positionData.FrontSight.position - positionData.RearSight.position).normalized;
+            Vector3 fireDirection = (positionData.FrontSight.position - positionData.RearSight.position).normalized;
             
-            Ray ray = new Ray(positionData.MuzzlePosition, direction);
+            Ray ray = new Ray(positionData.MuzzlePosition, fireDirection);
             //Debug.DrawRay(muzzleTransform, -transform.forward * props.EffectiveRange, Color.green, 1f);
             if (Physics.Raycast(ray, out RaycastHit hit, gun.GunProperties.EffectiveRange))
             {

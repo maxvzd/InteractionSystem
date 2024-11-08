@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using GunStuff;
 using GunStuff.FireBehaviour;
 using GunStuff.FireModes;
 using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Items.Weapons
 {
     public abstract class Gun : BaseItem, IGun
     {
         public Transform CurrentAimAtTarget { get; set; } 
-        
         public GunProperties GunProperties => gunProperties;
         public override IInteractableProperties Properties => gunProperties;
         public EquipmentSlot EquipmentSlot => EquipmentSlot.Weapon;
@@ -22,6 +24,7 @@ namespace Items.Weapons
         public event EventHandler<GunFiredEventArgs> GunFired;
         public GunPositionData PositionData { get; private set; }
         public AudioSource AudioSource { get; private set; }
+        public GunRecoil RecoilBehaviour { get; private set; }
 
         [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
@@ -55,6 +58,7 @@ namespace Items.Weapons
             _currentFireMode = _fireModes[0];
             PositionData = GetComponent<GunPositionData>();
             AudioSource = GetComponent<AudioSource>();
+            RecoilBehaviour = GetComponent<GunRecoil>();
         }
 
         private void Update()
@@ -63,11 +67,11 @@ namespace Items.Weapons
             {
                 if (_currentFireMode.Fire())
                 {
-                    GunFired?.Invoke(this, new GunFiredEventArgs(GunProperties.Recoil));
+                    GunFired?.Invoke(this, new GunFiredEventArgs(GunProperties.Recoil, PositionData));
                 }
             }
         }
-
+        
         public void AttackDown()
         {
             TriggerDown();
@@ -108,10 +112,12 @@ namespace Items.Weapons
 public class GunFiredEventArgs : EventArgs
 {
     public float Recoil { get; }
+    public GunPositionData PositionData { get; }
     
-    public GunFiredEventArgs(float recoil)
+    public GunFiredEventArgs(float recoil, GunPositionData positionData)
     {
         Recoil = recoil;
+        PositionData = positionData;
     }
 
 }

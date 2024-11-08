@@ -460,6 +460,7 @@ MonoBehaviour:
   uiProperties: {fileID: 11400000, guid: d4713c19d9ba0214ebc9d8daed33c59a, type: 2}
   equippedPosition: {fileID: 11400000, guid: dd65f4cbc51d07944904e9ddeee57cfc, type: 2}
   gunProperties: {fileID: 11400000, guid: 49ff50a8471872446a0aa161876e0e13, type: 2}
+  recoveryTime: 0.2
 --- !u!82 &2116376685035806650
 AudioSource:
   m_ObjectHideFlags: 0

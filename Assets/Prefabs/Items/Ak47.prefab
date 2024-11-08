@@ -378,6 +378,7 @@ MonoBehaviour:
   uiProperties: {fileID: 11400000, guid: 94d4ae34a0313a742a5b5230be010a8d, type: 2}
   equippedPosition: {fileID: 11400000, guid: 508a3af2e727abb458a53cacc7544705, type: 2}
   gunProperties: {fileID: 11400000, guid: 51f5ff285dce1a644af32ba52071701c, type: 2}
+  recoveryTime: 0.05
 --- !u!114 &5079374683071077158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,17 +1325,17 @@ PrefabInstance:
     - target: {fileID: 9189167128507813254, guid: 9bac10e691f2b134e8a762aac4cb9231,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.1972
+      value: -0.1481
       objectReference: {fileID: 0}
     - target: {fileID: 9189167128507813254, guid: 9bac10e691f2b134e8a762aac4cb9231,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.008
       objectReference: {fileID: 0}
     - target: {fileID: 9189167128507813254, guid: 9bac10e691f2b134e8a762aac4cb9231,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.654
+      value: -0.54
       objectReference: {fileID: 0}
     - target: {fileID: 9189167128507813254, guid: 9bac10e691f2b134e8a762aac4cb9231,
         type: 3}

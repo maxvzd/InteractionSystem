@@ -12,5 +12,6 @@ namespace Items.ItemInterfaces
         GunPositionData PositionData { get; }
         GunProperties GunProperties { get; }
         AudioSource AudioSource { get; }
+        GunRecoil RecoilBehaviour { get; }
     }
 }
