@@ -11,5 +11,6 @@ namespace Items.ItemInterfaces
         Transform CurrentAimAtTarget { get; set; }
         GunPositionData PositionData { get; }
         GunProperties GunProperties { get; }
+        AudioSource AudioSource { get; }
     }
 }

@@ -10,6 +10,9 @@ namespace GunStuff.FireBehaviour
         public bool Fire(IGun gun)
         {
             ShootRayCast(gun);
+            gun.AudioSource.pitch = Random.Range(0.8f, 1);
+            gun.AudioSource.PlayOneShot(gun.GunProperties.FireSound);
+            
             return true;
         }
 

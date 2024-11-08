@@ -21,6 +21,7 @@ namespace Items.Weapons
         public override IItemProperties ItemProperties => gunProperties;
         public event EventHandler<GunFiredEventArgs> GunFired;
         public GunPositionData PositionData { get; private set; }
+        public AudioSource AudioSource { get; private set; }
 
         [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
@@ -53,6 +54,7 @@ namespace Items.Weapons
             _fireModes = fireModes;
             _currentFireMode = _fireModes[0];
             PositionData = GetComponent<GunPositionData>();
+            AudioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
