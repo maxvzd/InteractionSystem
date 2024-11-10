@@ -33,7 +33,7 @@ namespace GunStuff
             Vector3 targetFulcrumPos = currentFulcrumPos - Vector3.forward * (recoilAmount * 0.005f); //Magic number to dampen recoil - probably generated from player aiming skill eventurall
             
             Quaternion currentGunMeshRot = positionData.GunMesh.localRotation;
-            Quaternion targetGunMeshRot = currentGunMeshRot * Quaternion.Euler(new Vector3(recoilAmount, Random.Range(-3, 3), 0));
+            Quaternion targetGunMeshRot = currentGunMeshRot * Quaternion.Euler(new Vector3(recoilAmount, Random.Range(-2, 2), 0));
             
             while (timeElapsed < lerpTime)
             {
