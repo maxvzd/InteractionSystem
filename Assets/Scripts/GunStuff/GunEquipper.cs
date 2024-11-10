@@ -11,7 +11,7 @@ namespace GunStuff
         [SerializeField] private Transform lookBase;
         [SerializeField] private Transform recoilScriptTransform;
 
-        private AimBehaviour _aimBehaviour;
+        private PlayerGunPosition _playerGunPosition;
         private GunHandPlacement _gunHandPlacement;
         private Animator _animator;
         private DeadZoneLook _deadZoneLook;
@@ -19,7 +19,7 @@ namespace GunStuff
 
         private void Awake()
         {
-            _aimBehaviour = GetComponent<AimBehaviour>();
+            _playerGunPosition = GetComponent<PlayerGunPosition>();
             _gunHandPlacement = GetComponent<GunHandPlacement>();
             _animator = GetComponent<Animator>();
             _deadZoneLook = lookBase.GetComponent<DeadZoneLook>();
@@ -33,7 +33,7 @@ namespace GunStuff
             _animator.SetBool(AnimatorConstants.IsHoldingPistol, false);
             _animator.SetBool(AnimatorConstants.IsAiming, false);
 
-            _aimBehaviour.UnEquipGun();
+            _playerGunPosition.UnEquipGun();
             _gunHandPlacement.UnEquipGun();
 
             IGun gun = _equippedGunTransform.GetComponent<IGun>();
@@ -66,7 +66,7 @@ namespace GunStuff
             _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
 
             _gunHandPlacement.EquipGun(posData);
-            _aimBehaviour.EquipGun(posData);
+            _playerGunPosition.EquipGun(posData);
 
             GunRecoil recoilScript = gunInfo.RecoilBehaviour;
             gunInfo.GunFired += recoilScript.AddRecoil;

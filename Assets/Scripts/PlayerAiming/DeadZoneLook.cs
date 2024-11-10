@@ -17,7 +17,7 @@ namespace PlayerAiming
         [SerializeField] private PlayerInput playerInput;
         
         private IEnumerator _lerpAimToLookCoRoutine;
-        private bool _isVericalRotationLocked;
+        private bool _isVerticalRotationLocked;
         private InputAction _lookAction;
         private bool _isCameraLocked;
 
@@ -37,7 +37,7 @@ namespace PlayerAiming
             float verticalRotation = -mouseDelta.y;
             float horizontalRotation = mouseDelta.x;
             
-            if (_isVericalRotationLocked)
+            if (_isVerticalRotationLocked)
             {
                 verticalRotation = 0f;
             }
@@ -75,13 +75,8 @@ namespace PlayerAiming
 
         private static float ClampEulerAngle(float eulerAngleToClamp, float angleToClampTo)
         {
-            eulerAngleToClamp = GetRealAngle(eulerAngleToClamp);
+            eulerAngleToClamp = AngleHelper.GetRealAngle(eulerAngleToClamp);
             return Mathf.Clamp(eulerAngleToClamp, -angleToClampTo, angleToClampTo);
-        }
-
-        private static float GetRealAngle(float angle)
-        {
-            return angle > 180 ? angle - 360 : angle;
         }
         
         private IEnumerator LerpAimToLookCoroutine()
@@ -127,12 +122,12 @@ namespace PlayerAiming
         
         public void UnlockYDirection()
         {
-            _isVericalRotationLocked = false;
+            _isVerticalRotationLocked = false;
         }
 
         public void LockYDirection()
         {
-            _isVericalRotationLocked = true;
+            _isVerticalRotationLocked = true;
         }
     }
 }
