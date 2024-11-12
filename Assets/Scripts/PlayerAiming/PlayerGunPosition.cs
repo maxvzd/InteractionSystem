@@ -47,6 +47,8 @@ namespace PlayerAiming
         private GunRecoil _gunRecoil;
 
         private const float ActionTime = 0.2f;
+        public EventHandler GunRaised;
+        public EventHandler GunLowered;
 
         public void EquipGun(IGun gun)
         {
@@ -112,6 +114,7 @@ namespace PlayerAiming
                 _targetGunPosition = _currentlyEquippedGunPositions.AvoidingObjectPosition;
                 _targetGunRotation = Quaternion.Euler(_currentlyEquippedGunPositions.AvoidingObjectRotation);
                 StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+                GunRaised?.Invoke(this,EventArgs.Empty);
             }
             else if (!objectIsInFrontOfPlayer && _isGunAvoidingWall)
             {
@@ -119,6 +122,7 @@ namespace PlayerAiming
                 _targetGunPosition = _originalGunPosition;
                 _targetGunRotation = Quaternion.identity;
                 StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+                GunLowered?.Invoke(this,EventArgs.Empty);
             }
 
             if (!_isGunAvoidingWall)
