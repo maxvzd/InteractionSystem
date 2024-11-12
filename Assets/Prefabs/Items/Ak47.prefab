@@ -378,7 +378,7 @@ MonoBehaviour:
   uiProperties: {fileID: 11400000, guid: 94d4ae34a0313a742a5b5230be010a8d, type: 2}
   equippedPosition: {fileID: 11400000, guid: 508a3af2e727abb458a53cacc7544705, type: 2}
   gunProperties: {fileID: 11400000, guid: 51f5ff285dce1a644af32ba52071701c, type: 2}
-  recoveryTime: 0.05
+  positions: {fileID: 11400000, guid: eca116d4ad32af248b186781f72169a7, type: 2}
 --- !u!114 &5079374683071077158
 MonoBehaviour:
   m_ObjectHideFlags: 0

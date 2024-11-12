@@ -2,10 +2,14 @@
 using System.Collections;
 using Constants;
 using GunStuff;
+using Items;
+using Items.ItemInterfaces;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.UI;
+using UnityEngine.Serialization;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -13,25 +17,60 @@ namespace PlayerAiming
 {
     public class PlayerGunPosition : MonoBehaviour
     {
+        private Vector3 TotalTargetPosition => _targetGunPosition + _currentCrouchOffset + _currentAimOffset;
+
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private UnityEvent playerAiming;
         [SerializeField] private UnityEvent playerNotAiming;
         [SerializeField] private float distanceFromRearSight;
         [SerializeField] private float recoverySpeed;
-        
-        private IEnumerator _aimLerper;
+        [SerializeField] private Transform rightShoulderBone;
+        [SerializeField] private AnimationCurve recoveryCurve;
+
+        private IEnumerator _cameraLerper;
         private IEnumerator _weaponPositionLerper;
         private float _originalFOV;
         private Transform _originalParent;
         private Vector3 _originalCameraPosition;
         private Vector3 _originalGunPosition;
+        private Vector3 _currentCrouchOffset;
+        private Vector3 _currentAimOffset;
         private bool _gunIsEquipped;
         private PlayerInput _playerInput;
         private InputAction _aimAction;
-        private GunPositionData _currentlyEquippedGunPositionData;
-        private Vector3 _currentCrouchOffset;
-        private Vector3 _currentAimOffset;
+        private GunComponentsPositionData _currentlyEquippedGunComponents;
+        private GunPositions _currentlyEquippedGunPositions;
+        private Vector3 _targetGunPosition;
+        private Quaternion _targetGunRotation;
+        private bool _isGunAvoidingWall;
+        private GunRecoil _gunRecoil;
+
+        private const float ActionTime = 0.2f;
+
+        public void EquipGun(IGun gun)
+        {
+            _gunIsEquipped = true;
+
+            _originalGunPosition = gun.EquippedPosition.EquippedLocalPosition;
+            
+            _targetGunPosition = _originalGunPosition;
+            _targetGunRotation = Quaternion.Euler(gun.EquippedPosition.EquippedLocalRotation);
+
+            _currentlyEquippedGunComponents = gun.Components;
+            _currentlyEquippedGunPositions = gun.StatePositions;
+
+            _gunRecoil = gun.RecoilBehaviour;
+            _gunRecoil.RecoilFinished += OnRecoilFinished;
+            
+            StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+        }
+
+        public void UnEquipGun()
+        {
+            _gunIsEquipped = false;
+            _gunRecoil.RecoilFinished -= OnRecoilFinished;
+        }
 
         private void Start()
         {
@@ -48,83 +87,98 @@ namespace PlayerAiming
             crouchBehaviour.PlayerCrouched += OnPlayerCrouched;
         }
 
-        private void OnPlayerCrouched(object sender, EventArgs e)
-        {
-            if (!_gunIsEquipped) return;
-
-            _currentCrouchOffset = -Vector3.up * PlayerCrouchBehaviour.CROUCH_DISTANCE;
-            StartGunLerp(_currentlyEquippedGunPositionData.GunFulcrum, _originalGunPosition + _currentCrouchOffset, 0.2f);
-        }
-
-        private void OnPlayerUnCrouched(object sender, EventArgs e)
-        {
-            if (!_gunIsEquipped) return;
-
-            _currentCrouchOffset = Vector3.zero;
-            StartGunLerp(_currentlyEquippedGunPositionData.GunFulcrum, _originalGunPosition, 0.2f);
-        }
-
-        public void EquipGun(GunPositionData posData)
-        {
-            _gunIsEquipped = true;
-            _originalGunPosition = posData.GunFulcrum.localPosition;
-            _currentlyEquippedGunPositionData = posData;
-        }
-
-        public void UnEquipGun()
-        {
-            _gunIsEquipped = false;
-
-            _currentlyEquippedGunPositionData = null;
-            _originalGunPosition = Vector3.zero;
-        }
-
         private void Update()
         {
             if (!_gunIsEquipped) return;
 
+            Vector3 raiseWeaponRayStart = rightShoulderBone.position;
+            Vector3 direction = (aimTarget.position - raiseWeaponRayStart).normalized;
+            const float distance = 1.1f;
+            const float weaponRadius = 0.1f;
+
             Transform cameraTransform = mainCamera.transform;
-            Transform fulcrum = _currentlyEquippedGunPositionData.GunFulcrum;
-            Transform rearSight = _currentlyEquippedGunPositionData.RearSight;
-            Transform gunMesh = _currentlyEquippedGunPositionData.GunMesh;
+            Transform fulcrum = _currentlyEquippedGunComponents.GunFulcrum;
             
-            if (_aimAction.WasPressedThisFrame())
+            Ray raiseWeaponRay = new Ray(raiseWeaponRayStart, direction);
+            bool objectIsInFrontOfPlayer = Physics.SphereCast(
+                raiseWeaponRay, 
+                weaponRadius, 
+                distance,
+                ~LayerMask.GetMask(LayerConstants.LAYER_PLAYER));
+            
+            if (objectIsInFrontOfPlayer && !_isGunAvoidingWall)
             {
-                _currentAimOffset = _currentlyEquippedGunPositionData.AimPosition;
-                cameraTransform.parent = rearSight;
-                StartCameraLerp(
-                    cameraTransform,
-                    new Vector3(0, 0, distanceFromRearSight),
-                    60f,
-                    0.2f);
-
-                playerAiming.Invoke();
+                _isGunAvoidingWall = true;
+                _targetGunPosition = _currentlyEquippedGunPositions.AvoidingObjectPosition;
+                _targetGunRotation = Quaternion.Euler(_currentlyEquippedGunPositions.AvoidingObjectRotation);
+                StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+            }
+            else if (!objectIsInFrontOfPlayer && _isGunAvoidingWall)
+            {
+                _isGunAvoidingWall = false;
+                _targetGunPosition = _originalGunPosition;
+                _targetGunRotation = Quaternion.identity;
+                StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
             }
 
-            if (_aimAction.WasReleasedThisFrame())
+            if (!_isGunAvoidingWall)
             {
-                 cameraTransform.parent = _originalParent;
-                 _currentAimOffset = Vector3.zero;
-                StartCameraLerp(cameraTransform,
-                    _originalCameraPosition,
-                    _originalFOV,
-                    0.2f);
+                if (_aimAction.WasPressedThisFrame())
+                {
+                    _currentAimOffset = _currentlyEquippedGunComponents.AimPosition;
+                    cameraTransform.parent = _currentlyEquippedGunComponents.RearSight;
+                    StartCameraLerp(
+                        cameraTransform,
+                        new Vector3(0, 0, distanceFromRearSight),
+                        60f,
+                        0.2f);
 
-                playerNotAiming.Invoke();
+                    playerAiming.Invoke();
+                    StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+                }
+
+                if (_aimAction.WasReleasedThisFrame())
+                {
+                    cameraTransform.parent = _originalParent;
+                    _currentAimOffset = Vector3.zero;
+                    StartCameraLerp(cameraTransform,
+                        _originalCameraPosition,
+                        _originalFOV,
+                        0.2f);
+
+                    playerNotAiming.Invoke();
+                    StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
+                }
             }
 
-            fulcrum.localPosition = Vector3.MoveTowards(
-                fulcrum.localPosition,
-                _originalGunPosition + _currentCrouchOffset + _currentAimOffset,
-                recoverySpeed * Time.deltaTime);
+            if (!_isGunAvoidingWall)
+            {
+                Quaternion lookAtRotation = Quaternion.LookRotation(fulcrum.position - aimTarget.position);
+                fulcrum.rotation = lookAtRotation;
+            }
+        }
 
-            gunMesh.localRotation = Quaternion.RotateTowards(
-                gunMesh.localRotation, 
-                Quaternion.identity, 
-                recoverySpeed * (180f / Mathf.PI) * Time.deltaTime);
+        private void OnPlayerCrouched(object sender, EventArgs e)
+        {
+            _currentCrouchOffset = -Vector3.up * PlayerCrouchBehaviour.CROUCH_DISTANCE;
+            if (!_gunIsEquipped) return;
+
+            StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition,
+                Quaternion.identity, ActionTime);
+        }
+
+        private void OnPlayerUnCrouched(object sender, EventArgs e)
+        {
+            _currentCrouchOffset = Vector3.zero;
+            if (!_gunIsEquipped) return;
             
-            Quaternion lookAtRotation = Quaternion.LookRotation(fulcrum.position - aimTarget.position);
-            fulcrum.rotation = lookAtRotation;
+            StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition,
+                Quaternion.identity, ActionTime);
+        }
+
+        private void OnRecoilFinished(object sender, EventArgs e)
+        {
+            StartGunLerp(_currentlyEquippedGunComponents, TotalTargetPosition, _targetGunRotation, ActionTime);
         }
 
         private void StartCameraLerp(
@@ -133,18 +187,19 @@ namespace PlayerAiming
             float fovToLerpTo,
             float lerpTime)
         {
-            if (!ReferenceEquals(_aimLerper, null))
+            if (!ReferenceEquals(_cameraLerper, null))
             {
-                StopCoroutine(_aimLerper);
+                StopCoroutine(_cameraLerper);
             }
 
-            _aimLerper = LerpCamera(cameraTransform, cameraPositionToLerpTo, fovToLerpTo, lerpTime);
-            StartCoroutine(_aimLerper);
+            _cameraLerper = LerpCamera(cameraTransform, cameraPositionToLerpTo, fovToLerpTo, lerpTime);
+            StartCoroutine(_cameraLerper);
         }
 
         private void StartGunLerp(
-            Transform gunTransform,
+            GunComponentsPositionData components,
             Vector3 gunPosToLerpTo,
+            Quaternion rotToLerpTo,
             float lerpTime)
         {
             if (!ReferenceEquals(_weaponPositionLerper, null))
@@ -152,7 +207,7 @@ namespace PlayerAiming
                 StopCoroutine(_weaponPositionLerper);
             }
 
-            _weaponPositionLerper = LerpGun(gunTransform, gunPosToLerpTo, lerpTime);
+            _weaponPositionLerper = LerpGun(components, gunPosToLerpTo, rotToLerpTo, lerpTime);
             StartCoroutine(_weaponPositionLerper);
         }
 
@@ -182,11 +237,15 @@ namespace PlayerAiming
         }
 
         private IEnumerator LerpGun(
-            Transform gunTransform,
+            GunComponentsPositionData components,
             Vector3 posToLerpTo,
+            Quaternion rotToLerpTo,
             float lerpTime)
         {
-            Vector3 currentPosition = gunTransform.localPosition;
+            Transform fulcrumTransform = components.GunFulcrum;
+            Transform gunMesh = components.GunMesh;
+            Vector3 currentPosition = fulcrumTransform.localPosition;
+            Quaternion currentRotation = gunMesh.localRotation;
 
             float elapsedTime = 0f;
 
@@ -195,11 +254,13 @@ namespace PlayerAiming
                 float t = elapsedTime / lerpTime;
                 elapsedTime += Time.deltaTime;
 
-                gunTransform.localPosition = Vector3.Lerp(currentPosition, posToLerpTo, t);
+                fulcrumTransform.localPosition = Vector3.Lerp(currentPosition, posToLerpTo, t);
+                gunMesh.localRotation = Quaternion.Lerp(currentRotation, rotToLerpTo, t);
                 yield return new WaitForEndOfFrame();
             }
 
-            gunTransform.localPosition = posToLerpTo;
+            fulcrumTransform.localPosition = posToLerpTo;
+            gunMesh.localRotation = rotToLerpTo;
         }
     }
 }

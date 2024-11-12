@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GunStuff
 {
-    public class GunPositionData : MonoBehaviour
+    public class GunComponentsPositionData : MonoBehaviour
     {
         [SerializeField] private Transform leftHandIkTarget;
         [SerializeField] private Transform rightHandIkTarget;

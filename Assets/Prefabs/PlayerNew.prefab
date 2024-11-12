@@ -2070,6 +2070,31 @@ MonoBehaviour:
         m_CallState: 2
   distanceFromRearSight: 0.1
   recoverySpeed: 0.35
+  lerpToPosition: 1
+  recoveryCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.036084082
+      outSlope: 0.036084082
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03870458
+    - serializedVersion: 3
+      time: 360
+      value: 5
+      inSlope: 0.0016109617
+      outSlope: 0.0016109617
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.063981034
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &8060375166796528346
 MonoBehaviour:
   m_ObjectHideFlags: 0

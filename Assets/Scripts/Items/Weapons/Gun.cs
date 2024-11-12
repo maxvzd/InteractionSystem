@@ -22,12 +22,14 @@ namespace Items.Weapons
         public override bool IsEquippable => true;
         public override IItemProperties ItemProperties => gunProperties;
         public event EventHandler<GunFiredEventArgs> GunFired;
-        public GunPositionData PositionData { get; private set; }
+        public GunComponentsPositionData Components { get; private set; }
         public AudioSource AudioSource { get; private set; }
         public GunRecoil RecoilBehaviour { get; private set; }
+        public GunPositions StatePositions => positions;
 
         [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
+        [SerializeField] private GunPositions positions;
 
         private List<IFireMode> _fireModes;
         private IFireMode _currentFireMode;
@@ -56,7 +58,7 @@ namespace Items.Weapons
 
             _fireModes = fireModes;
             _currentFireMode = _fireModes[0];
-            PositionData = GetComponent<GunPositionData>();
+            Components = GetComponent<GunComponentsPositionData>();
             AudioSource = GetComponent<AudioSource>();
             RecoilBehaviour = GetComponent<GunRecoil>();
         }
@@ -67,7 +69,7 @@ namespace Items.Weapons
             {
                 if (_currentFireMode.Fire())
                 {
-                    GunFired?.Invoke(this, new GunFiredEventArgs(GunProperties.Recoil, PositionData));
+                    GunFired?.Invoke(this, new GunFiredEventArgs(GunProperties.Recoil, Components));
                 }
             }
         }
@@ -112,9 +114,9 @@ namespace Items.Weapons
 public class GunFiredEventArgs : EventArgs
 {
     public float Recoil { get; }
-    public GunPositionData PositionData { get; }
+    public GunComponentsPositionData PositionData { get; }
     
-    public GunFiredEventArgs(float recoil, GunPositionData positionData)
+    public GunFiredEventArgs(float recoil, GunComponentsPositionData positionData)
     {
         Recoil = recoil;
         PositionData = positionData;

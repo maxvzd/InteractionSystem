@@ -54,20 +54,15 @@ namespace GunStuff
 
         private bool EquipGun(Transform gunTransform, IGun gunInfo, int animName)
         {
-            GunPositionData posData = gunInfo.PositionData;
             _equippedGunTransform = gunTransform;
 
             _equippedGunTransform.SetParent(transform);
             _animator.SetBool(animName, true);
             _deadZoneLook.UseDeadZone = true;
-
-            EquippedPosition equippedPosition = gunInfo.EquippedPosition;
-            _equippedGunTransform.localPosition = equippedPosition.EquippedLocalPosition;
-            _equippedGunTransform.localEulerAngles = equippedPosition.EquippedLocalRotation;
-
-            _gunHandPlacement.EquipGun(posData);
-            _playerGunPosition.EquipGun(posData);
-
+            
+            _gunHandPlacement.EquipGun(gunInfo.Components);
+            _playerGunPosition.EquipGun(gunInfo);
+            
             GunRecoil recoilScript = gunInfo.RecoilBehaviour;
             gunInfo.GunFired += recoilScript.AddRecoil;
             gunInfo.CurrentAimAtTarget = recoilScriptTransform;

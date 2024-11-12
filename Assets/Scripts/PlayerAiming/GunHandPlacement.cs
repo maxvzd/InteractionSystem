@@ -17,7 +17,7 @@ namespace PlayerAiming
         private Vector3 _leftHandPos;
         private Quaternion _leftHandRot;
         private FullBodyBipedIK _fullBodyIk;
-        private GunPositionData _handPos;
+        private GunComponentsPositionData _handPos;
 
     
         public void Awake()
@@ -25,7 +25,7 @@ namespace PlayerAiming
             _fullBodyIk = GetComponent<FullBodyBipedIK>();
         }
 
-        public void EquipGun(GunPositionData posData)
+        public void EquipGun(GunComponentsPositionData posData)
         {
             _handPos = posData;
         

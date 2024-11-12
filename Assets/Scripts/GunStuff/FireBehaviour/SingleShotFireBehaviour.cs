@@ -18,30 +18,22 @@ namespace GunStuff.FireBehaviour
 
         private void ShootRayCast(IGun gun)
         {
-            GunPositionData positionData = gun.PositionData;
+            GunComponentsPositionData positionData = gun.Components;
             Vector3 fireDirection = (positionData.FrontSight.position - positionData.RearSight.position).normalized;
             
             Ray ray = new Ray(positionData.MuzzlePosition, fireDirection);
-            //Debug.DrawRay(muzzleTransform, -transform.forward * props.EffectiveRange, Color.green, 1f);
-            if (Physics.Raycast(ray, out RaycastHit hit, gun.GunProperties.EffectiveRange))
-            {
-                Debug.DrawRay(ray.origin, ray.direction * gun.GunProperties.EffectiveRange, Color.green, 1f);
+            if (!Physics.Raycast(ray, out RaycastHit hit, gun.GunProperties.EffectiveRange)) return;
             
-                hit.transform.TryGetComponent(out LimbHealth receiveDamage);
-                if (receiveDamage is not null)
-                {
-                    receiveDamage.Receive(gun.GunProperties.Damage, hit.point);
-                }
-                
-                hit.transform.TryGetComponent(out ReactToHit react);
-                if (react is not null)
-                {
-                    react.React(hit, ray.direction);
-                }
-            }
-            else
+            hit.transform.TryGetComponent(out LimbHealth receiveDamage);
+            if (receiveDamage is not null)
             {
-                Debug.DrawRay(ray.origin, ray.direction * gun.GunProperties.EffectiveRange, Color.red, 1f);
+                receiveDamage.Receive(gun.GunProperties.Damage, hit.point);
+            }
+                
+            hit.transform.TryGetComponent(out ReactToHit react);
+            if (react is not null)
+            {
+                react.React(hit, ray.direction);
             }
         }
     }

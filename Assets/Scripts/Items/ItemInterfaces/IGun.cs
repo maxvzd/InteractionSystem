@@ -9,9 +9,10 @@ namespace Items.ItemInterfaces
     { 
         event EventHandler<GunFiredEventArgs> GunFired;
         Transform CurrentAimAtTarget { get; set; }
-        GunPositionData PositionData { get; }
+        GunComponentsPositionData Components { get; }
         GunProperties GunProperties { get; }
         AudioSource AudioSource { get; }
         GunRecoil RecoilBehaviour { get; }
+        GunPositions StatePositions { get; }
     }
 }

@@ -566,6 +566,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ak47
       objectReference: {fileID: 0}
+    - target: {fileID: 5611398695515324826, guid: 4aba3158019a2bb45951e4c931de366f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6404296877437404632, guid: 4aba3158019a2bb45951e4c931de366f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2093,7 +2098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3df101f61cb248920ff615b983768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryTime: 0.2
   recoilSpeed: 0.01
 --- !u!1 &551638037
 GameObject:
@@ -3947,7 +3951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3df101f61cb248920ff615b983768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryTime: 0.2
   recoilSpeed: 0.01
 --- !u!1001 &1035432152
 PrefabInstance:
@@ -5448,6 +5451,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320602986}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1335397113 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5659424119292130716, guid: da328efb65cd58c41ab087555491e096,
+    type: 3}
+  m_PrefabInstance: {fileID: 7885384650498026760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1410725596
 GameObject:
   m_ObjectHideFlags: 0
@@ -7630,8 +7639,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
-      propertyPath: distanceFromRearSight
-      value: 0.1
+      propertyPath: recoverySpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: rightShoulderBone
+      value: 
+      objectReference: {fileID: 1335397113}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[0].time
+      value: -0.28435898
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].time
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].value
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[0].inSlope
+      value: 0.0039255843
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].inSlope
+      value: 0.0019331913
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[0].outSlope
+      value: 0.0039255843
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].inWeight
+      value: 0.063981034
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].outSlope
+      value: 0.0019331913
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[0].outWeight
+      value: 0.07345971
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: recoveryCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6065282056378847540, guid: da328efb65cd58c41ab087555491e096,
         type: 3}

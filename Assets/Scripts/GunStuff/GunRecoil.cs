@@ -1,16 +1,18 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GunStuff
 {
     public class GunRecoil : MonoBehaviour
     {
-        [SerializeField] private float recoveryTime;
         [SerializeField] private float recoilSpeed;
 
         private IEnumerator _recoilLerpRoutine;
         private Vector3 _aimTargetPosAtEndOfRecoil;
         private Vector3 _originalFulcrumPosition;
+        public EventHandler RecoilFinished;
 
         public void AddRecoil(object sender, GunFiredEventArgs eventArgs)
         {
@@ -23,7 +25,7 @@ namespace GunStuff
             StartCoroutine(_recoilLerpRoutine);
         }
 
-        private IEnumerator AddRecoilCoRoutine(float lerpTime, float recoilAmount, GunPositionData positionData)
+        private IEnumerator AddRecoilCoRoutine(float lerpTime, float recoilAmount, GunComponentsPositionData positionData)
         {
             float timeElapsed = 0f;
             Transform fulcrumTransform = positionData.GunFulcrum;
@@ -48,6 +50,7 @@ namespace GunStuff
             
             fulcrumTransform.localPosition = targetFulcrumPos;
             gunTransform.localRotation = targetGunMeshRot;
+            RecoilFinished?.Invoke(this, EventArgs.Empty);
         }
     }
 }
