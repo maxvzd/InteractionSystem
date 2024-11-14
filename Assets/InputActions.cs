@@ -143,6 +143,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RaiseLowerGun"",
+                    ""type"": ""Button"",
+                    ""id"": ""524c0d71-c480-4fbf-9799-6387d54963cc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -451,6 +460,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SpawnZombie"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae160493-c8be-457f-a370-d896cf26b181"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""RaiseLowerGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1051,6 +1071,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_CloseInventory = m_Player.FindAction("CloseInventory", throwIfNotFound: true);
         m_Player_SwitchFireMode = m_Player.FindAction("SwitchFireMode", throwIfNotFound: true);
         m_Player_SpawnZombie = m_Player.FindAction("SpawnZombie", throwIfNotFound: true);
+        m_Player_RaiseLowerGun = m_Player.FindAction("RaiseLowerGun", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1143,6 +1164,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CloseInventory;
     private readonly InputAction m_Player_SwitchFireMode;
     private readonly InputAction m_Player_SpawnZombie;
+    private readonly InputAction m_Player_RaiseLowerGun;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1160,6 +1182,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @CloseInventory => m_Wrapper.m_Player_CloseInventory;
         public InputAction @SwitchFireMode => m_Wrapper.m_Player_SwitchFireMode;
         public InputAction @SpawnZombie => m_Wrapper.m_Player_SpawnZombie;
+        public InputAction @RaiseLowerGun => m_Wrapper.m_Player_RaiseLowerGun;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1208,6 +1231,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @SpawnZombie.started += instance.OnSpawnZombie;
             @SpawnZombie.performed += instance.OnSpawnZombie;
             @SpawnZombie.canceled += instance.OnSpawnZombie;
+            @RaiseLowerGun.started += instance.OnRaiseLowerGun;
+            @RaiseLowerGun.performed += instance.OnRaiseLowerGun;
+            @RaiseLowerGun.canceled += instance.OnRaiseLowerGun;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1251,6 +1277,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @SpawnZombie.started -= instance.OnSpawnZombie;
             @SpawnZombie.performed -= instance.OnSpawnZombie;
             @SpawnZombie.canceled -= instance.OnSpawnZombie;
+            @RaiseLowerGun.started -= instance.OnRaiseLowerGun;
+            @RaiseLowerGun.performed -= instance.OnRaiseLowerGun;
+            @RaiseLowerGun.canceled -= instance.OnRaiseLowerGun;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1446,6 +1475,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCloseInventory(InputAction.CallbackContext context);
         void OnSwitchFireMode(InputAction.CallbackContext context);
         void OnSpawnZombie(InputAction.CallbackContext context);
+        void OnRaiseLowerGun(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

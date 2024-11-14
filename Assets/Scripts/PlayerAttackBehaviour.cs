@@ -9,7 +9,7 @@ public class PlayerAttackBehaviour : MonoBehaviour
     private InputAction _attackAction;
     private PlayerEquipper _playerEquipment;
     private PlayerGunPosition _playerGunPosition;
-    private bool _gunIsRaised;
+    private bool _gunIsReadyToFire;
 
     private void Start()
     {
@@ -17,13 +17,13 @@ public class PlayerAttackBehaviour : MonoBehaviour
         _attackAction = input.actions[InputConstants.FireAction];
         _playerEquipment = GetComponent<PlayerEquipper>();
         _playerGunPosition = GetComponent<PlayerGunPosition>();
-        _playerGunPosition.GunLowered += OnGunLowered;
-        _playerGunPosition.GunRaised += OnGunRaised;
+        _playerGunPosition.GunIsNotReadyToFire += OnGunIsNotReadyToFire;
+        _playerGunPosition.GunIsReadyToFire += GunIsReadyToFire;
     }
     
     private void Update()
     {
-        if (!_playerEquipment.IsWeaponEquipped || _gunIsRaised) return;
+        if (!_playerEquipment.IsWeaponEquipped || !_gunIsReadyToFire) return;
         
         if (_attackAction.WasPressedThisFrame())
         {
@@ -36,17 +36,17 @@ public class PlayerAttackBehaviour : MonoBehaviour
         }
     }
 
-    private void OnGunRaised(object sender, EventArgs args)
+    private void GunIsReadyToFire(object sender, EventArgs args)
     {
-        _gunIsRaised = true;
+        _gunIsReadyToFire = true;
+    }
+
+    private void OnGunIsNotReadyToFire(object sender, EventArgs args)
+    {
+        _gunIsReadyToFire = false;
         if (_playerEquipment.IsWeaponEquipped)
         {
             _playerEquipment.EquipmentSlots.Weapon.AttackUp();
         }
-    }
-
-    private void OnGunLowered(object sender, EventArgs args)
-    {
-        _gunIsRaised = false;
     }
 }

@@ -27,7 +27,7 @@ public class PlayerCrouchBehaviour : MonoBehaviour
     private const float CROUCH_COLLIDER_CENTRE_HEIGHT = 0.7f;
     private const float STANDING_COLLIDER_CENTRE_HEIGHT = 0.95f;
 
-    public const float CROUCH_DISTANCE = 0.4f; 
+    public const float CROUCH_DISTANCE = 0.5f; 
     
     private void Start()
     {

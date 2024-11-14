@@ -15,5 +15,6 @@
         public static string LongPressInteractAction => "LongPressInteract";
         public static string CrouchAction => "Crouch";
         public static string SwitchFireMode => "SwitchFireMode";
+        public static string RaiseLowerGunAction => "RaiseLowerGun";
     }
 }
