@@ -64,6 +64,7 @@ namespace PlayerAiming
         {
             _gunIsEquipped = false;
             _gunRecoil.RecoilFinished -= OnRecoilFinished;
+            _currentlyEquippedGunComponents.GunMesh.localRotation = Quaternion.identity;
         }
 
         private void Start()
