@@ -21,27 +21,29 @@ namespace GunStuff
                 StopCoroutine(_recoilLerpRoutine);
             }
 
-            _recoilLerpRoutine = AddRecoilCoRoutine(recoilSpeed, eventArgs.Recoil, eventArgs.PositionData);
+            _recoilLerpRoutine = AddRecoilCoRoutine(recoilSpeed, eventArgs);
             StartCoroutine(_recoilLerpRoutine);
         }
 
-        private IEnumerator AddRecoilCoRoutine(float lerpTime, float recoilAmount, GunComponentsPositionData positionData)
+        private IEnumerator AddRecoilCoRoutine(float lerpTime, GunFiredEventArgs recoilArgs)
         {
             float timeElapsed = 0f;
+
+            GunComponentsPositionData positionData = recoilArgs.PositionData;
             Transform fulcrumTransform = positionData.GunFulcrum;
             Transform gunTransform = positionData.GunMesh;
 
             Vector3 currentFulcrumPos = fulcrumTransform.localPosition;
-            Vector3 targetFulcrumPos = currentFulcrumPos - Vector3.forward * (recoilAmount * 0.005f); //Magic number to dampen recoil - probably generated from player aiming skill eventurall
+            Vector3 targetFulcrumPos = currentFulcrumPos - Vector3.forward * recoilArgs.BackwardsRecoil; 
             
             Quaternion currentGunMeshRot = positionData.GunMesh.localRotation;
-            Quaternion targetGunMeshRot = currentGunMeshRot * Quaternion.Euler(new Vector3(recoilAmount, Random.Range(-2, 2), 0));
+            Quaternion targetGunMeshRot = currentGunMeshRot * Quaternion.Euler(new Vector3(recoilArgs.RotationRecoil, Random.Range(-2, 2), 0));
             
             while (timeElapsed < lerpTime)
             {
                 float t = timeElapsed / lerpTime;
-                fulcrumTransform.localPosition = Vector3.Lerp(currentFulcrumPos, targetFulcrumPos, t);
                 
+                fulcrumTransform.localPosition = Vector3.Lerp(currentFulcrumPos, targetFulcrumPos, t);
                 gunTransform.localRotation = Quaternion.Lerp(currentGunMeshRot, targetGunMeshRot, t);
 
                 yield return new WaitForEndOfFrame();

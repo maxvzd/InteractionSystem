@@ -20,7 +20,9 @@ MonoBehaviour:
   type: 1
   prefabId: e57c1244-b4b0-4b3f-a73f-0187adc71a6d
   damage: 15
-  recoil: 8
+  verticalRecoil: 1.5
+  backwardsRecoil: 0.05
+  rotationRecoil: 25
   roundsPerMinute: 600
   fireSound: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
   muzzleVelocity: 360

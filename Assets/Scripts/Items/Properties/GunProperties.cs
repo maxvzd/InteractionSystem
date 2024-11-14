@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GunStuff;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Properties
 {
@@ -10,12 +11,16 @@ namespace Items.Properties
         public float MuzzleVelocity => muzzleVelocity;
         //Metres per second
         public float EffectiveRange => effectiveRange;
-        public float Recoil => recoil;
+        public float VerticalRecoil => verticalRecoil;
+        public float BackwardsRecoil => backwardsRecoil;
+        public float RotationRecoil => rotationRecoil;
         public float RoundsPerMinute => roundsPerMinute;
         public AudioClip FireSound => fireSound;
         public IReadOnlyList<FireMode> AvailableFireModes => availableFireModes;
         
-        [SerializeField] private float recoil;
+        [SerializeField] private float verticalRecoil;
+        [SerializeField] private float backwardsRecoil;
+        [SerializeField] private float rotationRecoil;
         [SerializeField] private float roundsPerMinute;
         [SerializeField] private AudioClip fireSound;
         [SerializeField] private float muzzleVelocity;

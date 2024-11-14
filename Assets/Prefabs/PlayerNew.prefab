@@ -255,6 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1342722891650819415}
+  - component: {fileID: 1214524943540542199}
   m_Layer: 9
   m_Name: AimAtBase
   m_TagString: Untagged
@@ -278,6 +279,19 @@ Transform:
   - {fileID: 4964192619593503860}
   m_Father: {fileID: 6705591922934153433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1214524943540542199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2840002415228112687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cc8123092c476595533d202cd20926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilTime: 0.05
 --- !u!1 &3393108935081050133
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6346580265801716913}
+  - component: {fileID: 2118104207285704515}
   m_Layer: 9
   m_Name: LookAtBase
   m_TagString: Untagged
@@ -372,6 +387,19 @@ Transform:
   - {fileID: 4179197994905783805}
   m_Father: {fileID: 6705591922934153433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2118104207285704515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4242855302345476777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cc8123092c476595533d202cd20926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilTime: 0.05
 --- !u!1 &5711770194862110783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2053,6 +2081,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118104207285704515}
+        m_TargetAssemblyTypeName: GunStuff.PlayerRecoil, Assembly-CSharp
+        m_MethodName: OnPlayerAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1214524943540542199}
+        m_TargetAssemblyTypeName: GunStuff.PlayerRecoil, Assembly-CSharp
+        m_MethodName: OnPlayerAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   playerNotAiming:
     m_PersistentCalls:
       m_Calls:
@@ -2068,26 +2120,50 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118104207285704515}
+        m_TargetAssemblyTypeName: GunStuff.PlayerRecoil, Assembly-CSharp
+        m_MethodName: OnPlayerNotAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1214524943540542199}
+        m_TargetAssemblyTypeName: GunStuff.PlayerRecoil, Assembly-CSharp
+        m_MethodName: OnPlayerNotAiming
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   distanceFromRearSight: 0.1
-  recoverySpeed: 0.35
-  rightShoulderBone: {fileID: 0}
+  recoverySpeed: 0.01
+  rightShoulderBone: {fileID: 5659424119292130716}
   recoveryCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: -0.28435898
       value: 1
-      inSlope: 0.036084082
-      outSlope: 0.036084082
+      inSlope: 0.0039255843
+      outSlope: 0.0039255843
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.03870458
+      outWeight: 0.07345971
     - serializedVersion: 3
       time: 360
-      value: 5
-      inSlope: 0.0016109617
-      outSlope: 0.0016109617
+      value: 15
+      inSlope: 0.0019331913
+      outSlope: 0.0019331913
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.063981034

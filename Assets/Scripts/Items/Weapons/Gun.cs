@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using GunStuff;
 using GunStuff.FireBehaviour;
 using GunStuff.FireModes;
 using Items.ItemInterfaces;
 using Items.Properties;
 using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
 
 namespace Items.Weapons
 {
@@ -69,7 +66,11 @@ namespace Items.Weapons
             {
                 if (_currentFireMode.Fire())
                 {
-                    GunFired?.Invoke(this, new GunFiredEventArgs(GunProperties.Recoil, Components));
+                    GunFired?.Invoke(this, new GunFiredEventArgs(
+                        GunProperties.VerticalRecoil, 
+                        GunProperties.BackwardsRecoil, 
+                        GunProperties.RotationRecoil, 
+                        Components));
                 }
             }
         }
@@ -113,13 +114,17 @@ namespace Items.Weapons
 
 public class GunFiredEventArgs : EventArgs
 {
-    public float Recoil { get; }
+    public float VerticalRecoil { get; }
+    public float BackwardsRecoil { get; }
+    public float RotationRecoil { get; }
     public GunComponentsPositionData PositionData { get; }
     
-    public GunFiredEventArgs(float recoil, GunComponentsPositionData positionData)
+    public GunFiredEventArgs(float verticalRecoil, float backwardsRecoil, float rotationRecoil, GunComponentsPositionData positionData)
     {
-        Recoil = recoil;
+        VerticalRecoil = verticalRecoil;
+        BackwardsRecoil = backwardsRecoil;
         PositionData = positionData;
+        RotationRecoil = rotationRecoil;
     }
 
 }
