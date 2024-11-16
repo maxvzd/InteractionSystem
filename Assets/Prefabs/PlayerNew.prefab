@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3c120980d0a6d42bcb813a442fcda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAccelerationTime: 0.2
+  playerAccelerationTime: 0.3
 --- !u!114 &6462087068465114674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,8 +2064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd7c77da062452284b548db8b06d02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimTarget: {fileID: 4964192619593503860}
-  mainCamera: {fileID: 3870473332579100196}
   playerAiming:
     m_PersistentCalls:
       m_Calls:
@@ -2144,6 +2142,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  aimTarget: {fileID: 4964192619593503860}
+  mainCamera: {fileID: 3870473332579100196}
   distanceFromRearSight: 0.105
   recoverySpeed: 0.01
   rightShoulderBone: {fileID: 5659424119292130716}
@@ -2171,6 +2171,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  maxTurnDegrees: 20
 --- !u!114 &8060375166796528346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2389,7 +2390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859cff2b1da446a097dd6101888ed809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollFallWindow: 0.1
+  rollFallWindow: 0.3
 --- !u!114 &6069663159479055885
 MonoBehaviour:
   m_ObjectHideFlags: 0

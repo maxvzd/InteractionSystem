@@ -1,5 +1,6 @@
 ﻿using System;
 using Constants;
+using GunStuff.PlayerAiming;
 using PlayerAiming;
 using UnityEngine;
 using UnityEngine.InputSystem;

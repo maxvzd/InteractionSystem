@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Constants;
+using GunStuff.PlayerAiming;
 using Items.ItemInterfaces;
 using PlayerAiming;
 using UnityEngine;

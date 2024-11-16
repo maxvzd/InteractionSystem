@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Constants;
-using GunStuff;
 using Items.ItemInterfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,12 +9,14 @@ using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-namespace PlayerAiming
+namespace GunStuff.PlayerAiming
 {
     public class PlayerGunPosition : MonoBehaviour
     {
         public EventHandler GunIsReadyToFire;
         public EventHandler GunIsNotReadyToFire;
+        public UnityEvent playerAiming;
+        public UnityEvent playerNotAiming;
 
         private Vector3 TotalGunTargetPosition => _targetGunPosition + _currentCrouchOffset + _currentAimOffset;
 
@@ -27,12 +28,11 @@ namespace PlayerAiming
 
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
-        public UnityEvent playerAiming;
-        public UnityEvent playerNotAiming;
         [SerializeField] private float distanceFromRearSight;
         [SerializeField] private float recoverySpeed;
         [SerializeField] private Transform rightShoulderBone;
         [SerializeField] private AnimationCurve recoveryCurve;
+        [SerializeField] private float maxTurnDegrees;
 
         private IEnumerator _cameraLerper;
         private IEnumerator _weaponPositionLerper;
@@ -64,6 +64,7 @@ namespace PlayerAiming
         private CoRoutineStarter _recoverLerp;
         private PlayerMovement _playerMovement;
 
+
         public void EquipGun(IGun gun)
         {
             _gunIsEquipped = true;
@@ -73,6 +74,7 @@ namespace PlayerAiming
             _gunRecoil.RecoilFinished += OnRecoilFinished;
 
             _currentlyEquippedGunComponents.GunFulcrum.localPosition = gun.EquippedPosition.EquippedLocalPosition;
+
             _originalGunPosition = _currentlyEquippedGunComponents.GunMesh.localPosition;
             _originalFrontSightPosition = _currentlyEquippedGunComponents.FrontSight.localPosition;
             _originalRearSightPosition = _currentlyEquippedGunComponents.RearSight.localPosition;
@@ -121,7 +123,7 @@ namespace PlayerAiming
             {
                 LowerGun();
             }
-            
+
             if (!_gunIsLowered)
             {
                 Vector3 raiseWeaponRayStart = rightShoulderBone.position;
@@ -187,8 +189,7 @@ namespace PlayerAiming
                 float t = -0.15f * dot + 0.15f; //y = mx + C and 0.3f weight on lookRotation
                 lookAtRotation = Quaternion.Lerp(noLookRotation, lookAtRotation, t);
             }
-
-            fulcrum.rotation = lookAtRotation;
+            fulcrum.rotation = Quaternion.RotateTowards(fulcrum.rotation, lookAtRotation, maxTurnDegrees);
         }
 
         private void LowerGun()
@@ -227,7 +228,7 @@ namespace PlayerAiming
         private void ReadyWeapon(float playerSpeed)
         {
             if (playerSpeed > 1) return;
-            
+
             _gunIsAvoidingWall = false;
             _gunIsLowered = false;
 
@@ -246,7 +247,7 @@ namespace PlayerAiming
         private void AimGun(Transform cameraTransform, float playerSpeed)
         {
             if (playerSpeed > 1) return;
-            
+
             _currentAimOffset = _currentlyEquippedGunComponents.AimPosition;
             cameraTransform.parent = _currentlyEquippedGunComponents.RearSight;
             StartCameraLerp(
@@ -328,7 +329,6 @@ namespace PlayerAiming
                         new LerpFOV(fovToLerpTo, mainCamera)
                     },
                     lerpTime));
-            
         }
 
         private void StartGunLerp(

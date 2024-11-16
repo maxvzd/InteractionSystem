@@ -230,9 +230,7 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         AddItemToBackpackResult result = _playerInventory.AddItemToInventory(_currentlyHeldItem.Item);
         if (result != AddItemToBackpackResult.Succeeded) return result;
         
-        
         _currentlyHeldItem.Transform.gameObject.SetActive(false);
-        //Destroy(_currentlyHeldItem.Transform.gameObject);
         _currentlyHeldItem = new HeldItem(new EmptyItem());
         return AddItemToBackpackResult.Succeeded;
     }
