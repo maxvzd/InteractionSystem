@@ -17,7 +17,8 @@ namespace PlayerAiming
         [SerializeField] private float maxVerticalAngle;
         [SerializeField] private PlayerInput playerInput;
         
-        private IEnumerator _lerpAimToLookCoRoutine;
+        //private IEnumerator _lerpAimToLookCoRoutine;
+        private CoRoutineStarter _aimToLookCoRoutine;
         private bool _isVerticalRotationLocked;
         private InputAction _lookAction;
         private bool _isCameraLocked;
@@ -28,6 +29,7 @@ namespace PlayerAiming
             Cursor.visible = false;
             
             _lookAction = playerInput.actions[InputConstants.LookAction];
+            _aimToLookCoRoutine = new CoRoutineStarter(this);
         }
         
         private void Update()
@@ -93,18 +95,12 @@ namespace PlayerAiming
         
         private void LerpAimToLook()
         {
-            if (_lerpAimToLookCoRoutine is not null)
-            {
-                StopCoroutine(_lerpAimToLookCoRoutine);
-            }
-
             IEnumerable<ILerpComponent> lerpComponents = new List<ILerpComponent>
             {
                 new LerpQuaternion(lookAtBase.rotation, aimAtBase)
             };
-
-            _lerpAimToLookCoRoutine = Lerper.Lerp(lerpComponents, 0.1f);
-            StartCoroutine(_lerpAimToLookCoRoutine);
+            
+            _aimToLookCoRoutine.Start(Lerper.Lerp(lerpComponents, 0.1f));
         }
         
         public void UnlockYDirection()

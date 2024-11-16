@@ -18,8 +18,8 @@ public class PlayerPickUpItemSystem : MonoBehaviour
     private HeldItem _currentlyHeldItem;
 
     private float _holdWeight;
-    private IEnumerator _holdWeightCoRoutine;
-    private IEnumerator _placeItemCoRoutine;
+    private CoRoutineStarter _holdWeightCoRoutine;
+    private CoRoutineStarter _placeItemCoRoutine;
 
     private FullBodyBipedIK _ik;
     private LookAtIK _lookAtIk;
@@ -46,6 +46,9 @@ public class PlayerPickUpItemSystem : MonoBehaviour
         _interactionSystem.OnInteractionStop += OnInteractionStop;
         
         _currentlyHeldItem = new HeldItem(new EmptyItem(), null);
+
+        _holdWeightCoRoutine = new CoRoutineStarter(this);
+        _placeItemCoRoutine = new CoRoutineStarter(this);
     }
 
     private void Update()
@@ -95,24 +98,12 @@ public class PlayerPickUpItemSystem : MonoBehaviour
 
     private void StartPlaceItemCoRoutine(Vector3 position, float timeInSeconds)
     {
-        if (_placeItemCoRoutine is not null)
-        {
-            StopCoroutine(_placeItemCoRoutine);
-        }
-
-        _placeItemCoRoutine = PlaceItemRoutine(position, timeInSeconds);
-        StartCoroutine(_placeItemCoRoutine);
+        _placeItemCoRoutine.Start(PlaceItemRoutine(position, timeInSeconds));
     }
 
     private void StartHoldWeightCoRoutine(float weightToUpdateTo)
     {
-        if (!ReferenceEquals(_holdWeightCoRoutine, null))
-        {
-            StopCoroutine(_holdWeightCoRoutine);
-        }
-
-        _holdWeightCoRoutine = UpdateHoldWeight(weightToUpdateTo, 0.5f);
-        StartCoroutine(_holdWeightCoRoutine);
+        _holdWeightCoRoutine.Start(UpdateHoldWeight(weightToUpdateTo, 0.5f));
     }
 
     #endregion

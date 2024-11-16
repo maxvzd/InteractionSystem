@@ -59,6 +59,10 @@ namespace PlayerAiming
 
         private const float ACTION_TIME = 0.2f;
 
+        private CoRoutineStarter _cameraLerp;
+        private CoRoutineStarter _weaponLerp;
+        private CoRoutineStarter _recoverLerp;
+
         public void EquipGun(IGun gun)
         {
             _gunIsEquipped = true;
@@ -84,7 +88,7 @@ namespace PlayerAiming
         private void Start()
         {
             _originalFOV = mainCamera.fieldOfView;
-            
+
             Transform cameraTransform = mainCamera.transform;
             _originalParent = cameraTransform.parent;
             _originalCameraPosition = cameraTransform.localPosition;
@@ -95,6 +99,10 @@ namespace PlayerAiming
             PlayerCrouchBehaviour crouchBehaviour = GetComponent<PlayerCrouchBehaviour>();
             crouchBehaviour.PlayerUnCrouched += OnPlayerUnCrouched;
             crouchBehaviour.PlayerCrouched += OnPlayerCrouched;
+
+            _cameraLerp = new CoRoutineStarter(this);
+            _weaponLerp = new CoRoutineStarter(this);
+            _recoverLerp = new CoRoutineStarter(this);
         }
 
         private void Update()
@@ -175,7 +183,7 @@ namespace PlayerAiming
             _gunIsLowered = true;
             _targetGunPosition = _currentlyEquippedGunPositions.GunDownPosition;
             _targetGunRotation = Quaternion.Euler(_currentlyEquippedGunPositions.GunDownRotation);
-            
+
             UnAimGun(mainCamera.transform);
 
             StartGunLerp(
@@ -193,7 +201,7 @@ namespace PlayerAiming
             _targetGunPosition = _currentlyEquippedGunPositions.AvoidingObjectPosition;
             _targetGunRotation = Quaternion.Euler(_currentlyEquippedGunPositions.AvoidingObjectRotation);
             UnAimGun(mainCamera.transform);
-            
+
             StartGunLerp(
                 TotalGunTargetPosition,
                 TotalTargetRearSightPosition,
@@ -295,19 +303,15 @@ namespace PlayerAiming
             float fovToLerpTo,
             float lerpTime)
         {
-            if (!ReferenceEquals(_cameraLerper, null))
-            {
-                StopCoroutine(_cameraLerper);
-            }
-
-            IList<ILerpComponent> lerpComponents = new List<ILerpComponent>
-            {
-                new LerpLocalVector(cameraPositionToLerpTo, mainCamera.transform),
-                new LerpFOV(fovToLerpTo, mainCamera)
-            };
-
-            _cameraLerper = Lerper.Lerp(lerpComponents, lerpTime);
-            StartCoroutine(_cameraLerper);
+            _cameraLerp.Start(
+                Lerper.Lerp(
+                    new List<ILerpComponent>
+                    {
+                        new LerpLocalVector(cameraPositionToLerpTo, mainCamera.transform),
+                        new LerpFOV(fovToLerpTo, mainCamera)
+                    },
+                    lerpTime));
+            
         }
 
         private void StartGunLerp(
@@ -317,41 +321,31 @@ namespace PlayerAiming
             Quaternion rotToLerpTo,
             float lerpTime)
         {
-            if (!ReferenceEquals(_weaponPositionLerper, null))
-            {
-                StopCoroutine(_weaponPositionLerper);
-            }
-
-            IList<ILerpComponent> lerpComponents = new List<ILerpComponent>
-            {
-                new LerpLocalVector(gunPosTarget, _currentlyEquippedGunComponents.GunMesh),
-                new LerpLocalQuaternion(rotToLerpTo, _currentlyEquippedGunComponents.GunMesh),
-                new LerpLocalVector(rearSightPosTarget, _currentlyEquippedGunComponents.RearSight),
-                new LerpLocalVector(frontSightPosTarget, _currentlyEquippedGunComponents.FrontSight)
-            };
-
-            _weaponPositionLerper = Lerper.Lerp(lerpComponents, lerpTime);
-            StartCoroutine(_weaponPositionLerper);
+            _weaponLerp.Start(
+                Lerper.Lerp(
+                    new List<ILerpComponent>
+                    {
+                        new LerpLocalVector(gunPosTarget, _currentlyEquippedGunComponents.GunMesh),
+                        new LerpLocalQuaternion(rotToLerpTo, _currentlyEquippedGunComponents.GunMesh),
+                        new LerpLocalVector(rearSightPosTarget, _currentlyEquippedGunComponents.RearSight),
+                        new LerpLocalVector(frontSightPosTarget, _currentlyEquippedGunComponents.FrontSight)
+                    },
+                    lerpTime));
         }
-        
+
         private void StartRecoverLerp(
             Vector3 gunPosTarget,
             Quaternion rotToLerpTo,
             float lerpTime)
         {
-            if (!ReferenceEquals(_recoilRecoveryLerp, null))
-            {
-                StopCoroutine(_recoilRecoveryLerp);
-            }
-
-            IList<ILerpComponent> lerpComponents = new List<ILerpComponent>
-            {
-                new LerpLocalVector(gunPosTarget, _currentlyEquippedGunComponents.GunMesh),
-                new LerpLocalQuaternion(rotToLerpTo, _currentlyEquippedGunComponents.GunMesh)
-            };
-
-            _recoilRecoveryLerp = Lerper.Lerp(lerpComponents, lerpTime);
-            StartCoroutine(_recoilRecoveryLerp);
+            _recoverLerp.Start(
+                Lerper.Lerp(
+                    new List<ILerpComponent>
+                    {
+                        new LerpLocalVector(gunPosTarget, _currentlyEquippedGunComponents.GunMesh),
+                        new LerpLocalQuaternion(rotToLerpTo, _currentlyEquippedGunComponents.GunMesh)
+                    },
+                    lerpTime));
         }
     }
 }

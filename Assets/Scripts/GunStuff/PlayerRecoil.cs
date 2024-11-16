@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace GunStuff
@@ -8,7 +7,7 @@ namespace GunStuff
     {
         [SerializeField] private float recoilTime;
 
-        private IEnumerator _lerpCoRoutine;
+        private CoRoutineStarter _lerpCoRoutine;
         private bool _playerIsAiming;
 
         public void OnPlayerAiming()
@@ -23,11 +22,6 @@ namespace GunStuff
         
         public void AddRecoil(object sender, GunFiredEventArgs recoilArgs)
         {
-            if (_lerpCoRoutine is not null)
-            {
-                StopCoroutine(_lerpCoRoutine);
-            }
-            
             float recoil = -recoilArgs.VerticalRecoil;
             if (_playerIsAiming)
             {
@@ -39,8 +33,13 @@ namespace GunStuff
             {
                 new LerpQuaternion(targetRotation, transform)
             };
-            _lerpCoRoutine = Lerper.Lerp(lerpComponents, recoilTime);
-            StartCoroutine(_lerpCoRoutine);
+            
+            _lerpCoRoutine.Start(Lerper.Lerp(lerpComponents, recoilTime));
+        }
+
+        private void Start()
+        {
+            _lerpCoRoutine = new CoRoutineStarter(this);
         }
     }
 }

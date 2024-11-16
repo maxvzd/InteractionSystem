@@ -10,24 +10,20 @@ namespace GunStuff
     {
         [SerializeField] private float recoilSpeed;
 
-        private IEnumerator _recoilLerpRoutine;
-        private IEnumerator _recoilEventInvokeRoutine;
+        private CoRoutineStarter _recoilLerpRoutine;
+        private CoRoutineStarter _recoilEventInvokeRoutine;
         private Vector3 _aimTargetPosAtEndOfRecoil;
         private Vector3 _originalFulcrumPosition;
         public EventHandler RecoilFinished;
 
+        private void Start()
+        {
+            _recoilLerpRoutine = new CoRoutineStarter(this);
+            _recoilEventInvokeRoutine = new CoRoutineStarter(this);
+        }
+
         public void AddRecoil(object sender, GunFiredEventArgs recoilArgs)
         {
-            if (_recoilLerpRoutine is not null)
-            {
-                StopCoroutine(_recoilLerpRoutine);
-            }
-            
-            if (_recoilEventInvokeRoutine is not null)
-            {
-                StopCoroutine(_recoilEventInvokeRoutine);
-            }
-
             GunComponentsPositionData positionData = recoilArgs.PositionData;
             Transform gunTransform = positionData.GunMesh;
             
@@ -37,11 +33,8 @@ namespace GunStuff
                 new LerpLocalQuaternion(gunTransform.localRotation * Quaternion.Euler(new Vector3(recoilArgs.RotationRecoil, Random.Range(-2, 2), 0)), gunTransform)
             };
 
-            _recoilLerpRoutine = Lerper.Lerp(lerpComponents, recoilSpeed);
-            StartCoroutine(_recoilLerpRoutine);
-            
-            _recoilEventInvokeRoutine = InvokeRecoilFinished(recoilSpeed);
-            StartCoroutine(_recoilEventInvokeRoutine);
+            _recoilLerpRoutine.Start(Lerper.Lerp(lerpComponents, recoilSpeed));
+            _recoilEventInvokeRoutine.Start(InvokeRecoilFinished(recoilSpeed));
         }
 
         private IEnumerator InvokeRecoilFinished(float delay)

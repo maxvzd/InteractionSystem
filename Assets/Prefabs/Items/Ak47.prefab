@@ -400,7 +400,7 @@ MonoBehaviour:
   gunFulcrum: {fileID: 3378403094632295627}
   gunMesh: {fileID: 5611398695515324826}
   muzzle: {fileID: 8502690733214122004}
-  aimPosition: {x: 0.05, y: 0.1, z: 0.05}
+  aimPosition: {x: 0.025, y: 0.05, z: 0}
 --- !u!82 &3053750791328759071
 AudioSource:
   m_ObjectHideFlags: 0
