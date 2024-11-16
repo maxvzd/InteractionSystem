@@ -88,29 +88,5 @@ namespace GunStuff
             LayerManager.ChangeLayerOfItem(gunTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
             return true;
         }
-
-        // private IEnumerator LerpGunToPosition(float timeToLerp, GunPositionData posData)
-        // {
-        //     float timeElapsed = 0f;
-        //
-        //     Vector3 currentPos = _equippedGunTransform.localPosition;
-        //     //Vector3 currentRot = _equippedGunTransform.localEulerAngles;
-        //
-        //     while (timeElapsed < timeToLerp)
-        //     {
-        //         float t = timeElapsed / timeToLerp;
-        //
-        //         _equippedGunTransform.localPosition = Vector3.Lerp(currentPos, posData.GunLocalPosition, t);
-        //         //_equippedGunTransform.localEulerAngles = Vector3.Lerp(currentRot, localEuler, t);
-        //
-        //         yield return new WaitForEndOfFrame();
-        //         timeElapsed += Time.deltaTime;
-        //     }
-        //
-        //     _equippedGunTransform.localPosition = posData.GunLocalPosition;
-        //     //_equippedGunTransform.localEulerAngles = localEuler;
-        //
-        //     _aimBehaviour.EquipGun(posData);
-        // }
     }
 }

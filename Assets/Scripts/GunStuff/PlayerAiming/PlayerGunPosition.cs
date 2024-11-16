@@ -62,6 +62,7 @@ namespace PlayerAiming
         private CoRoutineStarter _cameraLerp;
         private CoRoutineStarter _weaponLerp;
         private CoRoutineStarter _recoverLerp;
+        private PlayerMovement _playerMovement;
 
         public void EquipGun(IGun gun)
         {
@@ -75,7 +76,7 @@ namespace PlayerAiming
             _originalGunPosition = _currentlyEquippedGunComponents.GunMesh.localPosition;
             _originalFrontSightPosition = _currentlyEquippedGunComponents.FrontSight.localPosition;
             _originalRearSightPosition = _currentlyEquippedGunComponents.RearSight.localPosition;
-            ReadyWeapon();
+            ReadyWeapon(0);
         }
 
         public void UnEquipGun()
@@ -103,12 +104,21 @@ namespace PlayerAiming
             _cameraLerp = new CoRoutineStarter(this);
             _weaponLerp = new CoRoutineStarter(this);
             _recoverLerp = new CoRoutineStarter(this);
+
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void Update()
         {
             if (!_gunIsEquipped) return;
 
+            bool playerIsRunning = _playerMovement.CurrentSpeed.y > 1;
+            float playerSpeed = _playerMovement.CurrentSpeed.y;
+            if (playerIsRunning)
+            {
+                LowerGun();
+            }
+            
             if (!_gunIsLowered)
             {
                 Vector3 raiseWeaponRayStart = rightShoulderBone.position;
@@ -129,7 +139,7 @@ namespace PlayerAiming
                 }
                 else if (!objectIsInFrontOfPlayer && _gunIsAvoidingWall)
                 {
-                    ReadyWeapon();
+                    ReadyWeapon(playerSpeed);
                 }
             }
 
@@ -139,8 +149,8 @@ namespace PlayerAiming
 
                 if (_aimAction.WasPressedThisFrame())
                 {
-                    if (_gunIsLowered) ReadyWeapon();
-                    AimGun(cameraTransform);
+                    if (_gunIsLowered) ReadyWeapon(playerSpeed);
+                    AimGun(cameraTransform, playerSpeed);
                 }
 
                 if (_aimAction.WasReleasedThisFrame())
@@ -156,7 +166,7 @@ namespace PlayerAiming
                     }
                     else
                     {
-                        ReadyWeapon();
+                        ReadyWeapon(playerSpeed);
                     }
                 }
             }
@@ -211,8 +221,10 @@ namespace PlayerAiming
             GunIsNotReadyToFire?.Invoke(this, EventArgs.Empty);
         }
 
-        private void ReadyWeapon()
+        private void ReadyWeapon(float playerSpeed)
         {
+            if (playerSpeed > 1) return;
+            
             _gunIsAvoidingWall = false;
             _gunIsLowered = false;
 
@@ -228,8 +240,10 @@ namespace PlayerAiming
             GunIsReadyToFire?.Invoke(this, EventArgs.Empty);
         }
 
-        private void AimGun(Transform cameraTransform)
+        private void AimGun(Transform cameraTransform, float playerSpeed)
         {
+            if (playerSpeed > 1) return;
+            
             _currentAimOffset = _currentlyEquippedGunComponents.AimPosition;
             cameraTransform.parent = _currentlyEquippedGunComponents.RearSight;
             StartCameraLerp(

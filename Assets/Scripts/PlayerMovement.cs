@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsMoving => IsMovingHorizontally || IsMovingVertically;
 
 
-    [SerializeField] private float playerAccelerationTime = .2f;
+    [SerializeField] private float playerAccelerationTime;
     
     // Start is called before the first frame update
     private void Start()
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         _runModifier +=  _scrollAction.ReadValue<float>();
         _runModifier = Mathf.Clamp(_runModifier, MIN_MOVEMENT_SPEED, _maxMovementSpeed);
         
-        Vector2 modifiedInput = _smoothedInput * _runModifier;
+        Vector2 modifiedInput = CurrentSpeed;
        
         _animator.SetFloat(AnimatorConstants.Vertical, modifiedInput.y);
         _animator.SetFloat(AnimatorConstants.Horizontal, modifiedInput.x);
