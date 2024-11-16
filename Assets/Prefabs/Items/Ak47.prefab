@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 654960901027022028}
   - component: {fileID: 5079374683071077158}
   - component: {fileID: 3053750791328759071}
+  - component: {fileID: 8349455015144484210}
   m_Layer: 8
   m_Name: Ak47
   m_TagString: Interactable
@@ -399,7 +400,7 @@ MonoBehaviour:
   gunFulcrum: {fileID: 3378403094632295627}
   gunMesh: {fileID: 5611398695515324826}
   muzzle: {fileID: 8502690733214122004}
-  aimPosition: {x: -0.05, y: 0.1, z: -0.05}
+  aimPosition: {x: 0.05, y: 0.1, z: 0.05}
 --- !u!82 &3053750791328759071
 AudioSource:
   m_ObjectHideFlags: 0
@@ -497,6 +498,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8349455015144484210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3879654255796447490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f3df101f61cb248920ff615b983768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilSpeed: 0.01
 --- !u!1 &4430371749070837803
 GameObject:
   m_ObjectHideFlags: 0

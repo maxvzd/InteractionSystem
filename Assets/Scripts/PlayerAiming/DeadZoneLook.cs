@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Constants;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -78,25 +79,6 @@ namespace PlayerAiming
             eulerAngleToClamp = AngleHelper.GetRealAngle(eulerAngleToClamp);
             return Mathf.Clamp(eulerAngleToClamp, -angleToClampTo, angleToClampTo);
         }
-        
-        private IEnumerator LerpAimToLookCoroutine()
-        {
-            float timeElapsed = 0f;
-            float lerpTime = 0.1f;
-
-            Vector3 originalAimRotation = aimAtBase.eulerAngles;
-            while (timeElapsed < lerpTime)
-            {
-                float t = timeElapsed / lerpTime;
-
-                aimAtBase.eulerAngles = Vector3.Lerp(originalAimRotation, lookAtBase.eulerAngles, t);
-
-                yield return new WaitForEndOfFrame();
-                timeElapsed += Time.deltaTime;
-            }
-
-            aimAtBase.eulerAngles = lookAtBase.eulerAngles;
-        }
 
         public void OnPlayerAiming()
         {
@@ -116,7 +98,12 @@ namespace PlayerAiming
                 StopCoroutine(_lerpAimToLookCoRoutine);
             }
 
-            _lerpAimToLookCoRoutine = LerpAimToLookCoroutine();
+            IEnumerable<ILerpComponent> lerpComponents = new List<ILerpComponent>
+            {
+                new LerpQuaternion(lookAtBase.rotation, aimAtBase)
+            };
+
+            _lerpAimToLookCoRoutine = Lerper.Lerp(lerpComponents, 0.1f);
             StartCoroutine(_lerpAimToLookCoRoutine);
         }
         

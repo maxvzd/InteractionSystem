@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,48 +11,43 @@ namespace GunStuff
         [SerializeField] private float recoilSpeed;
 
         private IEnumerator _recoilLerpRoutine;
+        private IEnumerator _recoilEventInvokeRoutine;
         private Vector3 _aimTargetPosAtEndOfRecoil;
         private Vector3 _originalFulcrumPosition;
         public EventHandler RecoilFinished;
 
-        public void AddRecoil(object sender, GunFiredEventArgs eventArgs)
+        public void AddRecoil(object sender, GunFiredEventArgs recoilArgs)
         {
             if (_recoilLerpRoutine is not null)
             {
                 StopCoroutine(_recoilLerpRoutine);
             }
-
-            _recoilLerpRoutine = AddRecoilCoRoutine(recoilSpeed, eventArgs);
-            StartCoroutine(_recoilLerpRoutine);
-        }
-
-        private IEnumerator AddRecoilCoRoutine(float lerpTime, GunFiredEventArgs recoilArgs)
-        {
-            float timeElapsed = 0f;
+            
+            if (_recoilEventInvokeRoutine is not null)
+            {
+                StopCoroutine(_recoilEventInvokeRoutine);
+            }
 
             GunComponentsPositionData positionData = recoilArgs.PositionData;
-            Transform fulcrumTransform = positionData.GunFulcrum;
             Transform gunTransform = positionData.GunMesh;
-
-            Vector3 currentFulcrumPos = fulcrumTransform.localPosition;
-            Vector3 targetFulcrumPos = currentFulcrumPos - Vector3.forward * recoilArgs.BackwardsRecoil; 
             
-            Quaternion currentGunMeshRot = positionData.GunMesh.localRotation;
-            Quaternion targetGunMeshRot = currentGunMeshRot * Quaternion.Euler(new Vector3(recoilArgs.RotationRecoil, Random.Range(-2, 2), 0));
-            
-            while (timeElapsed < lerpTime)
+            IEnumerable<ILerpComponent> lerpComponents = new List<ILerpComponent>
             {
-                float t = timeElapsed / lerpTime;
-                
-                fulcrumTransform.localPosition = Vector3.Lerp(currentFulcrumPos, targetFulcrumPos, t);
-                gunTransform.localRotation = Quaternion.Lerp(currentGunMeshRot, targetGunMeshRot, t);
+                new LerpLocalVector(gunTransform.localPosition + Vector3.forward * recoilArgs.BackwardsRecoil, gunTransform),
+                new LerpLocalQuaternion(gunTransform.localRotation * Quaternion.Euler(new Vector3(recoilArgs.RotationRecoil, Random.Range(-2, 2), 0)), gunTransform)
+            };
 
-                yield return new WaitForEndOfFrame();
-                timeElapsed += Time.deltaTime;
-            }
+            _recoilLerpRoutine = Lerper.Lerp(lerpComponents, recoilSpeed);
+            StartCoroutine(_recoilLerpRoutine);
             
-            fulcrumTransform.localPosition = targetFulcrumPos;
-            gunTransform.localRotation = targetGunMeshRot;
+            _recoilEventInvokeRoutine = InvokeRecoilFinished(recoilSpeed);
+            StartCoroutine(_recoilEventInvokeRoutine);
+        }
+
+        private IEnumerator InvokeRecoilFinished(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            
             RecoilFinished?.Invoke(this, EventArgs.Empty);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GunStuff
@@ -20,40 +21,26 @@ namespace GunStuff
             _playerIsAiming = false;
         }
         
-        public void AddRecoil(object sender, GunFiredEventArgs eventArgs)
+        public void AddRecoil(object sender, GunFiredEventArgs recoilArgs)
         {
             if (_lerpCoRoutine is not null)
             {
                 StopCoroutine(_lerpCoRoutine);
             }
-
-            _lerpCoRoutine = AddRecoilCoRoutine(recoilTime, eventArgs);
-            StartCoroutine(_lerpCoRoutine);
-        }
-        
-        private IEnumerator AddRecoilCoRoutine(float lerpTime, GunFiredEventArgs recoilArgs)
-        {
-            float timeElapsed = 0f;
-
-            Quaternion currentRotation = transform.rotation;
+            
             float recoil = -recoilArgs.VerticalRecoil;
             if (_playerIsAiming)
             {
                 recoil *= 0.3f;
             }
-            Quaternion targetRotation = currentRotation * Quaternion.Euler(recoil, 0, 0);
+            Quaternion targetRotation = transform.rotation * Quaternion.Euler(recoil, 0, 0);
             
-            while (timeElapsed < lerpTime)
+            IList<ILerpComponent> lerpComponents = new List<ILerpComponent>
             {
-                float t = timeElapsed / lerpTime;
-                
-                transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, t);
-
-                yield return new WaitForEndOfFrame();
-                timeElapsed += Time.deltaTime;
-            }
-
-            transform.rotation = targetRotation;
+                new LerpQuaternion(targetRotation, transform)
+            };
+            _lerpCoRoutine = Lerper.Lerp(lerpComponents, recoilTime);
+            StartCoroutine(_lerpCoRoutine);
         }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52972b91547b414e84c1f0ef3f59be1f, type: 3}
   m_Name: AK47
   m_EditorClassIdentifier: 
-  avoidingObjectPosition: {x: 0.063, y: 1.583, z: -0.045}
+  avoidingObjectPosition: {x: -0.217, y: 0.3, z: -0.515}
   avoidingObjectRotation: {x: 80, y: 0, z: 0}
-  gunDownPosition: {x: -0.077, y: 1.11, z: -0.183}
+  gunDownPosition: {x: -0.018, y: -0.209, z: -0.328}
   gunDownRotation: {x: -27.28, y: -41.132, z: -16.995}

@@ -2144,7 +2144,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  distanceFromRearSight: 0.1
+  distanceFromRearSight: 0.105
   recoverySpeed: 0.01
   rightShoulderBone: {fileID: 5659424119292130716}
   recoveryCurve:
