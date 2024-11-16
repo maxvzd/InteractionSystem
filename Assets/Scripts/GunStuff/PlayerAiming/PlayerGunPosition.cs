@@ -84,6 +84,9 @@ namespace PlayerAiming
             _gunIsEquipped = false;
             _gunRecoil.RecoilFinished -= OnRecoilFinished;
             _currentlyEquippedGunComponents.GunMesh.localRotation = Quaternion.identity;
+            _currentlyEquippedGunComponents.GunMesh.localPosition = _originalGunPosition;
+            _currentlyEquippedGunComponents.FrontSight.localPosition = _originalFrontSightPosition;
+            _currentlyEquippedGunComponents.RearSight.localPosition = _originalRearSightPosition;
         }
 
         private void Start()
