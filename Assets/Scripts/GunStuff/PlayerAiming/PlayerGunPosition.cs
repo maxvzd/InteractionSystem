@@ -27,8 +27,8 @@ namespace PlayerAiming
 
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private UnityEvent playerAiming;
-        [SerializeField] private UnityEvent playerNotAiming;
+        public UnityEvent playerAiming;
+        public UnityEvent playerNotAiming;
         [SerializeField] private float distanceFromRearSight;
         [SerializeField] private float recoverySpeed;
         [SerializeField] private Transform rightShoulderBone;

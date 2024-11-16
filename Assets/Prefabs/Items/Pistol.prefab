@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 3953225565936064497}
   - component: {fileID: 7024260000060576461}
   - component: {fileID: 2116376685035806650}
+  - component: {fileID: 7959688898100253407}
   m_Layer: 8
   m_Name: Pistol
   m_TagString: Interactable
@@ -560,6 +561,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7959688898100253407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4066069219947708532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f3df101f61cb248920ff615b983768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilSpeed: 0.01
+  damperWhenAiming: 0.7
 --- !u!1 &4258316209016110103
 GameObject:
   m_ObjectHideFlags: 0

@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 654960901027022028}
   - component: {fileID: 5079374683071077158}
   - component: {fileID: 3053750791328759071}
-  - component: {fileID: 8349455015144484210}
+  - component: {fileID: 5084782218792137392}
   m_Layer: 8
   m_Name: Ak47
   m_TagString: Interactable
@@ -498,7 +498,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8349455015144484210
+--- !u!114 &5084782218792137392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,6 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoilSpeed: 0.01
+  damperWhenAiming: 0.3
 --- !u!1 &4430371749070837803
 GameObject:
   m_ObjectHideFlags: 0

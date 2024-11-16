@@ -17,6 +17,7 @@ namespace GunStuff
         private DeadZoneLook _deadZoneLook;
         private Transform _equippedGunTransform;
         private IList<PlayerRecoil> _playerRecoilScripts;
+        private PlayerGunPosition _playerAiming;
 
         private void Awake()
         {
@@ -25,6 +26,7 @@ namespace GunStuff
             _animator = GetComponent<Animator>();
             _deadZoneLook = lookBase.GetComponent<DeadZoneLook>();
             _playerRecoilScripts = lookBase.GetComponentsInChildren<PlayerRecoil>();
+            _playerAiming = GetComponent<PlayerGunPosition>();
         }
 
         public void UnEquipGun()
@@ -47,6 +49,9 @@ namespace GunStuff
                 {
                     gun.GunFired -= recoilScript.AddRecoil;
                 }
+                
+                _playerAiming.playerAiming.RemoveListener(gun.RecoilBehaviour.PlayerIsAiming);
+                _playerAiming.playerNotAiming.RemoveListener(gun.RecoilBehaviour.PlayerIsNotAiming);
             }
 
             _deadZoneLook.UseDeadZone = false;
@@ -76,6 +81,9 @@ namespace GunStuff
             {
                 gunInfo.GunFired += playerRecoilScript.AddRecoil;
             }
+
+            _playerAiming.playerAiming.AddListener(recoilScript.PlayerIsAiming);
+            _playerAiming.playerNotAiming.AddListener(recoilScript.PlayerIsNotAiming);
 
             LayerManager.ChangeLayerOfItem(gunTransform, LayerMask.NameToLayer(LayerConstants.LAYER_PLAYER), TagConstants.PlayerTag);
             return true;

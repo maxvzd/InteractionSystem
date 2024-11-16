@@ -1,8 +1,7 @@
-using GunStuff;
 using RootMotion.FinalIK;
 using UnityEngine;
 
-namespace PlayerAiming
+namespace GunStuff
 {
     public class GunHandPlacement : MonoBehaviour
     {
