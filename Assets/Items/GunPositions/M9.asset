@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avoidingObjectPosition: {x: -0.18, y: 0.301, z: -0.319}
   avoidingObjectRotation: {x: 90, y: 0, z: 0}
-  gunDownPosition: {x: -0.18, y: 0.301, z: -0.319}
-  gunDownRotation: {x: 90, y: 0, z: 0}
+  gunDownPosition: {x: 0.1179, y: -0.4178, z: -0.2829}
+  gunDownRotation: {x: -35.055, y: -18.793, z: 4.747}

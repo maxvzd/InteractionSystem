@@ -311,7 +311,7 @@ MonoBehaviour:
   gunFulcrum: {fileID: 3900807169480267028}
   gunMesh: {fileID: 805206233185246299}
   muzzle: {fileID: 5738985880698110574}
-  aimPosition: {x: 0, y: 0.05, z: 0.1}
+  aimPosition: {x: 0, y: 0.05, z: -0.1}
 --- !u!114 &8359802831818114115
 MonoBehaviour:
   m_ObjectHideFlags: 0
