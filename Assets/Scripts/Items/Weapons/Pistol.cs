@@ -1,6 +1,6 @@
 ﻿namespace Items.Weapons
 {
-    public class Pistol : Gun
+    public class Pistol : MagazineGun
     {
     }
 }

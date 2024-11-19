@@ -3,7 +3,6 @@ using Constants;
 using Items;
 using Items.ItemInterfaces;
 using RootMotion.FinalIK;
-using UI.Inventory;
 using UnityEngine;
 
 public class PlayerPickUpItemSystem : MonoBehaviour

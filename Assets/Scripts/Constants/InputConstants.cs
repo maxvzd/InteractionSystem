@@ -16,5 +16,6 @@
         public static string CrouchAction => "Crouch";
         public static string SwitchFireMode => "SwitchFireMode";
         public static string RaiseLowerGunAction => "RaiseLowerGun";
+        public static string ReloadAction => "Reload";
     }
 }

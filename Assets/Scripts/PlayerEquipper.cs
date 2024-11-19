@@ -10,9 +10,8 @@ public class PlayerEquipper : MonoBehaviour
     public bool IsBackpackEquipped => _backpackSlot is not null;
     public bool IsWeaponEquipped => _weaponSlot is not null;
     public bool IsWeaponAGun => _isWeaponAGun;
-    public PlayerEquipmentSlots EquipmentSlots => new PlayerEquipmentSlots(_backpackSlot, _weaponSlot);
+    public PlayerEquipmentSlots EquipmentSlots => new(_backpackSlot, _weaponSlot);
     public IEnumerable<IWearableContainer> PlayerContainers => _playerContainers;
-
 
     [SerializeField] private Transform backpackSocket;
 

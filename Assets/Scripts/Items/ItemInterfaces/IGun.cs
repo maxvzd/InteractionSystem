@@ -1,5 +1,6 @@
 ﻿using System;
 using GunStuff;
+using GunStuff.FireBehaviour;
 using Items.Properties;
 using UnityEngine;
 

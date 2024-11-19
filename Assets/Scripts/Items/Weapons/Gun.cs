@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GunStuff;
+using GunStuff.Ammunition;
 using GunStuff.FireBehaviour;
 using GunStuff.FireModes;
 using Items.ItemInterfaces;
@@ -24,6 +25,9 @@ namespace Items.Weapons
         public GunRecoil RecoilBehaviour { get; private set; }
         public GunPositions StatePositions => positions;
 
+        public IShotFireBehaviour FireBehaviour { get; private set; }
+        public IAmmunition Ammunition { get; protected set; }
+
         [SerializeField] private EquippedPosition equippedPosition;
         [SerializeField] private GunProperties gunProperties;
         [SerializeField] private GunPositions positions;
@@ -35,7 +39,7 @@ namespace Items.Weapons
 
         private void Start()
         {
-            IShotFireBehaviour shotFireBehaviour = new SingleShotFireBehaviour();
+            FireBehaviour = new SingleShotFireBehaviour();
 
             List<IFireMode> fireModes = new List<IFireMode>();
             foreach (FireMode fireMode in GunProperties.AvailableFireModes)
@@ -43,10 +47,10 @@ namespace Items.Weapons
                 switch (fireMode)
                 {
                     case FireMode.SemiAuto:
-                        fireModes.Add(new SemiAutoFireMode(this, shotFireBehaviour));
+                        fireModes.Add(new SemiAutoFireMode(this));
                         break;
                     case FireMode.Auto:
-                        fireModes.Add(new FullAutoFireMode(this, shotFireBehaviour));
+                        fireModes.Add(new FullAutoFireMode(this));
                         break;
                     default:
                         break;
@@ -62,17 +66,22 @@ namespace Items.Weapons
 
         private void Update()
         {
-            if (_triggerDown)
+            if (!_triggerDown) return;
+            if (!_currentFireMode.TriggerDown()) return;
+            
+            if (Ammunition is null || !Ammunition.DecreaseAmmoCount())
             {
-                if (_currentFireMode.Fire())
-                {
-                    GunFired?.Invoke(this, new GunFiredEventArgs(
-                        GunProperties.VerticalRecoil, 
-                        GunProperties.BackwardsRecoil, 
-                        GunProperties.RotationRecoil, 
-                        Components));
-                }
+                AudioSource.PlayOneShot(GunProperties.EmptySound);
+                return;
             }
+            
+            FireBehaviour.Fire(this);
+                    
+            GunFired?.Invoke(this, new GunFiredEventArgs(
+                GunProperties.VerticalRecoil, 
+                GunProperties.BackwardsRecoil, 
+                GunProperties.RotationRecoil, 
+                Components));
         }
         
         public void AttackDown()
@@ -106,7 +115,7 @@ namespace Items.Weapons
                 _selectedFireMode = 0;
             }
 
-            _currentFireMode = _fireModes[_selectedFireMode]; // : new SemiAutoFireMode(GunProperties);
+            _currentFireMode = _fireModes[_selectedFireMode];
             Debug.Log($"Switching to: {_currentFireMode.FireMode}");
         }
     }

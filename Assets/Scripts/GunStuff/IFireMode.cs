@@ -7,6 +7,6 @@ namespace GunStuff
         FireMode FireMode { get; }
 
         void TriggerUp();
-        bool Fire();
+        bool TriggerDown();
     }
 }

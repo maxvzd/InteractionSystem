@@ -1,6 +1,4 @@
-﻿using GunStuff.FireBehaviour;
-using Items.ItemInterfaces;
-using Items.Weapons;
+﻿using Items.Weapons;
 
 namespace GunStuff.FireModes
 {
@@ -10,16 +8,16 @@ namespace GunStuff.FireModes
         
         private bool _hasFiredWithTriggerDown;
         
-        public SemiAutoFireMode(Gun gun, IShotFireBehaviour shotFireBehaviour) : base(gun, shotFireBehaviour)
+        public SemiAutoFireMode(Gun gun) : base(gun)
         {
         }
         
-        public override bool Fire()
+        public override bool TriggerDown()
         {
             if (!RoundsPerMinuteLock || _hasFiredWithTriggerDown) return false;
             
             RoundsPerMinuteLock = false;
-            _hasFiredWithTriggerDown = ShotFireBehaviour.Fire(Gun);
+            _hasFiredWithTriggerDown = true;
             Gun.StartCoroutine(WaitForNextRoundToBeReadyToFire());
             return true;
         }

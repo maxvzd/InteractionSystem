@@ -5,23 +5,27 @@ namespace GunStuff.FireModes
 {
     public class FullAutoFireMode : BaseFireMode
     {
+        private bool _hasClicked;
         public override FireMode FireMode => FireMode.Auto;
         
-        public FullAutoFireMode(Gun gun, IShotFireBehaviour shotFireBehaviour) : base(gun, shotFireBehaviour)
+        public FullAutoFireMode(Gun gun) : base(gun)
         {
         }
         
          public override void TriggerUp()
          {
-             //nothing to do
+             _hasClicked = false;
          }
 
-        public override bool Fire()
+        public override bool TriggerDown()
         {
-            if (!RoundsPerMinuteLock) return false;
+            if (!RoundsPerMinuteLock || _hasClicked ) return false;
+            if (Gun.Ammunition is null || Gun.Ammunition.CurrentBullets <= 0)
+            {
+                _hasClicked = true;
+            }
             
             RoundsPerMinuteLock = false;
-            ShotFireBehaviour.Fire(Gun);
             Gun.StartCoroutine(WaitForNextRoundToBeReadyToFire());
             return true;
         }

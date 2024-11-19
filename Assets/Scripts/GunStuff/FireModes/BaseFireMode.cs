@@ -10,18 +10,16 @@ namespace GunStuff.FireModes
     public abstract class BaseFireMode : IFireMode
     {
         public abstract FireMode FireMode { get; }
-        public abstract bool Fire();
+        public abstract bool TriggerDown();
         public abstract void TriggerUp();
 
         protected bool RoundsPerMinuteLock;
         protected readonly Gun Gun;
-        protected readonly IShotFireBehaviour ShotFireBehaviour;
         private readonly float _weaponLockWaitTime;
 
-        protected BaseFireMode(Gun gun, IShotFireBehaviour shotFireBehaviour)
+        protected BaseFireMode(Gun gun)
         {
             Gun = gun;
-            ShotFireBehaviour = shotFireBehaviour;
             RoundsPerMinuteLock = true;
             float roundsPerMinute = gun.GunProperties.RoundsPerMinute;
             float roundsPerSecond = roundsPerMinute / 60f;

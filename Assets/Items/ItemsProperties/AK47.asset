@@ -25,6 +25,7 @@ MonoBehaviour:
   rotationRecoil: 3
   roundsPerMinute: 600
   fireSound: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
+  emptySound: {fileID: 8300000, guid: e06bf8dcf8788e748b6f8b287dcaf054, type: 3}
   muzzleVelocity: 715
   effectiveRange: 350
   availableFireModes: 0000000002000000
