@@ -8,6 +8,14 @@ namespace GunStuff.Ammunition
     public class Magazine : BaseItem, IAmmunition
     {
         public override IItemProperties ItemProperties => magProperties;
+        public override void RestoreProperties(IItem item)
+        {
+            if (item is Magazine itemMagazine)
+            {
+                currentBullets = itemMagazine.CurrentBullets;
+            }
+        }
+
         public override IInteractableProperties Properties => magProperties;
         public Caliber Caliber => caliber;
         public int CurrentBullets => currentBullets;

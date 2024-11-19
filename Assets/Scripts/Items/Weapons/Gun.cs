@@ -105,6 +105,11 @@ namespace Items.Weapons
             _currentFireMode.TriggerUp();
         }
 
+        public override void RestoreProperties(IItem item)
+        {
+            //Do nothing for now
+        }
+
         public void SwitchFireMode()
         {
             if (_triggerDown || _fireModes is null || _fireModes.Count < 1) return;

@@ -15,5 +15,6 @@ namespace Items.ItemInterfaces
         IItemProperties ItemProperties { get; }
         IUIItemProperties UIProperties { get; }
         Guid ItemId { get; }
+        void RestoreProperties(IItem item);
     }
 }

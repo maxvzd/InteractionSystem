@@ -78,7 +78,10 @@ public class PlayerInventoryInteraction : MonoBehaviour
         GameObject itemPrefab = ItemIdLookUp.Instance.GetItemPrefab(item.ItemProperties.PrefabId);
         if (itemPrefab != null)
         {
-            Instantiate(itemPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+            GameObject droppedItem = Instantiate(itemPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+            IItem newItem = droppedItem.GetComponent<IItem>();
+            newItem.RestoreProperties(item);
+            
             _equipment.RemoveItemFromWearableContainers(item);
         }
     }

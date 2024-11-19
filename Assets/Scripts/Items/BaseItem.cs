@@ -22,6 +22,8 @@ namespace Items
         public abstract IInteractableProperties Properties { get; }
         public IUIItemProperties UIProperties => uiProperties;
         public Guid ItemId { get; private set; }
+        
+        public abstract void RestoreProperties(IItem item);
 
         protected virtual void Awake()
         {

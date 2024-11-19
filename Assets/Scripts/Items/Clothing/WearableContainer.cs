@@ -31,6 +31,11 @@ namespace Items.Clothing
 
         private Container _container;
 
+        public override void RestoreProperties(IItem item)
+        {
+            //Restore items
+        }
+
         protected override void Awake()
         {
             base.Awake();
