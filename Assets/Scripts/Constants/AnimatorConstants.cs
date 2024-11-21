@@ -22,6 +22,7 @@ namespace Constants
         public static readonly int RollTrigger = Animator.StringToHash("RollTrigger");
         public static readonly int WasCrouchPressed = Animator.StringToHash("WasCrouchPressed");
         public static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
+        public static readonly int ReloadAssaultRifleTrigger = Animator.StringToHash("ReloadAssaultRifleTrigger");
         
         //Zombie Constants
         public static readonly int Speed = Animator.StringToHash("Speed"); 

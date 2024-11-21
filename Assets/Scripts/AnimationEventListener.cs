@@ -5,6 +5,7 @@ public class AnimationEventListener : MonoBehaviour
 {
     public EventHandler FinishedTurning;
     public EventHandler JumpPeaked;
+    public EventHandler FinishedReloading;
     
     private void OnFinishedTurning()
     {
@@ -14,5 +15,10 @@ public class AnimationEventListener : MonoBehaviour
     private void JumpPeak()
     {
         JumpPeaked?.Invoke(this, EventArgs.Empty);
+    } 
+    
+    private void OnFinishedReloading()
+    {
+        FinishedReloading?.Invoke(this, EventArgs.Empty);
     } 
 }

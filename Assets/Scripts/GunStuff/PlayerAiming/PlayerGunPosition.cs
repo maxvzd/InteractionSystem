@@ -29,9 +29,7 @@ namespace GunStuff.PlayerAiming
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private float distanceFromRearSight;
-        [SerializeField] private float recoverySpeed;
         [SerializeField] private Transform rightShoulderBone;
-        [SerializeField] private AnimationCurve recoveryCurve;
         [SerializeField] private float maxTurnDegrees;
 
         private IEnumerator _cameraLerper;

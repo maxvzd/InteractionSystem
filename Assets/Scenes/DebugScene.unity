@@ -6872,6 +6872,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c464e94f1d73229499329ec8a62ce48c, type: 3}
+--- !u!4 &1882005206 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4746100875645749850, guid: da328efb65cd58c41ab087555491e096,
+    type: 3}
+  m_PrefabInstance: {fileID: 7885384650498026760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1936216563
 GameObject:
   m_ObjectHideFlags: 0
@@ -8015,6 +8021,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4452921710929781094, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: rightHandBone
+      value: 
+      objectReference: {fileID: 1882005206}
     - target: {fileID: 4599775520744442036, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
       propertyPath: m_Layer
@@ -8174,6 +8185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
+        type: 3}
+      propertyPath: maxTurnDegrees
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
