@@ -2149,33 +2149,9 @@ MonoBehaviour:
   aimTarget: {fileID: 4964192619593503860}
   mainCamera: {fileID: 3870473332579100196}
   distanceFromRearSight: 0.105
-  recoverySpeed: 0.01
   rightShoulderBone: {fileID: 5659424119292130716}
-  recoveryCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.28435898
-      value: 1
-      inSlope: 0.0039255843
-      outSlope: 0.0039255843
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.07345971
-    - serializedVersion: 3
-      time: 360
-      value: 15
-      inSlope: 0.0019331913
-      outSlope: 0.0019331913
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.063981034
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxTurnDegrees: 20
+  maxTurnDegrees: 5
+  lowerWeaponSpeed: 1.5
 --- !u!114 &8060375166796528346
 MonoBehaviour:
   m_ObjectHideFlags: 0

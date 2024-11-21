@@ -31,6 +31,7 @@ namespace GunStuff.PlayerAiming
         [SerializeField] private float distanceFromRearSight;
         [SerializeField] private Transform rightShoulderBone;
         [SerializeField] private float maxTurnDegrees;
+        [SerializeField] private float lowerWeaponSpeed;
 
         private IEnumerator _cameraLerper;
         private IEnumerator _weaponPositionLerper;
@@ -115,7 +116,7 @@ namespace GunStuff.PlayerAiming
         {
             if (!_gunIsEquipped) return;
 
-            bool playerIsRunning = _playerMovement.CurrentSpeed.y > 1;
+            bool playerIsRunning = _playerMovement.CurrentSpeed.y > lowerWeaponSpeed;
             float playerSpeed = _playerMovement.CurrentSpeed.y;
             if (playerIsRunning)
             {

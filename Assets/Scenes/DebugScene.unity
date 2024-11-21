@@ -8188,11 +8188,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
         type: 3}
-      propertyPath: maxTurnDegrees
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965326593313497149, guid: da328efb65cd58c41ab087555491e096,
-        type: 3}
       propertyPath: testCurve.m_Curve.Array.size
       value: 2
       objectReference: {fileID: 0}
